@@ -190,7 +190,8 @@ class PrimaryProductionModel:
         print(f"Model loaded from: {filepath}")
 
 
-def create_synthetic_training_data(n_samples=10000):
+def create_synthetic_training_data(n_samples=10000, empirical_coefficient=4.5, 
+                                   empirical_exponent=0.7, noise_level=0.1):
     """
     Create synthetic training data based on empirical relationships.
     
@@ -201,6 +202,12 @@ def create_synthetic_training_data(n_samples=10000):
     ----------
     n_samples : int, optional
         Number of samples to generate
+    empirical_coefficient : float, optional
+        Coefficient 'a' in the relationship PP = a * Chl^b (default: 4.5)
+    empirical_exponent : float, optional
+        Exponent 'b' in the relationship PP = a * Chl^b (default: 0.7)
+    noise_level : float, optional
+        Relative noise level as fraction of primary production (default: 0.1)
     
     Returns
     -------
@@ -215,13 +222,10 @@ def create_synthetic_training_data(n_samples=10000):
     # Estimate primary production using empirical relationship
     # Based on relationship: PP ≈ a * Chl^b
     # Where PP is in mg C/m²/day and Chl is in mg/m³
-    a = 4.5  # empirical coefficient
-    b = 0.7  # empirical exponent
-    
-    primary_production = a * (chlorophyll ** b)
+    primary_production = empirical_coefficient * (chlorophyll ** empirical_exponent)
     
     # Add noise
-    noise = np.random.normal(0, 0.1 * primary_production, size=n_samples)
+    noise = np.random.normal(0, noise_level * primary_production, size=n_samples)
     primary_production += noise
     primary_production = np.maximum(primary_production, 0)
     

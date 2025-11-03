@@ -4,8 +4,8 @@ from Copernicus Marine Environment Monitoring Service (CMEMS).
 
 Data Product: OCEANCOLOUR_GLO_BGC_L4_MY_009_104
 Variable: Chlorophyll-a concentration (CHL)
-Resolution: 2km
-Temporal resolution: 8-day mean
+Resolution: 4km (monthly aggregated product)
+Temporal resolution: Monthly mean
 
 Usage:
     python download_meris_data.py --start-date 2010-01-01 --end-date 2010-12-31 \
