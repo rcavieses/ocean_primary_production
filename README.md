@@ -7,6 +7,7 @@ This project provides tools to download MERIS satellite data from Copernicus Mar
 ```
 ocean_primary_production/
 ├── data/                    # Data directory (not tracked in git)
+├── models/                  # Trained models directory (not tracked in git)
 ├── scripts/                 # Main scripts directory
 │   ├── utils/              # Utility functions
 │   │   ├── __init__.py
@@ -16,6 +17,7 @@ ocean_primary_production/
 │   │   └── primary_production_model.py
 │   ├── download_meris_data.py
 │   └── estimate_primary_production.py
+├── example_workflow.py      # Example demonstrating the workflow
 ├── requirements.txt
 └── README.md
 ```
@@ -44,6 +46,18 @@ pip install -r requirements.txt
 copernicusmarine login
 ```
 You'll need to create a free account at [Copernicus Marine Service](https://marine.copernicus.eu/).
+
+## Quick Start
+
+Run the example workflow to see the system in action:
+```bash
+python example_workflow.py
+```
+
+This demonstrates:
+- Training a Random Forest model with synthetic data
+- Making predictions from chlorophyll concentrations
+- Complete workflow instructions
 
 ## Usage
 

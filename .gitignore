@@ -46,6 +46,8 @@ data/*
 !data/.gitkeep
 
 # Model files
+models/*
+!models/.gitkeep
 *.pkl
 *.h5
 *.hdf5
