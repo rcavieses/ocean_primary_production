@@ -136,27 +136,27 @@ def download_meris_complete_data(
         
         # Download each type of data from its specific dataset
         downloads = {
-            'chl': {
-                'dataset_id': "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D",
-                'variables': ['CHL'],
-                'file': output_dir / f"meris_chl_{start_str}_{end_str}.nc"
-            },
-            'rrs': {
-                'dataset_id': "cmems_obs-oc_glo_bgc-reflectance_my_l4-multi-4km_P1M",
-                'variables': ['RRS412_5', 'RRS442_5', 'RRS490', 'RRS510', 'RRS560', 'RRS665', 'RRS708_5'],
-                'file': output_dir / f"meris_rrs_{start_str}_{end_str}.nc"
-            },
-            'optics': {
-                'dataset_id': "cmems_obs-oc_glo_bgc-optics_my_l4-multi-4km_P1M",
-                'variables': ['KD490_M', 'BBP443'],
-                'file': output_dir / f"meris_optics_{start_str}_{end_str}.nc"
-            },
-            'pp': {
-                'dataset_id': "cmems_obs-oc_glo_bgc-pp_my_l4-multi-4km_P1M",
-                'variables': ['PP'],
-                'file': output_dir / f"meris_pp_{start_str}_{end_str}.nc"
-            }
-        }
+                    'chl': {
+                        'dataset_id': "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D",
+                        'variables': ['CHL'],
+                        'file': output_dir / f"meris_chl_{start_str}_{end_str}.nc"
+                    },
+                    'rrs': {
+                        'dataset_id': "cmems_obs-oc_glo_bgc-reflectance_my_l4-multi-4km_P1M",
+                        'variables': ['RRS412_5', 'RRS442_5', 'RRS490', 'RRS560', 'RRS665', 'RRS681'],  # CORREGIDO
+                        'file': output_dir / f"meris_rrs_{start_str}_{end_str}.nc"
+                    },
+                    'optics': {
+                        'dataset_id': "cmems_obs-oc_glo_bgc-optics_my_l4-multi-4km_P1M",
+                        'variables': ['KD490_M07', 'BBP443'],  # CORREGIDO: KD490_M07 en lugar de KD490_M
+                        'file': output_dir / f"meris_optics_{start_str}_{end_str}.nc"
+                    },
+                    'pp': {
+                        'dataset_id': "cmems_obs-oc_glo_bgc-pp_my_l4-multi-4km_P1M",
+                        'variables': ['PP'],
+                        'file': output_dir / f"meris_pp_{start_str}_{end_str}.nc"
+                    }
+                }
 
         # Download each dataset
         for data_type, config in downloads.items():
@@ -267,18 +267,17 @@ def download_meris_complete_data(
                 'RRS412_5': 'Rrs_412',
                 'RRS442_5': 'Rrs_443',
                 'RRS490': 'Rrs_490',
-                'RRS510': 'Rrs_510',
-                'RRS560': 'Rrs_560',
+                'RRS560': 'Rrs_560',  # Nota: 560 en lugar de 555
                 'RRS665': 'Rrs_665',
-                'RRS708_5': 'Rrs_709'
+                'RRS681': 'Rrs_681'   # Nota: 681 en lugar de 709
             },
             'optics': {
-                'KD490_M': 'Kd_490',
+                'KD490_M07': 'Kd_490',  # CORREGIDO
                 'BBP443': 'bbp'
             },
             'pp': {'PP': 'PP'}
         }
-        
+                
         # Load and rename variables for each dataset
         for data_type in downloaded_files:
             if downloaded_files[data_type] is not None:

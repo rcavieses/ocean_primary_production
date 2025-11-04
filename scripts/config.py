@@ -34,6 +34,7 @@ PHYTOPLANKTON_GROUPS = {
 }
 
 # Input variables and their properties
+# Input variables and their properties
 INPUT_VARIABLES = {
     'CHL': {
         'long_name': 'Chlorophyll-a concentration',
@@ -42,13 +43,13 @@ INPUT_VARIABLES = {
         'log_transform': True
     },
     'Rrs_412': {
-        'long_name': 'Remote sensing reflectance at 412 nm',
+        'long_name': 'Remote sensing reflectance at 412.5 nm',
         'units': 'sr⁻¹',
         'valid_range': [0.0001, 0.05],
         'log_transform': False
     },
     'Rrs_443': {
-        'long_name': 'Remote sensing reflectance at 443 nm',
+        'long_name': 'Remote sensing reflectance at 442.5 nm',
         'units': 'sr⁻¹',
         'valid_range': [0.0001, 0.04],
         'log_transform': False
@@ -59,8 +60,8 @@ INPUT_VARIABLES = {
         'valid_range': [0.0001, 0.03],
         'log_transform': False
     },
-    'Rrs_555': {
-        'long_name': 'Remote sensing reflectance at 555 nm',
+    'Rrs_560': {  # CAMBIADO de Rrs_555
+        'long_name': 'Remote sensing reflectance at 560 nm',
         'units': 'sr⁻¹',
         'valid_range': [0.0001, 0.02],
         'log_transform': False
@@ -71,8 +72,8 @@ INPUT_VARIABLES = {
         'valid_range': [0.0001, 0.01],
         'log_transform': False
     },
-    'Rrs_709': {
-        'long_name': 'Remote sensing reflectance at 709 nm',
+    'Rrs_681': {  # CAMBIADO de Rrs_709
+        'long_name': 'Remote sensing reflectance at 681 nm',
         'units': 'sr⁻¹',
         'valid_range': [0.0001, 0.01],
         'log_transform': False
@@ -84,7 +85,7 @@ INPUT_VARIABLES = {
         'log_transform': False
     },
     'bbp': {
-        'long_name': 'Backscattering coefficient',
+        'long_name': 'Backscattering coefficient at 443 nm',
         'units': 'm⁻¹',
         'valid_range': [0.0001, 0.1],
         'log_transform': True
@@ -95,12 +96,7 @@ INPUT_VARIABLES = {
         'valid_range': [0.01, 5.0],
         'log_transform': True
     },
-    'PAR': {
-        'long_name': 'Photosynthetically Available Radiation',
-        'units': 'mol photons m⁻² d⁻¹',
-        'valid_range': [1, 70],
-        'log_transform': False
-    }
+    # PAR NO ESTÁ DISPONIBLE - debes calcularlo o eliminarlo
 }
 
 # Output configuration
