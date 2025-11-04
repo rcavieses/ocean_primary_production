@@ -34,7 +34,6 @@ PHYTOPLANKTON_GROUPS = {
 }
 
 # Input variables and their properties
-# Input variables and their properties
 INPUT_VARIABLES = {
     'CHL': {
         'long_name': 'Chlorophyll-a concentration',
@@ -96,7 +95,12 @@ INPUT_VARIABLES = {
         'valid_range': [0.01, 5.0],
         'log_transform': True
     },
-    # PAR NO ESTÁ DISPONIBLE - debes calcularlo o eliminarlo
+    'PAR': {
+        'long_name': 'Photosynthetically Available Radiation',
+        'units': 'mol photons m⁻² d⁻¹',
+        'valid_range': [1, 70],
+        'log_transform': False
+    }
 }
 
 # Output configuration

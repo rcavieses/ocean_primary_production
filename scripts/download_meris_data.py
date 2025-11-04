@@ -34,7 +34,7 @@ from pathlib import Path
 import pandas as pd
 
 # Add parent directory to path to import utils
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 from utils.data_processing import get_data_dir
 
