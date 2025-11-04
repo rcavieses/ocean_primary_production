@@ -190,13 +190,18 @@ class PrimaryProductionModel:
         print(f"Model loaded from: {filepath}")
 
 
-def create_synthetic_training_data(n_samples=10000, empirical_coefficient=4.5, 
+def _create_synthetic_training_data(n_samples=10000, empirical_coefficient=4.5, 
                                    empirical_exponent=0.7, noise_level=0.1):
     """
-    Create synthetic training data based on empirical relationships.
+    [INTERNAL USE ONLY] Create synthetic training data for model testing.
     
-    This is a placeholder function. In practice, you would use real
-    measured data from oceanographic studies.
+    WARNING: This function generates artificial data based on empirical
+    relationships. Results are NOT scientifically valid. Use only for:
+    - Model testing
+    - Development and debugging
+    - Algorithm validation
+    
+    For production analysis, use real measured oceanographic data only.
     
     Parameters
     ----------
