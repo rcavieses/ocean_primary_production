@@ -134,45 +134,66 @@ def download_meris_complete_data(
         variables_oc = ['CHL', 'RRS_412', 'RRS_443', 'RRS_490', 'RRS_555', 
                         'RRS_665', 'RRS_709', 'KD_490', 'PAR']
         
-        # Try multiple possible dataset IDs for Ocean Colour
-        # Note: Dataset IDs change frequently in Copernicus Marine
-        oc_dataset_ids = [
-            "cmems_obs-oc_glo_bgc_my_l4-reflectance_2km_P1M-m",
-            "cmems_obs-oc_glo_bgc-plankton_my_l4-multi_2km_P8D-m",
-            "cmems_obs-oc_glo_chl_l4_my_0.05deg_P1M-m",
-            "OCEANCOLOUR_GLO_CHL_L4_MY_008_032",
-        ]
-        
-        oc_downloaded = False
-        last_error = None
-        
-        for dataset_id in oc_dataset_ids:
+        # Download each type of data from its specific dataset
+        downloads = {
+            'chl': {
+                'dataset_id': "cmems_obs-oc_glo_bgc-plankton_my_l4-gapfree-multi-4km_P1D",
+                'variables': ['CHL'],
+                'file': output_dir / f"meris_chl_{start_str}_{end_str}.nc"
+            },
+            'rrs': {
+                'dataset_id': "cmems_obs-oc_glo_bgc-reflectance_my_l4-multi-4km_P1M",
+                'variables': ['RRS412_5', 'RRS442_5', 'RRS490', 'RRS510', 'RRS560', 'RRS665', 'RRS708_5'],
+                'file': output_dir / f"meris_rrs_{start_str}_{end_str}.nc"
+            },
+            'optics': {
+                'dataset_id': "cmems_obs-oc_glo_bgc-optics_my_l4-multi-4km_P1M",
+                'variables': ['KD490_M', 'BBP443'],
+                'file': output_dir / f"meris_optics_{start_str}_{end_str}.nc"
+            },
+            'pp': {
+                'dataset_id': "cmems_obs-oc_glo_bgc-pp_my_l4-multi-4km_P1M",
+                'variables': ['PP'],
+                'file': output_dir / f"meris_pp_{start_str}_{end_str}.nc"
+            }
+        }
+
+        # Download each dataset
+        for data_type, config in downloads.items():
             try:
-                print(f"  Trying dataset: {dataset_id}...")
+                print(f"\nDownloading {data_type.upper()} data...")
+                print(f"  Dataset: {config['dataset_id']}")
+                print(f"  Variables: {', '.join(config['variables'])}")
+                
                 copernicusmarine.subset(
-                    dataset_id=dataset_id,
-                    variables=variables_oc,
+                    dataset_id=config['dataset_id'],
+                    variables=config['variables'],
                     minimum_longitude=lon_min,
                     maximum_longitude=lon_max,
                     minimum_latitude=lat_min,
                     maximum_latitude=lat_max,
                     start_datetime=start_date,
                     end_datetime=end_date,
-                    output_filename=str(oc_file),
-                    force_download=True
+                    output_filename=str(config['file'])
                 )
-                oc_downloaded = True
-                print(f"  ✓ Successfully downloaded using: {dataset_id}")
-                break
+                print(f"  ✓ Successfully downloaded {data_type.upper()} data")
+                downloaded_files[data_type] = config['file']
             except Exception as e:
-                last_error = str(e)
-                continue
+                print(f"  ⚠ Warning: Could not download {data_type.upper()} data")
+                print(f"    Error: {str(e)}")
+                downloaded_files[data_type] = None
         
-        if not oc_downloaded:
-            raise Exception(f"Could not download Ocean Colour data. Last error: {last_error}")
+        # Check if we got the essential datasets (CHL and PP)
+        if downloaded_files['chl'] is None:
+            raise Exception("Could not download chlorophyll (CHL) data which is essential")
         
-        print(f"✓ Ocean Colour data downloaded: {oc_file}")
-        downloaded_files['oc'] = oc_file
+        if downloaded_files['pp'] is None:
+            print("\n⚠ Warning: Could not download primary production (PP) data")
+        
+        print("\nDownload summary:")
+        for data_type in downloaded_files:
+            status = "✓" if downloaded_files[data_type] is not None else "✗"
+            print(f"  {status} {data_type.upper()} data")
         
         # =====================================================================
         # PRODUCT 2: Sea Surface Temperature (SST)
@@ -239,49 +260,50 @@ def download_meris_complete_data(
     print("-"*80)
     
     try:
-        # Load Ocean Colour data
-        ds_oc = xr.open_dataset(downloaded_files['oc'])
-        
-        # Rename variables to standardized names
-        rename_dict_oc = {
-            'RRS_412': 'Rrs_412',
-            'RRS_443': 'Rrs_443',
-            'RRS_490': 'Rrs_490',
-            'RRS_555': 'Rrs_555',
-            'RRS_665': 'Rrs_665',
-            'RRS_709': 'Rrs_709',
-            'KD_490': 'Kd_490',
-            'CHL': 'CHL',
-            'PAR': 'PAR'
+        datasets = {}
+        rename_vars = {
+            'chl': {'CHL': 'CHL'},
+            'rrs': {
+                'RRS412_5': 'Rrs_412',
+                'RRS442_5': 'Rrs_443',
+                'RRS490': 'Rrs_490',
+                'RRS510': 'Rrs_510',
+                'RRS560': 'Rrs_560',
+                'RRS665': 'Rrs_665',
+                'RRS708_5': 'Rrs_709'
+            },
+            'optics': {
+                'KD490_M': 'Kd_490',
+                'BBP443': 'bbp'
+            },
+            'pp': {'PP': 'PP'}
         }
         
-        ds_oc = ds_oc.rename(rename_dict_oc)
+        # Load and rename variables for each dataset
+        for data_type in downloaded_files:
+            if downloaded_files[data_type] is not None:
+                print(f"\nProcessing {data_type.upper()} data...")
+                ds = xr.open_dataset(downloaded_files[data_type])
+                if data_type in rename_vars:
+                    ds = ds.rename(rename_vars[data_type])
+                datasets[data_type] = ds
+                print(f"✓ Loaded and renamed {data_type.upper()} variables")
         
-        # Calculate bbp from CHL (approximation using empirical relationship)
-        # bbp ≈ 0.0055 * CHL^0.88 (Zhang et al., 2009)
-        ds_oc['bbp'] = 0.0055 * (ds_oc['CHL'] ** 0.88)
-        ds_oc['bbp'].attrs = {'units': 'm-1', 'long_name': 'Backscattering coefficient at 443nm'}
+        # Start with chlorophyll dataset as base
+        if 'chl' not in datasets:
+            raise Exception("Chlorophyll dataset is required but was not downloaded successfully")
         
-        print("✓ Variable renaming completed")
-        print("✓ bbp calculated from CHL (empirical relationship)")
+        ds_merged = datasets['chl']
+        print("\nStarting with chlorophyll dataset as base")
         
-        # Merge with SST if available
-        ds_merged = ds_oc
+        # Merge with other datasets
+        for data_type in ['rrs', 'optics', 'pp']:
+            if data_type in datasets:
+                print(f"Merging {data_type.upper()} dataset...")
+                ds_merged = xr.merge([ds_merged, datasets[data_type]], join='inner')
+                print(f"✓ Merged {data_type.upper()} data")
         
-        if downloaded_files['sst'] is not None:
-            print("\nMerging Ocean Colour and SST datasets...")
-            ds_sst = xr.open_dataset(downloaded_files['sst'])
-            
-            rename_dict_sst = {
-                'sea_surface_temperature': 'SST'
-            }
-            ds_sst = ds_sst.rename(rename_dict_sst)
-            
-            # Align datasets to common grid
-            ds_merged = xr.merge([ds_oc, ds_sst], join='inner', combine_attrs='override')
-            print("✓ Datasets merged successfully")
-        else:
-            print("\n⚠ SST data not available, using Ocean Colour data only")
+        print("\n✓ All available datasets merged successfully")
         
         # Add metadata
         ds_merged.attrs.update({
