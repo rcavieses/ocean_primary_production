@@ -20,10 +20,10 @@ CONFIG = {
     'end_date': '2024-12-31',
     
     # Región: Golfo de California
-    'lon_min': -112.0,
-    'lon_max': -108.0,
+    'lon_min': -117.0,
+    'lon_max': -102.0,
     'lat_min': 22.0,
-    'lat_max': 30.0,
+    'lat_max': 35.0,
     
     # Producto correcto para PFT con resolución 4km
     'dataset_id': 'cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D',
@@ -40,7 +40,7 @@ CONFIG = {
     ],
     
     # Archivo de salida
-    'output_dir': Path('../data'),
+    'output_dir': Path(__file__).parent.parent / 'data',
     'output_filename': 'pft_golfo_california_2000_2024.nc'
 }
 
