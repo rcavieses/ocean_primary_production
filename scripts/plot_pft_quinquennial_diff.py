@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """
-Script to create quinquennial (5-year) average maps for each PFT variable
+Script to create quinquennial (5-year) difference maps for each PFT variable
 from the Gulf of California dataset (2000-2024).
+
+Shows the difference between consecutive quinquennial periods:
+- 2005-2009 minus 2000-2004
+- 2010-2014 minus 2005-2009
+- 2015-2019 minus 2010-2014
+- 2020-2024 minus 2015-2019
 """
 
 import xarray as xr
@@ -13,7 +19,7 @@ import numpy as np
 
 # Configuration
 data_file = Path(__file__).parent.parent / 'data' / 'pft_golfo_california_2000_2024.nc'
-output_dir = Path(__file__).parent.parent / 'data' / 'figures' / 'quinquennial'
+output_dir = Path(__file__).parent.parent / 'data' / 'figures' / 'quinquennial_diff'
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Define quinquennial periods
@@ -61,6 +67,13 @@ units = {
     'PROKAR': 'mg m⁻³'
 }
 
+
+def compute_quinquennial_mean(ds, var, start_date, end_date):
+    """Compute the mean for a variable over a quinquennial period."""
+    data_period = ds[var].sel(time=slice(start_date, end_date))
+    return data_period.mean(dim='time')
+
+
 # Process each variable
 for var in variables:
     if var not in ds:
@@ -69,48 +82,52 @@ for var in variables:
     
     print(f"\nProcessing {var} ({var_descriptions.get(var, var)})...")
     
-    # Create figure with subplots for each quinquennial period
-    fig = plt.figure(figsize=(20, 12))
-    
-    for idx, (period_name, start_date, end_date) in enumerate(periods, 1):
+    # Compute means for all periods first
+    period_means = {}
+    for period_name, start_date, end_date in periods:
         print(f"  - Computing average for {period_name}...")
-        
-        # Select time period
-        data_period = ds[var].sel(time=slice(start_date, end_date))
-        
-        # Calculate mean
-        data_mean = data_period.mean(dim='time')
-        
+        period_means[period_name] = compute_quinquennial_mean(ds, var, start_date, end_date)
+    
+    # Calculate differences between consecutive periods
+    differences = []
+    for i in range(1, len(periods)):
+        current_period = periods[i][0]
+        previous_period = periods[i-1][0]
+        diff = period_means[current_period] - period_means[previous_period]
+        diff_label = f'{current_period}\nminus\n{previous_period}'
+        differences.append((diff_label, diff))
+        print(f"  - Computing difference: {current_period} - {previous_period}")
+    
+    # Create figure with subplots for each difference (2x2 grid for 4 differences)
+    fig = plt.figure(figsize=(16, 12))
+    
+    # Calculate symmetric vmin and vmax for diverging colormap
+    all_diffs = [d[1] for d in differences]
+    max_abs = max([np.nanmax(np.abs(d.values)) for d in all_diffs])
+    vmin = -max_abs
+    vmax = max_abs
+    
+    for idx, (diff_label, diff_data) in enumerate(differences, 1):
         # Create subplot
-        ax = fig.add_subplot(2, 3, idx, projection=ccrs.PlateCarree())
+        ax = fig.add_subplot(2, 2, idx, projection=ccrs.PlateCarree())
         
         # Add map features
         ax.coastlines(resolution='10m', linewidth=0.8)
         ax.add_feature(cfeature.LAND, facecolor='lightgray', edgecolor='black', linewidth=0.5)
         ax.add_feature(cfeature.BORDERS, linestyle=':', linewidth=0.5)
         
-        # Get data range for consistent colorbar across all periods
-        if idx == 1:
-            # Calculate vmin and vmax from all periods
-            all_means = []
-            for _, start, end in periods:
-                period_data = ds[var].sel(time=slice(start, end)).mean(dim='time')
-                all_means.append(period_data)
-            vmin = min([d.min().values for d in all_means if not np.isnan(d.min().values)])
-            vmax = max([d.max().values for d in all_means if not np.isnan(d.max().values)])
-        
-        # Plot data
-        im = data_mean.plot(
+        # Plot data with diverging colormap (red-white-blue)
+        im = diff_data.plot(
             ax=ax,
             transform=ccrs.PlateCarree(),
-            cmap='viridis',
+            cmap='RdBu_r',  # Red for positive (increase), Blue for negative (decrease)
             vmin=vmin,
             vmax=vmax,
             add_colorbar=False
         )
         
         # Set title
-        ax.set_title(f'{period_name}', fontsize=12, fontweight='bold')
+        ax.set_title(diff_label, fontsize=11, fontweight='bold')
         
         # Add gridlines
         gl = ax.gridlines(draw_labels=True, linewidth=0.5, color='gray', 
@@ -124,18 +141,19 @@ for var in variables:
     # Add a single colorbar for all subplots
     cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])
     cbar = fig.colorbar(im, cax=cbar_ax)
-    cbar.set_label(f'{units.get(var, "")}', fontsize=12, fontweight='bold')
+    cbar.set_label(f'Difference ({units.get(var, "")})', fontsize=12, fontweight='bold')
     
     # Add main title
-    fig.suptitle(f'{var_descriptions.get(var, var)} - Quinquennial Averages (2000-2024)',
-                 fontsize=16, fontweight='bold', y=0.98)
+    fig.suptitle(f'{var_descriptions.get(var, var)} - Quinquennial Differences (2000-2024)\n'
+                 'Red: Increase | Blue: Decrease',
+                 fontsize=14, fontweight='bold', y=0.98)
     
     # Adjust layout
-    plt.subplots_adjust(left=0.05, right=0.90, top=0.95, bottom=0.05, 
-                       wspace=0.15, hspace=0.15)
+    plt.subplots_adjust(left=0.05, right=0.90, top=0.90, bottom=0.05, 
+                       wspace=0.20, hspace=0.25)
     
     # Save figure
-    output_file = output_dir / f'{var}_quinquennial_maps.png'
+    output_file = output_dir / f'{var}_quinquennial_diff_maps.png'
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     print(f"  - Saved: {output_file}")
     plt.close()
@@ -143,5 +161,5 @@ for var in variables:
 # Close dataset
 ds.close()
 
-print("\n✓ All quinquennial maps have been generated successfully!")
+print("\n✓ All quinquennial difference maps have been generated successfully!")
 print(f"Output directory: {output_dir}")
