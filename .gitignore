@@ -55,3 +55,6 @@ models/*
 
 # Logs
 *.log
+*.zip
+
+

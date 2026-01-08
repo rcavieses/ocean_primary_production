@@ -1,0 +1,309 @@
+---
+title: "Análisis de Producción Primaria Fitoplanctónica - Golfo de California (2000-2024)"
+author: "Ricardo Cavieses"
+date: "2025-12-17"
+output:
+  html_document:
+    theme: null
+    highlight: null
+    mathjax: null
+    fig_width: 12
+    fig_height: 8
+    self_contained: true
+    includes:
+      in_header: ["bootstrap_header.html"]
+      after_body: ["bootstrap_footer.html"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+gc()
+```
+
+```{r config, message=FALSE}
+# Cargar funciones utilitarias
+source("utils.R")
+
+# Cargar paquetes
+packages <- c("ncdf4", "tidyverse", "lubridate", "plotly", "zoo", "htmlwidgets", "jsonlite")
+load_packages(packages)
+
+# Ruta al archivo de datos
+data_file <- "../data/pft_golfo_california_2000_2024.nc"
+nino_file <- "../data/nino34.long.anom.csv"
+
+# Directorio de salida para archivos HTML
+output_dir <- "../data/figures/html_outputs"
+data_output_dir <- "../data/figures/intermediate_data"
+
+# Crear directorios
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "timeseries"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "quinquennial"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "seasonal"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "maps"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "composition"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "quinquennial", "seasonal_comparison_maps_log", "maps"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "timeseries"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "quinquennial"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "seasonal"), recursive = TRUE, showWarnings = FALSE)
+
+# Variables a analizar
+variables <- c('CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 
+               'MICRO', 'NANO', 'PICO', 'PROCHLO', 'PROKAR')
+
+# Descripciones de variables
+var_descriptions <- c(
+  CHL = 'Clorofila-a Total',
+  DIATO = 'Diatomeas',
+  DINO = 'Dinoflagelados',
+  GREEN = 'Algas Verdes',
+  HAPTO = 'Haptofitas',
+  MICRO = 'Microfitoplancton',
+  NANO = 'Nanofitoplancton',
+  PICO = 'Picofitoplancton',
+  PROCHLO = 'Prochlorococcus',
+  PROKAR = 'Procariotas'
+)
+
+units <- "mg m⁻³"
+
+# Períodos quinquenales
+periods <- list(
+  `2000-2004` = c("2000-01-01", "2004-12-31"),
+  `2005-2009` = c("2005-01-01", "2009-12-31"),
+  `2010-2014` = c("2010-01-01", "2014-12-31"),
+  `2015-2019` = c("2015-01-01", "2019-12-31"),
+  `2020-2024` = c("2020-01-01", "2024-12-31")
+)
+
+# Estaciones
+seasons <- list(
+  Invierno = c(12, 1, 2),
+  Primavera = c(3, 4, 5),
+  Verano = c(6, 7, 8),
+  Otoño = c(9, 10, 11)
+)
+```
+
+```{r load_metadata}
+# Cargar metadatos del dataset
+nc <- nc_open(data_file)
+
+lon <- ncvar_get(nc, "longitude")
+lat <- ncvar_get(nc, "latitude")
+time_raw <- ncvar_get(nc, "time")
+
+lon_dim <- length(lon)
+lat_dim <- length(lat)
+time_dim <- length(time_raw)
+
+time_units <- ncatt_get(nc, "time", "units")$value
+if (grepl("days since", time_units)) {
+  origin_date <- as.Date(gsub("days since ", "", time_units))
+  time <- origin_date + time_raw
+} else if (grepl("hours since", time_units)) {
+  origin_date <- as.POSIXct(gsub("hours since ", "", time_units), tz = "UTC")
+  time <- as.Date(origin_date + time_raw * 3600)
+} else if (grepl("seconds since", time_units)) {
+  origin_date <- as.POSIXct(gsub("seconds since ", "", time_units), tz = "UTC")
+  time <- as.Date(origin_date + time_raw)
+} else {
+  time <- seq(as.Date("2000-01-01"), by = "month", length.out = length(time_raw))
+}
+
+available_vars <- names(nc$var)
+variables <- variables[variables %in% available_vars]
+
+nc_close(nc)
+rm(time_raw)
+gc()
+```
+
+```{r load_nino34}
+# Cargar datos NIÑO3.4
+nino_data <- load_nino34_data(nino_file, min(time), max(time))
+```
+
+```{r section1_maps, results='asis'}
+cat('<div class="section level1" id="section1">\n')
+cat('<h1>1. Mapas de Diferencias Quinquenales</h1>\n')
+cat('<ul class="nav nav-tabs" role="tablist">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'class="nav-item"' else 'class="nav-item"'
+  active_link <- if (var == variables[1]) 'aria-selected="true" class="nav-link active"' else 'aria-selected="false" class="nav-link"'
+  cat(sprintf('<li %s><a %s data-bs-toggle="tab" href="#section1-%s" role="tab">%s</a></li>\n', 
+              active_class, active_link, var, var))
+}
+
+cat('</ul>\n')
+cat('<div class="tab-content">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'fade active show' else 'fade'
+  cat(sprintf('<div class="tab-pane %s" id="section1-%s" role="tabpanel">\n', active_class, var))
+  
+  # Referencia: imagen que debería estar en ../data/figures/html_outputs/quinquennial/
+  img_path <- sprintf("../data/figures/html_outputs/quinquennial/%s_quinquennial_diff.png", var)
+  cat(sprintf('<img alt="%s Quinquennial Difference" src="%s"/>\n', var, img_path))
+  
+  cat('</div>\n')
+}
+
+cat('</div>\n')
+cat('</div>\n')
+```
+
+```{r section2_seasonal_maps, results='asis'}
+seasons_order <- c('Invierno', 'Primavera', 'Verano', 'Otoño')
+
+cat('<div class="section level1" id="section2">\n')
+cat('<h1>2. Mapas de Comparación Estacional (Escala Logarítmica)</h1>\n')
+cat('<ul class="nav nav-tabs" role="tablist">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'class="nav-item"' else 'class="nav-item"'
+  active_link <- if (var == variables[1]) 'aria-selected="true" class="nav-link active"' else 'aria-selected="false" class="nav-link"'
+  cat(sprintf('<li %s><a %s data-bs-toggle="tab" href="#section2-%s" role="tab">%s</a></li>\n', 
+              active_class, active_link, var, var))
+}
+
+cat('</ul>\n')
+cat('<div class="tab-content">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'fade active show' else 'fade'
+  cat(sprintf('<div class="tab-pane %s" id="section2-%s" role="tabpanel">\n', active_class, var))
+  cat('<div class="row">\n')
+  
+  for (season in seasons_order) {
+    cat('<div class="col-md-6">\n')
+    cat(sprintf('<h4>%s</h4>\n', season))
+    
+    img_path <- sprintf("../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/%s_%s_comparison_map_log.png", 
+                        var, season)
+    cat(sprintf('<img alt="%s %s" src="%s" style="width:100%%;" />\n', var, season, img_path))
+    
+    cat('</div>\n')
+  }
+  
+  cat('</div>\n')
+  cat('</div>\n')
+}
+
+cat('</div>\n')
+cat('</div>\n')
+```
+
+```{r section3_seasonal_comparison, results='asis'}
+cat('<div class="section level1" id="section3">\n')
+cat('<h1>3. Comparación Estacional por Quinquenio</h1>\n')
+cat('<ul class="nav nav-tabs" role="tablist">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'class="nav-item"' else 'class="nav-item"'
+  active_link <- if (var == variables[1]) 'aria-selected="true" class="nav-link active"' else 'aria-selected="false" class="nav-link"'
+  cat(sprintf('<li %s><a %s data-bs-toggle="tab" href="#section3-%s" role="tab">%s</a></li>\n', 
+              active_class, active_link, var, var))
+}
+
+cat('</ul>\n')
+cat('<div class="tab-content">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'fade active show' else 'fade'
+  cat(sprintf('<div class="tab-pane %s" id="section3-%s" role="tabpanel">\n', active_class, var))
+  
+  html_file <- sprintf("../data/figures/html_outputs/seasonal/%s_seasonal_comparison.html", var)
+  cat(sprintf('<iframe src="%s"></iframe>\n', html_file))
+  
+  cat('</div>\n')
+}
+
+cat('</div>\n')
+cat('</div>\n')
+```
+
+```{r section4_timeseries, results='asis'}
+cat('<div class="section level1" id="section4">\n')
+cat('<h1>4. Visualización de Series de Tiempo</h1>\n')
+cat('<ul class="nav nav-tabs" role="tablist">\n')
+
+# Variables principales
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'class="nav-item"' else 'class="nav-item"'
+  active_link <- if (var == variables[1]) 'aria-selected="true" class="nav-link active"' else 'aria-selected="false" class="nav-link"'
+  cat(sprintf('<li %s><a %s data-bs-toggle="tab" href="#section4-%s" role="tab">%s</a></li>\n', 
+              active_class, active_link, var, var))
+}
+
+# Índices climáticos
+cat('<li class="nav-item"><a aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-NINO3-4" role="tab">NINO3.4</a></li>\n')
+cat('<li class="nav-item"><a aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-PDO" role="tab">PDO</a></li>\n')
+
+cat('</ul>\n')
+cat('<div class="tab-content">\n')
+
+for (var in variables) {
+  active_class <- if (var == variables[1]) 'fade active show' else 'fade'
+  cat(sprintf('<div class="tab-pane %s" id="section4-%s" role="tabpanel">\n', active_class, var))
+  
+  cat('<h3>Series de Tiempo</h3>\n')
+  html_file <- sprintf("../data/figures/html_outputs/timeseries/%s_combined_timeseries.html", var)
+  cat(sprintf('<iframe src="%s" style="height: 800px;"></iframe>\n', html_file))
+  
+  cat('<h3>Anomalía Mensual</h3>\n')
+  html_file <- sprintf("../data/figures/html_outputs/timeseries/%s_monthly_anomaly.html", var)
+  cat(sprintf('<iframe src="%s" style="height: 800px;"></iframe>\n', html_file))
+  
+  cat('</div>\n')
+}
+
+# NINO3.4
+cat('<div class="tab-pane fade" id="section4-NINO3-4" role="tabpanel">\n')
+cat('<h3>Índice Niño 3.4</h3>\n')
+cat('<iframe src="../data/figures/html_outputs/timeseries/nino34_plot.html" style="height: 800px;"></iframe>\n')
+cat('</div>\n')
+
+# PDO
+cat('<div class="tab-pane fade" id="section4-PDO" role="tabpanel">\n')
+cat('<h3>Índice PDO</h3>\n')
+cat('<iframe src="../data/figures/html_outputs/timeseries/pdo_plot.html" style="height: 800px;"></iframe>\n')
+cat('</div>\n')
+
+cat('</div>\n')
+cat('</div>\n')
+```
+
+```{r section5_composition, results='asis'}
+cat('<div class="section level1" id="section5">\n')
+cat('<h1>5. Composición de la Comunidad</h1>\n')
+cat('<ul class="nav nav-tabs" role="tablist">\n')
+cat('<li class="nav-item"><a aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section5-SIZE" role="tab">Por Tamaño</a></li>\n')
+cat('<li class="nav-item"><a aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section5-GROUP" role="tab">Por Grupo</a></li>\n')
+cat('</ul>\n')
+cat('<div class="tab-content">\n')
+
+cat('<div class="tab-pane fade active show" id="section5-SIZE" role="tabpanel">\n')
+cat('<h3>Composición Porcentual por Tamaño (Quinquenal)</h3>\n')
+cat('<iframe src="../data/figures/html_outputs/composition/composition_size.html" style="height: 800px;"></iframe>\n')
+cat('</div>\n')
+
+cat('<div class="tab-pane fade" id="section5-GROUP" role="tabpanel">\n')
+cat('<h3>Composición Porcentual por Grupo Funcional (Quinquenal)</h3>\n')
+cat('<iframe src="../data/figures/html_outputs/composition/composition_groups.html" style="height: 800px;"></iframe>\n')
+cat('</div>\n')
+
+cat('</div>\n')
+cat('</div>\n')
+```
+
+```{r close_container, results='asis'}
+cat('</div>\n')
+```

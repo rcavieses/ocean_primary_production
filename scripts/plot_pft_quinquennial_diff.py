@@ -3,10 +3,10 @@
 Script to create quinquennial (5-year) difference maps for each PFT variable
 from the Gulf of California dataset (2000-2024).
 
-Shows the difference between consecutive quinquennial periods:
-- 2005-2009 minus 2000-2004
-- 2010-2014 minus 2005-2009
-- 2015-2019 minus 2010-2014
+Shows the difference between the reference period (2020-2024) and all previous periods:
+- 2020-2024 minus 2000-2004
+- 2020-2024 minus 2005-2009
+- 2020-2024 minus 2010-2014
 - 2020-2024 minus 2015-2019
 """
 
@@ -88,15 +88,17 @@ for var in variables:
         print(f"  - Computing average for {period_name}...")
         period_means[period_name] = compute_quinquennial_mean(ds, var, start_date, end_date)
     
-    # Calculate differences between consecutive periods
+    # Reference period is the last one (2020-2024)
+    reference_period = periods[-1][0]
+    
+    # Calculate differences: reference period minus all previous periods
     differences = []
-    for i in range(1, len(periods)):
-        current_period = periods[i][0]
-        previous_period = periods[i-1][0]
-        diff = period_means[current_period] - period_means[previous_period]
-        diff_label = f'{current_period}\nminus\n{previous_period}'
+    for i in range(len(periods) - 1):
+        comparison_period = periods[i][0]
+        diff = period_means[reference_period] - period_means[comparison_period]
+        diff_label = f'{reference_period}\nminus\n{comparison_period}'
         differences.append((diff_label, diff))
-        print(f"  - Computing difference: {current_period} - {previous_period}")
+        print(f"  - Computing difference: {reference_period} - {comparison_period}")
     
     # Create figure with subplots for each difference (2x2 grid for 4 differences)
     fig = plt.figure(figsize=(16, 12))
@@ -144,7 +146,7 @@ for var in variables:
     cbar.set_label(f'Difference ({units.get(var, "")})', fontsize=12, fontweight='bold')
     
     # Add main title
-    fig.suptitle(f'{var_descriptions.get(var, var)} - Quinquennial Differences (2000-2024)\n'
+    fig.suptitle(f'{var_descriptions.get(var, var)} - Differences vs Reference Period (2020-2024)\n'
                  'Red: Increase | Blue: Decrease',
                  fontsize=14, fontweight='bold', y=0.98)
     
