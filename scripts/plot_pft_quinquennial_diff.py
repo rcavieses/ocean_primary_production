@@ -10,16 +10,24 @@ Shows the difference between the reference period (2020-2024) and all previous p
 - 2020-2024 minus 2015-2019
 """
 
+import os
+os.environ['MPLBACKEND'] = 'Agg'
+
 import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from pathlib import Path
 import numpy as np
+import sys
+
+# Importar configuración centralizada
+sys.path.insert(0, str(Path(__file__).parent))
+from config_gulf_california import GULF_OF_CALIFORNIA_BOUNDS, GULF_OF_CALIFORNIA_EXTENT, get_gulf_of_california_filter
 
 # Configuration
 data_file = Path(__file__).parent.parent / 'data' / 'pft_golfo_california_2000_2024.nc'
-output_dir = Path(__file__).parent.parent / 'data' / 'figures' / 'quinquennial_diff'
+output_dir = Path(__file__).parent.parent / 'data' / 'figures'
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Define quinquennial periods
@@ -34,6 +42,10 @@ periods = [
 # Load dataset
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
+
+# Aplicar filtrado del Golfo de California por default
+lat_mask, lon_mask = get_gulf_of_california_filter(ds)
+ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
 
 # Variables to plot (excluding uncertainty and flags)
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -100,14 +112,27 @@ for var in variables:
         differences.append((diff_label, diff))
         print(f"  - Computing difference: {reference_period} - {comparison_period}")
     
-    # Create figure with subplots for each difference (2x2 grid for 4 differences)
-    fig = plt.figure(figsize=(16, 12))
-    
-    # Calculate symmetric vmin and vmax for diverging colormap
+    # Calculate symmetric vmin and vmax for diverging colormap BEFORE creating figure
     all_diffs = [d[1] for d in differences]
-    max_abs = max([np.nanmax(np.abs(d.values)) for d in all_diffs])
+    try:
+        # Filter arrays with data
+        valid_diffs = [d.values for d in all_diffs if d.size > 0 and np.any(~np.isnan(d.values))]
+        if len(valid_diffs) == 0:
+            print(f"  WARNING: No valid differences found for {var}")
+            continue
+        max_abs = max([np.nanmax(np.abs(d)) for d in valid_diffs])
+        if max_abs == 0 or np.isnan(max_abs):
+            print(f"  WARNING: All differences are zero or NaN for {var}")
+            continue
+    except (ValueError, TypeError):
+        print(f"  WARNING: Cannot compute max difference for {var}")
+        continue
+    
     vmin = -max_abs
     vmax = max_abs
+    
+    # Create figure with subplots for each difference (2x2 grid for 4 differences)
+    fig = plt.figure(figsize=(16, 12))
     
     for idx, (diff_label, diff_data) in enumerate(differences, 1):
         # Create subplot
@@ -138,7 +163,7 @@ for var in variables:
         gl.right_labels = False
         
         # Set extent to full Gulf of California region coordinates
-        ax.set_extent([-115.0, -102.0, 18.0, 36.0], crs=ccrs.PlateCarree())
+        ax.set_extent(GULF_OF_CALIFORNIA_EXTENT, crs=ccrs.PlateCarree())
     
     # Add a single colorbar for all subplots
     cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])

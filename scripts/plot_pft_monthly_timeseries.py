@@ -6,19 +6,101 @@ from the Gulf of California dataset (2000-2024).
 Shows the temporal evolution of monthly average concentrations.
 """
 
+import os
+os.environ['MPLBACKEND'] = 'Agg'
+
 import xarray as xr
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 from pathlib import Path
+import warnings
+import sys
+
+# Importar configuración centralizada
+sys.path.insert(0, str(Path(__file__).parent))
+from config_gulf_california import get_gulf_of_california_filter
+
+# Suppress warnings
+warnings.filterwarnings("ignore")
 
 # Configuration
-data_file = Path(__file__).parent.parent / 'data' / 'pft_golfo_california_2000_2024.nc'
-output_dir = Path(__file__).parent.parent / 'data' / 'figures' / 'timeseries'
+base_dir = Path(__file__).parent.parent
+data_file = base_dir / 'data' / 'pft_golfo_california_2000_2024.nc'
+output_dir = base_dir / 'data' / 'figures'
 output_dir.mkdir(parents=True, exist_ok=True)
+
+# Climate Data Files
+nino_file = base_dir / 'data' / 'nino34.long.anom.csv'
+mei_file = base_dir / 'data' / 'mei.exttimeseries.csv'
+pdo_file = base_dir / 'data' / 'pdo.timeseries.sstens.csv'
+
+# --- Data Loading Functions ---
+
+def load_nino34(filepath):
+    """Load NINO3.4 data"""
+    try:
+        # Based on inspection: header in line 1 (index 0), data starts after
+        df = pd.read_csv(filepath, skiprows=1, header=None, names=['Date', 'NINO34'])
+        df['Date'] = pd.to_datetime(df['Date'].str.strip())
+        df['NINO34'] = pd.to_numeric(df['NINO34'], errors='coerce')
+        # Filter -99.99
+        df = df[df['NINO34'] > -90].dropna()
+        return df.set_index('Date')['NINO34']
+    except Exception as e:
+        print(f"Error loading NINO3.4: {e}")
+        return None
+
+def load_pdo(filepath):
+    """Load PDO data"""
+    try:
+        # Based on inspection: skip 1 line (header info), then Date, PDO
+        df = pd.read_csv(filepath, skiprows=1, header=None, usecols=[0, 1], names=['Date', 'PDO'])
+        df['Date'] = pd.to_datetime(df['Date'])
+        df['PDO'] = pd.to_numeric(df['PDO'], errors='coerce')
+        return df.set_index('Date')['PDO']
+    except Exception as e:
+        print(f"Error loading PDO: {e}")
+        return None
+
+def load_mei(filepath):
+    """Load MEI data"""
+    try:
+        # Space separated, year + 12 months
+        # 1979 0.46 0.29 ...
+        chunks = []
+        with open(filepath, 'r') as f:
+            for line in f:
+                parts = line.strip().split()
+                if not parts or not parts[0].isdigit() or len(parts) < 13:
+                    continue
+                year = int(parts[0])
+                for month_idx, val in enumerate(parts[1:13]):
+                    try:
+                         val_float = float(val)
+                         if val_float > -90: # Check for nodata
+                             date = pd.Timestamp(year=year, month=month_idx+1, day=1)
+                             chunks.append({'Date': date, 'MEI': val_float})
+                    except:
+                        pass
+        df = pd.DataFrame(chunks)
+        return df.set_index('Date')['MEI']
+    except Exception as e:
+        print(f"Error loading MEI: {e}")
+        return None
+
+print("Loading climate indices...")
+nino_series = load_nino34(nino_file)
+mei_series = load_mei(mei_file)
+pdo_series = load_pdo(pdo_file)
 
 # Load dataset
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
+
+# Aplicar filtrado del Golfo de California por default
+lat_mask, lon_mask = get_gulf_of_california_filter(ds)
+ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
 
 # Variables to analyze
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -52,6 +134,18 @@ units = {
     'PROKAR': 'mg m⁻³'
 }
 
+# Common time range
+start_date = '2000-01-01'
+end_date = '2024-12-31'
+
+# Crop indices to dataset range
+if nino_series is not None:
+    nino_series = nino_series[start_date:end_date]
+if mei_series is not None:
+    mei_series = mei_series[start_date:end_date]
+if pdo_series is not None:
+    pdo_series = pdo_series[start_date:end_date]
+
 # Process each variable
 for var in variables:
     if var not in ds:
@@ -61,87 +155,60 @@ for var in variables:
     print(f"\nProcessing {var} ({var_descriptions.get(var, var)})...")
     
     # Get the variable data
-    data = ds[var]
+    data = ds[var].sel(time=slice(start_date, end_date))
     
     # Calculate spatial mean (average over all grid points) for each time step
-    temporal_mean = data.mean(dim=['lat', 'lon'])
+    # Using correct dimension names: 'latitude', 'longitude'
+    daily_mean = data.mean(dim=['latitude', 'longitude']).load()
     
-    # Create figure
-    fig, ax = plt.subplots(figsize=(16, 7))
+    # Resample daily data to monthly means
+    ts_daily = daily_mean.to_pandas()
+    ts_series = ts_daily.resample('MS').mean()  # Monthly Start frequency
+    ts_series = ts_series.dropna()
+    mean_val = ts_series.mean()
+    std_val = ts_series.std()
     
-    # Plot time series
-    ax.plot(temporal_mean.time.values, temporal_mean.values, 
+    # Create figure with 2 subplots
+    fig, axes = plt.subplots(2, 1, figsize=(16, 12))
+    
+    # ===== PLOT 1: Time Series + Rolling Mean =====
+    ax1 = axes[0]
+    ax1.plot(ts_series.index, ts_series.values, 
            linewidth=1.5, color='#2E86AB', alpha=0.8, label='Monthly Mean')
     
     # Add a rolling average (12-month moving average)
-    rolling_mean = temporal_mean.rolling(time=12, center=True).mean()
-    ax.plot(rolling_mean.time.values, rolling_mean.values, 
+    rolling_mean = ts_series.rolling(window=12, center=True).mean()
+    ax1.plot(rolling_mean.index, rolling_mean.values, 
            linewidth=2.5, color='#E63946', alpha=0.8, label='12-Month Moving Average')
     
     # Fill between to show variability
-    ax.fill_between(temporal_mean.time.values, temporal_mean.values, 
+    ax1.fill_between(ts_series.index, ts_series.values, 
                    alpha=0.2, color='#2E86AB')
     
     # Add gridlines
-    ax.grid(True, alpha=0.3, linestyle='--')
-    ax.set_axisbelow(True)
+    ax1.grid(True, alpha=0.3, linestyle='--')
+    ax1.set_axisbelow(True)
     
     # Labels and title
-    ax.set_xlabel('Time', fontsize=12, fontweight='bold')
-    ax.set_ylabel(f'{units.get(var, "")}', fontsize=12, fontweight='bold')
-    ax.set_title(f'{var_descriptions.get(var, var)} - Monthly Time Series (2000-2024)',
+    ax1.set_ylabel(f'{units.get(var, "")}', fontsize=12, fontweight='bold')
+    ax1.set_title(f'{var_descriptions.get(var, var)} - Monthly Time Series (2000-2024)',
                 fontsize=14, fontweight='bold')
     
-    # Format x-axis
-    ax.tick_params(axis='both', which='major', labelsize=10)
-    plt.xticks(rotation=45, ha='right')
-    
-    # Add legend
-    ax.legend(fontsize=11, loc='best', framealpha=0.95)
-    
     # Add statistics box
-    min_val = temporal_mean.min().values
-    max_val = temporal_mean.max().values
-    mean_val = temporal_mean.mean().values
-    std_val = temporal_mean.std().values
-    
-    stats_text = f'Min: {min_val:.2f}\nMax: {max_val:.2f}\nMean: {mean_val:.2f}\nStd: {std_val:.2f}'
-    ax.text(0.02, 0.98, stats_text, transform=ax.transAxes,
+    stats_text = f'Min: {ts_series.min():.2f}\nMax: {ts_series.max():.2f}\nMean: {mean_val:.2f}\nStd: {std_val:.2f}'
+    ax1.text(0.02, 0.98, stats_text, transform=ax1.transAxes,
            fontsize=10, verticalalignment='top', bbox=dict(boxstyle='round', 
            facecolor='wheat', alpha=0.8), family='monospace')
     
-    plt.tight_layout()
+    # Add legend
+    ax1.legend(fontsize=11, loc='upper left', framealpha=0.95)
     
-    # Save figure
-    output_file = output_dir / f'{var}_monthly_timeseries.png'
-    plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"  - Saved: {output_file}")
-    plt.close()
-    
-    # Create an additional figure with subplots for better visualization
-    fig, axes = plt.subplots(2, 1, figsize=(16, 10))
-    
-    # Plot 1: Time series with confidence interval
-    ax1 = axes[0]
-    ax1.plot(temporal_mean.time.values, temporal_mean.values, 
-            linewidth=1.5, color='#2E86AB', alpha=0.8, label='Monthly Mean')
-    ax1.fill_between(temporal_mean.time.values, temporal_mean.values, 
-                    alpha=0.2, color='#2E86AB')
-    ax1.set_ylabel(f'{units.get(var, "")}', fontsize=11, fontweight='bold')
-    ax1.set_title(f'{var_descriptions.get(var, var)} - Monthly Average with 12-Month Moving Average',
-                 fontsize=12, fontweight='bold')
-    ax1.plot(rolling_mean.time.values, rolling_mean.values, 
-            linewidth=2.5, color='#E63946', alpha=0.8, label='12-Month Moving Average')
-    ax1.grid(True, alpha=0.3, linestyle='--')
-    ax1.set_axisbelow(True)
-    ax1.legend(fontsize=10, loc='best', framealpha=0.95)
-    
-    # Plot 2: Monthly anomaly (deviation from mean)
+    # ===== PLOT 2: Anomaly + Climate Indices =====
     ax2 = axes[1]
-    anomaly = temporal_mean - mean_val
-    ax2.bar(temporal_mean.time.values, anomaly.values, width=20, 
-           color=np.where(anomaly.values >= 0, '#2ca02c', '#d62728'), 
-           alpha=0.7, edgecolor='black', linewidth=0.5)
+    anomaly = ts_series - mean_val
+    colors = ['#2ca02c' if x >= 0 else '#d62728' for x in anomaly]
+    ax2.bar(anomaly.index, anomaly.values, width=25, 
+           color=colors, alpha=0.6, edgecolor='black', linewidth=0.5)
     ax2.axhline(y=0, color='black', linestyle='-', linewidth=1.5)
     ax2.set_xlabel('Time', fontsize=11, fontweight='bold')
     ax2.set_ylabel(f'Anomaly ({units.get(var, "")})', fontsize=11, fontweight='bold')
@@ -149,15 +216,56 @@ for var in variables:
                  fontsize=12, fontweight='bold')
     ax2.grid(True, alpha=0.3, linestyle='--', axis='y')
     ax2.set_axisbelow(True)
-    plt.xticks(rotation=45, ha='right')
     
+    # ===== ADD CLIMATE INDICES ON SECONDARY AXIS =====
+    ax2_twin = ax2.twinx()
+    
+    lines = []
+    labels = []
+    
+    # Add NIÑO 3.4
+    if nino_series is not None:
+        nino_aligned = nino_series.reindex(ts_series.index, method='nearest')
+        line1, = ax2_twin.plot(nino_aligned.index, nino_aligned.values, 
+                              color='#FF9500', linewidth=2.5, label='NIÑO 3.4', zorder=5)
+        lines.append(line1)
+        labels.append('NIÑO 3.4')
+    
+    # Add MEI
+    if mei_series is not None:
+        mei_aligned = mei_series.reindex(ts_series.index, method='nearest')
+        line2, = ax2_twin.plot(mei_aligned.index, mei_aligned.values, 
+                              color='#9B59B6', linewidth=2, linestyle='--', label='MEI', zorder=4)
+        lines.append(line2)
+        labels.append('MEI')
+    
+    # Add PDO
+    if pdo_series is not None:
+        pdo_aligned = pdo_series.reindex(ts_series.index, method='nearest')
+        line3, = ax2_twin.plot(pdo_aligned.index, pdo_aligned.values, 
+                              color='#34495E', linewidth=2, linestyle=':', label='PDO', zorder=3)
+        lines.append(line3)
+        labels.append('PDO')
+    
+    ax2_twin.set_ylabel('Climate Index Value', fontsize=11, fontweight='bold')
+    ax2_twin.tick_params(axis='y', labelsize=10)
+    
+    # Combined legend
+    lines_anomaly, labels_anomaly = ax2.get_legend_handles_labels()
+    if lines:
+        ax2_twin.legend(lines + lines_anomaly, labels + labels_anomaly, 
+                       loc='upper left', ncol=4, fontsize=10)
+    
+    plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     
     # Save combined figure
     output_file_combined = output_dir / f'{var}_timeseries_analysis.png'
-    plt.savefig(output_file_combined, dpi=300, bbox_inches='tight')
+    plt.savefig(output_file_combined, dpi=150, bbox_inches='tight')
     print(f"  - Saved: {output_file_combined}")
     plt.close()
+    
+
 
 # Close dataset
 ds.close()

@@ -42,8 +42,18 @@ img { max-width: 100%; height: auto; }
 
 
 
-<div class="section level1" id="section1">
-<h1>1. Mapas de Diferencias Quinquenales</h1>
+<div class="section level1" id="section0">
+<h1>0. Índices Climáticos (NIÑO3.4, PDO, MEI)</h1>
+<p><strong>Nota:</strong> Las series de tiempo de todas las variables de fitoplancton incluyen en ejes secundarios los siguientes índices climáticos:</p>
+<ul>
+<li><strong>NIÑO 3.4</strong> (Naranja sólida): Índice de temperatura superficial del mar en la región NIÑO 3.4. Valores positivos indican El Niño, negativos La Niña.</li>
+<li><strong>MEI</strong> (Púrpura punteada): Multivariate ENSO Index que combina múltiples variables atmosféricas y oceanográficas.</li>
+<li><strong>PDO</strong> (Gris oscuro punteada): Pacific Decadal Oscillation, patrón de variabilidad climática de baja frecuencia en el Pacífico Norte.</li>
+</ul>
+<p><strong>Período:</strong> 2000-2024</p>
+<p><strong>Resolución:</strong> Mensual</p>
+<p><strong>Aplicación:</strong> Los índices climáticos se superponen en los gráficos de anomalías para identificar correlaciones entre cambios de fitoplancton y fenómenos climáticos globales.</p>
+</div>
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item"><a aria-controls="section1-CHL" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section1-CHL" role="tab">CHL</a></li>
 <li class="nav-item"><a aria-controls="section1-MICRO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-MICRO" role="tab">MICRO</a></li>
@@ -394,5 +404,51 @@ img { max-width: 100%; height: auto; }
 </div>
 </div>
 </div>
-</body>
-</html>
+<div class="section level1" id="section6">
+<h1>6. Información sobre Índices Climáticos Utilizados</h1>
+<p>Este análisis integra tres índices climáticos clave que permiten identificar relaciones entre cambios en la producción primaria fitoplanctónica y variabilidad climática global:</p>
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>NIÑO 3.4 - Índice de Cambio del Clima Tropical</h3>
+<ul>
+<li><strong>Definición:</strong> Anomalía de Temperatura Superficial del Mar (TSM) en la región 5°N-5°S, 120°-170°O</li>
+<li><strong>Clasificación ENSO:</strong>
+<ul>
+<li>El Niño: NIÑO3.4 ≥ +0.5°C (3 meses consecutivos)</li>
+<li>La Niña: NIÑO3.4 ≤ -0.5°C (3 meses consecutivos)</li>
+<li>Neutral: -0.5°C &lt; NIÑO3.4 &lt; +0.5°C</li>
+</ul></li>
+<li><strong>Impacto en Golfo de California:</strong> Afecta directamente la temperatura del agua, surgencia y disponibilidad de nutrientes</li>
+<li><strong>Fuente:</strong> NOAA Climate Prediction Center</li>
+</ul>
+</div>
+<div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>MEI - Multivariate ENSO Index</h3>
+<ul>
+<li><strong>Definición:</strong> Índice compuesto que incluye presión, temperatura del aire, velocidad del viento, temperatura superficial del mar y nubosidad</li>
+<li><strong>Ventajas:</strong>
+<ul>
+<li>Captura cambios más complejos en el sistema climático ecuatorial</li>
+<li>Refleja la respuesta atmosférica completa a ENSO</li>
+<li>Mayor sensibilidad a variabilidad submensual</li>
+</ul></li>
+<li><strong>Período de cálculo:</strong> Índice bimestral (dos meses superpuestos)</li>
+<li><strong>Fuente:</strong> NOAA Earth System Research Laboratory (ESRL)</li>
+</ul>
+</div>
+<div style="background-color: #fffacd; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>PDO - Pacific Decadal Oscillation</h3>
+<ul>
+<li><strong>Definición:</strong> Patrón de variabilidad climática de baja frecuencia en el Pacífico Norte (norte de 20°N)</li>
+<li><strong>Escala temporal:</strong> Oscilaciones de 15-30 años (distinto de ENSO: 2-7 años)</li>
+<li><strong>Fases:</strong>
+<ul>
+<li>Fase Cálida (Positiva): TSM anomalía positiva en costa Pacífico NO</li>
+<li>Fase Fría (Negativa): TSM anomalía negativa en costa Pacífico NO</li>
+</ul></li>
+<li><strong>Impacto en Golfo de California:</strong> Modulador de la variabilidad climática interanual, particularmente en invierno</li>
+<li><strong>Fuente:</strong> NOAA Physical Sciences Laboratory</li>
+</ul>
+</div>
+<p style="margin-top: 20px;"><strong>Interpretación en series de tiempo:</strong> Cuando los índices climáticos se superponen en los gráficos de anomalías del fitoplancton, valores coincidentes (positivos o negativos) sugieren correlación potencial, mientras que patrones divergentes pueden indicar que otros factores oceanográficos locales tienen mayor influencia.</p>
+</div>
+

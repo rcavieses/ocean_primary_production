@@ -23,7 +23,7 @@ CONFIG = {
     'lon_min': -117.0,
     'lon_max': -102.0,
     'lat_min': 18.0,
-    'lat_max': 36.0,
+    'lat_max': 33.0,
     
     # Producto correcto para PFT con resolución 4km
     'dataset_id': 'cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D',

@@ -4,16 +4,25 @@ Script to create quinquennial (5-year) average maps for each PFT variable
 from the Gulf of California dataset (2000-2024).
 """
 
+import os
+os.environ['MPLBACKEND'] = 'Agg'
+
 import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from pathlib import Path
 import numpy as np
+import sys
+
+# Importar configuración centralizada
+sys.path.insert(0, str(Path(__file__).parent))
+from config_gulf_california import GULF_OF_CALIFORNIA_BOUNDS, GULF_OF_CALIFORNIA_EXTENT, get_gulf_of_california_filter
 
 # Configuration
-data_file = Path(__file__).parent.parent / 'data' / 'pft_golfo_california_2000_2024.nc'
-output_dir = Path(__file__).parent.parent / 'data' / 'figures' / 'quinquennial'
+base_dir = Path(__file__).parent.parent
+data_file = base_dir / 'data' / 'pft_golfo_california_2000_2024.nc'
+output_dir = base_dir / 'data' / 'figures'
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Define quinquennial periods
@@ -28,6 +37,10 @@ periods = [
 # Load dataset
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
+
+# Aplicar filtrado del Golfo de California por default
+lat_mask, lon_mask = get_gulf_of_california_filter(ds)
+ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
 
 # Variables to plot (excluding uncertainty and flags)
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -69,6 +82,34 @@ for var in variables:
     
     print(f"\nProcessing {var} ({var_descriptions.get(var, var)})...")
     
+    # Calculate vmin and vmax from all periods FIRST, before creating figure
+    all_mins = []
+    all_maxs = []
+    for _, start, end in periods:
+        period_data = ds[var].sel(time=slice(start, end), drop=True)
+        if len(period_data.time) > 0:  # Only if period has data
+            period_mean = period_data.mean(dim='time')
+            try:
+                min_val = float(period_mean.min().values)
+                max_val = float(period_mean.max().values)
+                if not np.isnan(min_val) and min_val != np.inf:
+                    all_mins.append(min_val)
+                if not np.isnan(max_val) and max_val != np.inf:
+                    all_maxs.append(max_val)
+            except (ValueError, TypeError):
+                continue
+    
+    if len(all_mins) == 0 or len(all_maxs) == 0:
+        print(f"  WARNING: No valid data found for {var}")
+        continue
+    
+    vmin = min(all_mins)
+    vmax = max(all_maxs)
+    
+    if np.isnan(vmin) or np.isnan(vmax) or vmin == vmax:
+        print(f"  WARNING: Invalid min/max for {var}")
+        continue
+    
     # Create figure with subplots for each quinquennial period
     fig = plt.figure(figsize=(20, 12))
     
@@ -88,16 +129,6 @@ for var in variables:
         ax.coastlines(resolution='10m', linewidth=0.8)
         ax.add_feature(cfeature.LAND, facecolor='lightgray', edgecolor='black', linewidth=0.5)
         ax.add_feature(cfeature.BORDERS, linestyle=':', linewidth=0.5)
-        
-        # Get data range for consistent colorbar across all periods
-        if idx == 1:
-            # Calculate vmin and vmax from all periods
-            all_means = []
-            for _, start, end in periods:
-                period_data = ds[var].sel(time=slice(start, end)).mean(dim='time')
-                all_means.append(period_data)
-            vmin = min([d.min().values for d in all_means if not np.isnan(d.min().values)])
-            vmax = max([d.max().values for d in all_means if not np.isnan(d.max().values)])
         
         # Plot data
         im = data_mean.plot(
@@ -119,7 +150,7 @@ for var in variables:
         gl.right_labels = False
         
         # Set extent to full Gulf of California region coordinates
-        ax.set_extent([-115.0, -102.0, 18.0, 36.0], crs=ccrs.PlateCarree())
+        ax.set_extent(GULF_OF_CALIFORNIA_EXTENT, crs=ccrs.PlateCarree())
     
     # Add a single colorbar for all subplots
     cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])

@@ -24,6 +24,67 @@ knitr::opts_chunk$set(
 gc()
 ```
 
+---
+
+# FUENTE DE DATOS Y DESCRIPCIÓN
+
+## Origen de los Datos
+
+### Archivo Principal: pft_golfo_california_2000_2024.nc
+- **Formato**: NetCDF (Network Common Data Form)
+- **Tamaño**: 81 GB
+- **Período**: 2000-2024 (25 años, 300 meses)
+- **Resolución Espacial**: Grilla global a ~4 km de resolución
+- **Variables**: 10 tipos funcionales de fitoplancton
+- **Unidades**: Concentración en mg/m³
+- **Fuente**: Datos oceanográficos satelitales procesados
+- **Descripción**: Concentraciones mensuales de fitoplancton en el Golfo de California derivadas de sensores remotos oceanográficos
+
+### Archivo Climático: nino34.long.anom.csv
+- **Formato**: CSV (valores separados por comas)
+- **Tamaño**: 39 KB
+- **Período**: 2000-2024
+- **Frecuencia**: Mensual
+- **Variable**: Anomalía de temperatura superficial del mar en región NIÑO 3.4
+- **Clasificación**: Fases ENSO (El Niño, La Niña, Neutral)
+- **Fuente**: NOAA (National Oceanic and Atmospheric Administration)
+- **Uso**: Relacionar cambios de fitoplancton con condiciones climáticas
+
+### Archivos Climáticos Adicionales:
+- **MEI (mei.exttimeseries.csv)**: Multivariate ENSO Index. Combina múltiples variables (presión, viento, temperatura, etc.) para monitorear ENSO.
+- **PDO (pdo.timeseries.sstens.csv)**: Pacific Decadal Oscillation. Patrón de variabilidad climática de larga duración en el Pacífico Norte.
+
+---
+
+# TABLA DE VARIABLES ANALIZADAS
+
+La siguiente tabla describe las 10 variables de fitoplancton incluidas en el análisis:
+
+| Código | Nombre Completo | Clasificación | Rango de Tamaño | Descripción |
+|--------|-----------------|----------------|-----------------|-------------|
+| **CHL** | Clorofila-a Total | Pigmento | N/A | Pigmento fotosintético; indicador general de biomasa de fitoplancton |
+| **MICRO** | Microfitoplancton | Por Tamaño | >20 µm | Fitoplancton grande; incluye diatomeas, dinoflagelados |
+| **NANO** | Nanofitoplancton | Por Tamaño | 2-20 µm | Fitoplancton mediano; incluye coccolitóforos, flagelados |
+| **PICO** | Picofitoplancton | Por Tamaño | 0.2-2 µm | Fitoplancton pequeño; principalmente procariotas |
+| **DIATO** | Diatomeas | Por Grupo | 2-2000 µm | Algas con pared de sílice; típicas de aguas frías/productivas |
+| **DINO** | Dinoflagelados | Por Grupo | 10-2000 µm | Algas flageladas; algunas formadoras de mareas rojas |
+| **GREEN** | Algas Verdes | Por Grupo | 1-200 µm | Chlorophyta; típicas de aguas dulces/estuarios |
+| **HAPTO** | Haptofitas | Por Grupo | 2-10 µm | Coccolitóforos; productoras de carbonato de calcio |
+| **PROCHLO** | Prochlorococcus | Por Grupo | 0.6-0.8 µm | Cianobacteria; abundante en aguas oligotróficas |
+| **PROKAR** | Procariotas | Por Grupo | 0.1-10 µm | Bacterias fotosintéticas; incluye Synechococcus |
+
+### Notas sobre las Variables
+- **Por Tamaño**: CHL, MICRO, NANO, PICO representan clasificaciones por tamaño de célula
+- **Por Grupo**: DIATO, DINO, GREEN, HAPTO, PROCHLO, PROKAR representan grupos taxonómicos específicos
+- **Unidades**: Todas se expresan en **mg de clorofila-a equivalente por m³** (mg m⁻³)
+- **Importancia Ecológica**: 
+  - Diferentes grupos tienen roles distintos en la cadena alimentaria marina
+  - Las diatomeas son importantes para la exportación de carbono
+  - El picofitoplancton domina en aguas oligotróficas
+  - El fitoplancton grande es más accesible para zooplancton pequeño
+
+---
+
 # Configuración
 
 ```{r config, message=FALSE}
@@ -37,6 +98,8 @@ load_packages(packages)
 # Ruta al archivo de datos
 data_file <- "../data/pft_golfo_california_2000_2024.nc"
 nino_file <- "../data/nino34.long.anom.csv"
+mei_file <- "../data/mei.exttimeseries.csv"
+pdo_file <- "../data/pdo.timeseries.sstens.csv"
 
 # Directorio de salida para archivos HTML
 output_dir <- "../data/figures/html_outputs"
@@ -126,11 +189,16 @@ cat(sprintf("**Dataset:** %d x %d puntos, %d meses (%s a %s)\n",
             lon_dim, lat_dim, time_dim, min(time), max(time)))
 ```
 
-```{r load_nino34}
+```{r load_indices}
 # Cargar datos NIÑO3.4
 nino_data <- load_nino34_data(nino_file, min(time), max(time))
+mei_data <- load_mei_data(mei_file, min(time), max(time))
+pdo_data <- load_pdo_data(pdo_file, min(time), max(time))
 
-cat(sprintf("\n**Datos NIÑO3.4:** %d registros cargados\n", nrow(nino_data)))
+cat(sprintf("\n**Datos Climáticos Cargados:**\n"))
+cat(sprintf("- NIÑO3.4: %d meses\n", nrow(nino_data)))
+cat(sprintf("- MEI: %d meses\n", nrow(mei_data)))
+cat(sprintf("- PDO: %d meses\n", nrow(pdo_data)))
 cat(sprintf("- El Niño: %d meses\n", sum(nino_data$ENSO_phase == "El Niño", na.rm = TRUE)))
 cat(sprintf("- La Niña: %d meses\n", sum(nino_data$ENSO_phase == "La Niña", na.rm = TRUE)))
 cat(sprintf("- Neutral: %d meses\n", sum(nino_data$ENSO_phase == "Neutral", na.rm = TRUE)))
@@ -140,38 +208,25 @@ cat(sprintf("- Neutral: %d meses\n", sum(nino_data$ENSO_phase == "Neutral", na.r
 
 # 1. Series Temporales Mensuales {.tabset .tabset-fade}
 
-Evolución temporal de las concentraciones promedio mensuales con media móvil de 12 meses.
+Análisis de la evolución temporal y anomalías comparadas con índices climáticos (NIÑO 3.4, MEI, PDO).
 
-```{r timeseries, results='asis'}
+```{r timeseries, results='asis', echo=FALSE}
+# Definir directorio de imágenes generadas por Python
+img_dir <- "../data/figures/timeseries_indices"
+
 for (var in variables) {
   cat(sprintf("\n## %s\n\n", var_descriptions[var]))
   
-  result <- process_timeseries(var, data_file, time, lon_dim, lat_dim, 
-                               var_descriptions, units, 
-                               nino_data = nino_data,
-                               output_dir = file.path(data_output_dir, "timeseries"))
+  img_file <- file.path(img_dir, paste0(var, "_timeseries_analysis.png"))
   
-  # Guardar como HTML
-  htmlwidgets::saveWidget(
-    result$timeseries,
-    file.path(output_dir, "timeseries", paste0(var, "_monthly_timeseries.html")),
-    selfcontained = TRUE
-  )
-  htmlwidgets::saveWidget(
-    result$anomaly,
-    file.path(output_dir, "timeseries", paste0(var, "_monthly_anomaly.html")),
-    selfcontained = TRUE
-  )
+  if (file.exists(img_file)) {
+    # Mostrar imagen estática
+    cat(sprintf("![](%s)\n\n", img_file))
+  } else {
+    cat(sprintf("**Imagen no encontrada:** %s\n\n", img_file))
+  }
   
-  cat("### Serie Temporal con NIÑO3.4\n\n")
-  print(htmltools::tagList(result$timeseries))
-  cat("\n\n")
-  cat("### Anomalía vs NIÑO3.4\n\n")
-  print(htmltools::tagList(result$anomaly))
   cat("\n\n---\n\n")
-  
-  rm(result)
-  gc()
 }
 ```
 
