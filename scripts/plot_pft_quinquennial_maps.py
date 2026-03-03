@@ -38,9 +38,8 @@ periods = [
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
 
-# Aplicar filtrado del Golfo de California por default
-lat_mask, lon_mask = get_gulf_of_california_filter(ds)
-ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
+# No aplicar filtro espacial (usar todo el dominio)
+# Se evita el uso del shapefile para ejecutar sin filtro espacial
 
 # Variables to plot (excluding uncertainty and flags)
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 

@@ -120,10 +120,16 @@ def get_gulf_of_california_filter(ds, use_shapefile=True):
         use_shapefile: bool, si True usa polígono del shapefile, si False usa bbox
     
     Returns:
-        Si use_shapefile=True: array 2D de máscara (lat, lon)
-        Si use_shapefile=False: tupla (lat_mask, lon_mask) para usar con isel()
+        tuple (lat_mask, lon_mask): máscaras 1D para uso con isel()
+            Nota: estas son máscaras booleanas para las dimensiones lat/lon,
+                  resultando en una selección rectangular pero precisa dentro del polígono
     """
     if use_shapefile:
-        return get_gulf_of_california_filter_shapefile(ds)
+        mask_2d = get_gulf_of_california_filter_shapefile(ds)
+        # Convertir máscara 2D a máscaras 1D: un punto está "dentro" si hay al menos
+        # un punto válido en su fila/columna
+        lat_mask = mask_2d.any(axis=1)  # True si algún punto en esa fila está dentro
+        lon_mask = mask_2d.any(axis=0)  # True si algún punto en esa columna está dentro
+        return lat_mask, lon_mask
     else:
         return get_gulf_of_california_filter_bbox(ds)

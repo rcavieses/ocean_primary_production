@@ -98,9 +98,8 @@ pdo_series = load_pdo(pdo_file)
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
 
-# Aplicar filtrado del Golfo de California por default
-lat_mask, lon_mask = get_gulf_of_california_filter(ds)
-ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
+# No aplicar filtro espacial (usar todo el dominio)
+# Se evita el uso del shapefile para ejecutar sin filtro espacial
 
 # Variables to analyze
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -154,17 +153,21 @@ for var in variables:
     
     print(f"\nProcessing {var} ({var_descriptions.get(var, var)})...")
     
-    # Get the variable data
+    # Get the variable data (time-sliced)
     data = ds[var].sel(time=slice(start_date, end_date))
-    
-    # Calculate spatial mean (average over all grid points) for each time step
-    # Using correct dimension names: 'latitude', 'longitude'
-    daily_mean = data.mean(dim=['latitude', 'longitude']).load()
-    
-    # Resample daily data to monthly means
-    ts_daily = daily_mean.to_pandas()
-    ts_series = ts_daily.resample('MS').mean()  # Monthly Start frequency
-    ts_series = ts_series.dropna()
+
+    # Compute spatial mean per time step in a memory-efficient loop
+    times = data['time'].values
+    values = []
+    for i in range(len(times)):
+        slice_arr = data.isel(time=i).values
+        # compute mean over lat/lon ignoring NaNs
+        mean_val = float(np.nanmean(slice_arr))
+        values.append(mean_val)
+
+    # Build pandas Series and resample to monthly means
+    ts_series = pd.Series(data=values, index=pd.to_datetime(data['time'].values))
+    ts_series = ts_series.resample('MS').mean().dropna()
     mean_val = ts_series.mean()
     std_val = ts_series.std()
     

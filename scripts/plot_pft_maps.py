@@ -23,9 +23,8 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 ds = xr.open_dataset(data_file)
 
-# Aplicar filtrado del Golfo de California por default
-lat_mask, lon_mask = get_gulf_of_california_filter(ds)
-ds = ds.isel(latitude=lat_mask, longitude=lon_mask)
+# No aplicar filtro espacial (usar todo el dominio)
+# Se evita el uso del shapefile para ejecutar sin filtro espacial
 
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
              'PICO', 'PROCHLO', 'PROKAR']
@@ -38,7 +37,24 @@ for var in variables:
     print(f"Creating map for {var}...")
     
     try:
-        data_mean = ds[var].mean(dim='time')
+        # Compute time mean in a memory-friendly loop to avoid loading
+        # the entire 3D variable into memory at once.
+        time_len = ds.dims.get('time', len(ds['time']))
+        sum_arr = None
+        count_arr = None
+        for t in range(time_len):
+            arr = ds[var].isel(time=t).values
+            if sum_arr is None:
+                sum_arr = np.zeros_like(arr, dtype=float)
+                count_arr = np.zeros_like(arr, dtype=int)
+            valid = ~np.isnan(arr)
+            sum_arr[valid] += arr[valid]
+            count_arr[valid] += 1
+        # Avoid division by zero
+        with np.errstate(invalid='ignore', divide='ignore'):
+            mean_arr = np.where(count_arr > 0, sum_arr / count_arr, np.nan)
+        # Wrap back into an xarray DataArray with latitude/longitude coords
+        data_mean = xr.DataArray(mean_arr, coords=[ds['latitude'], ds['longitude']], dims=['latitude', 'longitude'])
         
         # Check if data is valid
         if np.isnan(float(data_mean.min().values)) or np.isnan(float(data_mean.max().values)):
