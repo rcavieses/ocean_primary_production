@@ -8,6 +8,11 @@ This creates efficient heatmaps showing:
 - Color: Average value (reconstructed from statistics)
 
 Uses: pft_monthly_statistics.nc for efficient processing
+
+NOTA IMPORTANTE SOBRE FILTRADO ESPACIAL:
+Este script usa datos pre-computados que ya han sido filtrados espacialmente
+al Golfo de California usando shapefile polygon filter. Todos los resultados
+muestran ÚNICAMENTE datos dentro del Golfo de California.
 """
 
 import os
@@ -20,6 +25,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import warnings
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+from config_gulf_california import get_gulf_of_california_filter
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -128,6 +136,10 @@ if not stats_file.exists():
     exit(1)
 
 ds_stats = xr.open_dataset(stats_file)
+
+# Nota: Los datos en el archivo de estadísticas ya han sido filtrados
+# usando el polígono del shapefile del Golfo de California durante
+# la fase de preprocesamiento (preprocess_pft_data.py)
 
 # Get latitude bins from original data
 print("Extracting latitude information...")

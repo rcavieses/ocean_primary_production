@@ -43,8 +43,8 @@ periods = [
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
 
-# No aplicar filtro espacial (usar todo el dominio)
-# Se evita el uso del shapefile para ejecutar sin filtro espacial
+# Aplicar filtro espacial con shapefile del Golfo de California
+mask = get_gulf_of_california_filter(ds, use_shapefile=True)
 
 # Variables to plot (excluding uncertainty and flags)
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -79,9 +79,11 @@ units = {
 }
 
 
-def compute_quinquennial_mean(ds, var, start_date, end_date):
+def compute_quinquennial_mean(ds, var, start_date, end_date, mask):
     """Compute the mean for a variable over a quinquennial period."""
     data_period = ds[var].sel(time=slice(start_date, end_date))
+    # Apply spatial mask (enmascarar puntos fuera del polígono del Golfo)
+    data_period = data_period.where(mask, drop=False)
     return data_period.mean(dim='time')
 
 
@@ -97,7 +99,7 @@ for var in variables:
     period_means = {}
     for period_name, start_date, end_date in periods:
         print(f"  - Computing average for {period_name}...")
-        period_means[period_name] = compute_quinquennial_mean(ds, var, start_date, end_date)
+        period_means[period_name] = compute_quinquennial_mean(ds, var, start_date, end_date, mask)
     
     # Reference period is the last one (2020-2024)
     reference_period = periods[-1][0]

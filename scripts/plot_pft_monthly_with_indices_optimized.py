@@ -8,6 +8,11 @@ Shows:
 2. Anomalies vs Climate Indices (MEI, PDO, NINO3.4) on secondary axis
 
 Uses: pft_monthly_statistics.nc instead of full dataset
+
+NOTA IMPORTANTE SOBRE FILTRADO ESPACIAL:
+Este script usa datos pre-computados que ya han sido filtrados espacialmente
+al Golfo de California usando shapefile polygon filter. Todos los resultados
+muestran ÚNICAMENTE datos dentro del Golfo de California.
 """
 
 import xarray as xr
@@ -16,6 +21,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import warnings
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+from config_gulf_california import get_gulf_of_california_filter
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
@@ -96,6 +104,10 @@ if not stats_file.exists():
     exit(1)
 
 ds = xr.open_dataset(stats_file)
+
+# Nota: Los datos en el archivo de estadísticas ya han sido filtrados
+# usando el polígono del shapefile del Golfo de California durante
+# la fase de preprocesamiento (preprocess_pft_data.py)
 
 # Variables to analyze
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 

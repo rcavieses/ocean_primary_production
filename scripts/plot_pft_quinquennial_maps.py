@@ -38,8 +38,8 @@ periods = [
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
 
-# No aplicar filtro espacial (usar todo el dominio)
-# Se evita el uso del shapefile para ejecutar sin filtro espacial
+# Aplicar filtro espacial con shapefile del Golfo de California
+mask = get_gulf_of_california_filter(ds, use_shapefile=True)
 
 # Variables to plot (excluding uncertainty and flags)
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -117,6 +117,9 @@ for var in variables:
         
         # Select time period
         data_period = ds[var].sel(time=slice(start_date, end_date))
+        
+        # Apply spatial mask (enmascarar puntos fuera del polígono del Golfo)
+        data_period = data_period.where(mask, drop=False)
         
         # Calculate mean
         data_mean = data_period.mean(dim='time')

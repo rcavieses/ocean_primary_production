@@ -23,8 +23,8 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 ds = xr.open_dataset(data_file)
 
-# No aplicar filtro espacial (usar todo el dominio)
-# Se evita el uso del shapefile para ejecutar sin filtro espacial
+# Aplicar filtro espacial con shapefile del Golfo de California
+mask = get_gulf_of_california_filter(ds, use_shapefile=True)
 
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
              'PICO', 'PROCHLO', 'PROKAR']
@@ -55,6 +55,9 @@ for var in variables:
             mean_arr = np.where(count_arr > 0, sum_arr / count_arr, np.nan)
         # Wrap back into an xarray DataArray with latitude/longitude coords
         data_mean = xr.DataArray(mean_arr, coords=[ds['latitude'], ds['longitude']], dims=['latitude', 'longitude'])
+        
+        # Apply spatial mask (enmascarar puntos fuera del polígono del Golfo)
+        data_mean = data_mean.where(mask, drop=False)
         
         # Check if data is valid
         if np.isnan(float(data_mean.min().values)) or np.isnan(float(data_mean.max().values)):

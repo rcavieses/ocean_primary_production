@@ -27,7 +27,16 @@ warnings.filterwarnings("ignore")
 # Configuration
 base_dir = Path(__file__).parent.parent
 data_file = base_dir / 'data' / 'pft_golfo_california_2000_2024.nc'
-output_dir = base_dir / 'data' / 'figures'
+
+# Check for filter info (when running from run_all_map_scripts_filtered.py)
+import json
+filter_info_file = base_dir / 'data' / 'pft_golfo_california_FILTER_INFO.json'
+if filter_info_file.exists():
+    output_subdir = 'fig_filt'
+else:
+    output_subdir = 'timeseries'
+
+output_dir = base_dir / 'data' / 'figures' / output_subdir
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # Climate Data Files
@@ -98,8 +107,8 @@ pdo_series = load_pdo(pdo_file)
 print("Loading dataset...")
 ds = xr.open_dataset(data_file)
 
-# No aplicar filtro espacial (usar todo el dominio)
-# Se evita el uso del shapefile para ejecutar sin filtro espacial
+# Aplicar filtro espacial con shapefile del Golfo de California
+mask = get_gulf_of_california_filter(ds, use_shapefile=True)
 
 # Variables to analyze
 variables = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -155,6 +164,9 @@ for var in variables:
     
     # Get the variable data (time-sliced)
     data = ds[var].sel(time=slice(start_date, end_date))
+    
+    # Apply spatial mask (eliminar puntos fuera del polígono del Golfo)
+    data = data.where(mask, drop=True)
 
     # Compute spatial mean per time step in a memory-efficient loop
     times = data['time'].values

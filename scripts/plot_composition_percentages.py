@@ -29,7 +29,7 @@ stats_file = base_dir / 'data' / 'pft_monthly_statistics.nc'
 # Check for filter info (when running from run_all_map_scripts_filtered.py)
 filter_info_file = base_dir / 'data' / 'pft_golfo_california_FILTER_INFO.json'
 if filter_info_file.exists():
-    output_subdir = 'filtered_gulf_california'
+    output_subdir = 'fig_filt'
 else:
     output_subdir = 'composition'
 

@@ -9,6 +9,7 @@ Todos los scripts de mapas y análisis espacial deben usar estas funciones.
 """
 
 import numpy as np
+import xarray as xr
 from pathlib import Path
 import warnings
 
@@ -55,14 +56,24 @@ def _load_shapefile_polygon():
 
 def get_gulf_of_california_filter_bbox(ds):
     """
-    Retorna un filtro booleano rectangular para seleccionar datos del Golfo de California.
+    Retorna un filtro 2D rectangular para seleccionar datos del Golfo de California.
     Este es el método fallback cuando no se puede usar shapefile.
+    
+    Returns:
+        numpy array: máscara 2D (lat, lon) con True para puntos dentro del bbox
     """
     lat_mask = (ds['latitude'] >= GULF_OF_CALIFORNIA_BOUNDS['lat_min']) & \
                (ds['latitude'] <= GULF_OF_CALIFORNIA_BOUNDS['lat_max'])
     lon_mask = (ds['longitude'] >= GULF_OF_CALIFORNIA_BOUNDS['lon_min']) & \
                (ds['longitude'] <= GULF_OF_CALIFORNIA_BOUNDS['lon_max'])
-    return lat_mask.values, lon_mask.values
+    
+    # Crear máscara 2D usando broadcasting
+    lat_values = lat_mask.values
+    lon_values = lon_mask.values
+    
+    # Broadcasting: (lat_size, 1) & (1, lon_size) -> (lat_size, lon_size)
+    mask_2d = lat_values[:, np.newaxis] & lon_values[np.newaxis, :]
+    return mask_2d
 
 def get_gulf_of_california_filter_shapefile(ds):
     """
@@ -108,28 +119,30 @@ def get_gulf_of_california_filter_shapefile(ds):
     
     except Exception as e:
         warnings.warn(f"Shapefile filtering failed ({e}). Falling back to bbox.")
-        lat_mask, lon_mask = get_gulf_of_california_filter_bbox(ds)
-        return lat_mask & lon_mask
+        mask_2d = get_gulf_of_california_filter_bbox(ds)
+        return mask_2d
 
 def get_gulf_of_california_filter(ds, use_shapefile=True):
     """
-    Retorna un filtro booleano para seleccionar datos del Golfo de California.
+    Retorna un filtro boolean DataArray para seleccionar datos del Golfo de California.
     
     Args:
         ds: xarray Dataset
         use_shapefile: bool, si True usa polígono del shapefile, si False usa bbox
     
     Returns:
-        tuple (lat_mask, lon_mask): máscaras 1D para uso con isel()
-            Nota: estas son máscaras booleanas para las dimensiones lat/lon,
-                  resultando en una selección rectangular pero precisa dentro del polígono
+        xarray.DataArray: máscara 2D (lat, lon) compatible con .where()
     """
     if use_shapefile:
         mask_2d = get_gulf_of_california_filter_shapefile(ds)
-        # Convertir máscara 2D a máscaras 1D: un punto está "dentro" si hay al menos
-        # un punto válido en su fila/columna
-        lat_mask = mask_2d.any(axis=1)  # True si algún punto en esa fila está dentro
-        lon_mask = mask_2d.any(axis=0)  # True si algún punto en esa columna está dentro
-        return lat_mask, lon_mask
     else:
-        return get_gulf_of_california_filter_bbox(ds)
+        mask_2d = get_gulf_of_california_filter_bbox(ds)
+    
+    # Convertir a xarray DataArray para compatibilidad con .where()
+    mask_da = xr.DataArray(
+        mask_2d,
+        coords={'latitude': ds['latitude'], 'longitude': ds['longitude']},
+        dims=['latitude', 'longitude'],
+        name='spatial_mask'
+    )
+    return mask_da

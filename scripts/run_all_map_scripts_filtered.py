@@ -39,6 +39,7 @@ MAP_SCRIPTS = [
     'plot_lat_time_optimized.py',
     'plot_pft_seasonal_quinquennial_comparison.py',
     'plot_pft_monthly_with_indices_optimized.py',
+    'plot_pft_monthly_timeseries.py',
     'plot_composition_percentages.py',
 ]
 
