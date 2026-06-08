@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Completo - Producción Primaria Golfo de California</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2E86AB;
+            --secondary: #A23B72;
+            --success: #06A77D;
+            --danger: #E63946;
+            --warning: #F77F00;
+            --light-bg: #F5F5F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .report-header {
+            background: linear-gradient(135deg, #1a5276 0%, var(--primary) 30%, var(--secondary) 70%, #6c3483 100%);
+            color: white;
+            padding: 50px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .report-title { font-size: 2.6rem; font-weight: bold; margin-bottom: 15px; }
+        .report-subtitle { font-size: 1.3rem; opacity: 0.95; margin-bottom: 10px; }
+        .report-meta { font-size: 0.95rem; opacity: 0.85; }
+
+        .container-main { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        .section-header {
+            background: white;
+            padding: 25px;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section-title { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .section-description { font-size: 1.05rem; color: #666; margin: 0; }
+
+        .toc {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .toc-title { font-size: 1.6rem; font-weight: bold; color: var(--primary); margin-bottom: 20px; }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            background: #f8f9fa;
+            border-left: 3px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .toc-item:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .toc-item .toc-num {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .toc-item .toc-label { font-weight: 500; font-size: 0.92rem; }
+
+        .figure-group {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 3px solid var(--primary);
+        }
+
+        .figure-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .figure-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .figure-image:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-bullet {
+            background: none;
+            border: none;
+            padding: 8px 14px;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .nav-bullet:hover {
+            background-color: rgba(46, 134, 171, 0.05);
+            border-bottom-color: rgba(46, 134, 171, 0.3);
+        }
+
+        .nav-bullet.active {
+            background-color: rgba(46, 134, 171, 0.1);
+            border-bottom: 3px solid var(--primary);
+            font-weight: 600;
+        }
+
+        .carousel-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover { background-color: var(--secondary); }
+        .carousel-btn:active { transform: scale(0.95); }
+
+        .figure-display { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .observation-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #fff0f5 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 6px;
+        }
+
+        .observation-title { font-weight: bold; color: var(--secondary); font-size: 1.1rem; margin-bottom: 15px; }
+
+        .observation-content {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            border: 2px dashed #ccc;
+            min-height: 100px;
+            cursor: text;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .observation-content:hover { border-color: var(--secondary); background: #fafafa; }
+        .observation-content.editing { border-color: var(--secondary); background: #fffbf0; }
+
+        .bullet-list { list-style: none; padding-left: 20px; }
+        .bullet-list li { margin-bottom: 8px; position: relative; padding-left: 20px; }
+        .bullet-list li:before { content: "▸"; color: var(--secondary); font-size: 1.1rem; position: absolute; left: 0; font-weight: bold; }
+
+        .method-box {
+            background: #f0f7ff;
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .interpretation-box {
+            background: #f0fff4;
+            border-left: 4px solid var(--success);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .stats-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .stats-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats-table tr:nth-child(even) { background: #f8f9fa; }
+        .stats-table tr:hover { background: #e9ecef; }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h5 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .badge-sig {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-sig.sig { background: #d4edda; color: #155724; }
+        .badge-sig.nosig { background: #f8d7da; color: #721c24; }
+
+        .section-divider {
+            margin: 60px 0 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-divider .divider-title {
+            background: var(--light-bg);
+            padding: 0 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        footer a { color: #85c1e9; }
+
+        @media (max-width: 768px) {
+            .toc-grid { grid-template-columns: 1fr; }
+            .report-title { font-size: 1.8rem; }
+            .nav-bullet { padding: 6px 10px; font-size: 0.85rem; }
+        }
+    </style>
+
+
+<style>
+.observation-box { display: none !important; }
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#top">
+                <i class="fas fa-microscope"></i> Análisis PFT - Golfo de California
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#contenidos">Contenidos</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="#stl">Inferencial</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Report Header -->
+    <div class="report-header" id="top">
+        <div class="container-main">
+            <h1 class="report-title">
+                <i class="fas fa-water"></i> Análisis Integral de Producción Primaria Fitoplanctónica (Integrado Organizado)
+            </h1>
+            <p class="report-subtitle">Golfo de California (2000-2024)</p>
+            <p class="report-meta">
+                <i class="fas fa-database"></i> 300 meses, 10 variables PFT, 3 índices climáticos &nbsp;|&nbsp;
+                <i class="fas fa-draw-polygon"></i> Filtrado espacial: Golfo de California (shapefile)
+            </p>
+        </div>
+    </div>
+
+    <div class="container-main">
+
+        <!-- Overview -->
+        <div id="inicio" class="section-header" style="border-left-color: var(--success);">
+            <h2 class="section-title" style="color: var(--success);">Descripción General</h2>
+            <p class="section-description">
+                Reporte integrado con <strong>todos los resultados</strong> del análisis de tipos funcionales de fitoplancton (PFT)
+                en el Golfo de California durante 2000-2024. Incluye análisis descriptivo (mapas, series temporales, composición),
+                análisis inferencial avanzado (STL, Fourier, HMM, Granger, CCA, regresión segmentada, extremos)
+                y validación con datos in-situ de eDNA.
+            </p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc" id="contenidos">
+            <div class="toc-title"><i class="fas fa-list"></i> Tabla de Contenidos (14 secciones)</div>
+            <div class="toc-grid">
+                <a href="#composicion" class="toc-item">
+                    <span class="toc-num" style="background: #2E86AB;">1</span>
+                    <span class="toc-label">Composición de Fitoplancton</span>
+                </a>
+                <a href="#mean_maps" class="toc-item">
+                    <span class="toc-num" style="background: #06A77D;">2</span>
+                    <span class="toc-label">Mapas de Concentración Media (2000-2024)</span>
+                </a>
+                <a href="#quinquennial_diff" class="toc-item">
+                    <span class="toc-num" style="background: #E63946;">3</span>
+                    <span class="toc-label">Diferencias Quinquenales</span>
+                </a>
+<a href="#seasonal_analysis" class="toc-item">
+                    <span class="toc-num" style="background: #A23B72;">4</span>
+                    <span class="toc-label">Análisis Estacional</span>
+                </a>
+                <a href="#timeseries_indices" class="toc-item">
+                    <span class="toc-num" style="background: #2E86AB;">5</span>
+                    <span class="toc-label">Series Temporales con Índices Climáticos</span>
+                </a>
+                <a href="#latseries" class="toc-item">
+                    <span class="toc-num" style="background: #06A77D;">6</span>
+                    <span class="toc-label">Patrones Latitud-Tiempo</span>
+                </a>
+<a href="#stl" class="toc-item">
+                    <span class="toc-num" style="background: #F77F00;">7</span>
+                    <span class="toc-label">Descomposición STL y Eventos Extremos</span>
+                </a>
+                <a href="#fourier" class="toc-item">
+                    <span class="toc-num" style="background: #A23B72;">8</span>
+                    <span class="toc-label">Análisis de Frecuencias (Fourier)</span>
+                </a>
+                <a href="#hmm" class="toc-item">
+                    <span class="toc-num" style="background: #2E86AB;">9</span>
+                    <span class="toc-label">Cambios de Régimen (HMM)</span>
+                </a>
+                <a href="#extremos" class="toc-item">
+                    <span class="toc-num" style="background: #E63946;">10</span>
+                    <span class="toc-label">Extremos Alternativos</span>
+                </a>
+<a href="#granger" class="toc-item">
+                    <span class="toc-num" style="background: #F77F00;">11</span>
+                    <span class="toc-label">Causalidad de Granger</span>
+                </a>
+<a href="#piecewise" class="toc-item">
+                    <span class="toc-num" style="background: #2E86AB;">12</span>
+                    <span class="toc-label">Regresión Segmentada (Piecewise)</span>
+                </a>
+                <a href="#joint" class="toc-item">
+                    <span class="toc-num" style="background: #E63946;">13</span>
+                    <span class="toc-label">Eventos Extremos Conjuntos</span>
+                </a>
+<a href="#sat_insitu" class="toc-item">
+                    <span class="toc-num" style="background: #F77F00;">14</span>
+                    <span class="toc-label">Comparación Satelital vs In-Situ</span>
+                </a>
+</div>
+        </div>
+
+        <div id="composicion" class="section-header" style="border-left-color: #2E86AB;">
+            <h2 class="section-title" style="color: #2E86AB;">
+                <i class="fas fa-pie-chart"></i> 1. Composición de Fitoplancton
+            </h2>
+            <p class="section-description">Análisis de la composición porcentual de especies y clases de tamaño mediante gráficos interactivos.</p>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div class="figure-title">Figuras Estáticas de Composición</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                <div style="text-align: center;">
+                    <img src="assets/satellite/size_composition_pie.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">size composition pie</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="assets/satellite/size_composition_stacked.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">size composition stacked</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="assets/satellite/size_composition_timeseries.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">size composition timeseries</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="assets/satellite/species_composition_pie.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">species composition pie</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="assets/satellite/species_composition_stacked.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">species composition stacked</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="assets/satellite/species_composition_timeseries.png" class="figure-image" style="max-height: 400px;">
+                    <p style="margin-top: 8px; font-size: 0.85rem; color: #999;">species composition timeseries</p>
+                </div>
+            </div>
+        </div>
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Composición de Fitoplancton</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list"><li>Observaciones deshabilitadas en esta versión integrada.</li></ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="mean_maps" class="section-header" style="border-left-color: #06A77D;">
+            <h2 class="section-title" style="color: #06A77D;">
+                <i class="fas fa-map"></i> 2. Mapas de Concentración Media (2000-2024)
+            </h2>
+            <p class="section-description">Distribución espacial promedio de cada tipo funcional de fitoplancton en el Golfo de California.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #06A77D;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #06A77D; margin: 0; font-size: 1rem;">Selecciona una figura (10 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('mean_maps')" style="background-color: #06A77D;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="mean_maps_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 10</span>
+                    <button class="carousel-btn" onclick="nextFigure('mean_maps')" style="background-color: #06A77D;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('mean_maps', 0)"
+                        data-group="mean_maps" data-index="0">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 1)"
+                        data-group="mean_maps" data-index="1">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 2)"
+                        data-group="mean_maps" data-index="2">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 3)"
+                        data-group="mean_maps" data-index="3">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 4)"
+                        data-group="mean_maps" data-index="4">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 5)"
+                        data-group="mean_maps" data-index="5">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 6)"
+                        data-group="mean_maps" data-index="6">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 7)"
+                        data-group="mean_maps" data-index="7">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 8)"
+                        data-group="mean_maps" data-index="8">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('mean_maps', 9)"
+                        data-group="mean_maps" data-index="9">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #06A77D;">
+            <div id="mean_maps_figures_container">
+                <div id="mean_maps_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/CHL_mean_map.png" alt="CHL_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_map.png" alt="DIATO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_map.png" alt="DINO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_map.png" alt="GREEN_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_map.png" alt="HAPTO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_mean_map.png" alt="MICRO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_mean_map.png" alt="NANO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_mean_map.png" alt="PICO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_map.png" alt="PROCHLO_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_map.png</p>
+                </div>
+                <div id="mean_maps_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_map.png" alt="PROKAR_mean_map.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_map.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #06A77D;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Mapas de Concentración Media (2000-2024)</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="quinquennial_diff" class="section-header" style="border-left-color: #E63946;">
+            <h2 class="section-title" style="color: #E63946;">
+                <i class="fas fa-exchange-alt"></i> 3. Diferencias Quinquenales
+            </h2>
+            <p class="section-description">Anomalías de concentración del período 2020-2024 respecto a períodos anteriores.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #E63946;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #E63946; margin: 0; font-size: 1rem;">Selecciona una figura (10 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('quinquennial_diff')" style="background-color: #E63946;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="quinquennial_diff_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 10</span>
+                    <button class="carousel-btn" onclick="nextFigure('quinquennial_diff')" style="background-color: #E63946;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('quinquennial_diff', 0)"
+                        data-group="quinquennial_diff" data-index="0">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 1)"
+                        data-group="quinquennial_diff" data-index="1">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 2)"
+                        data-group="quinquennial_diff" data-index="2">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 3)"
+                        data-group="quinquennial_diff" data-index="3">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 4)"
+                        data-group="quinquennial_diff" data-index="4">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 5)"
+                        data-group="quinquennial_diff" data-index="5">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 6)"
+                        data-group="quinquennial_diff" data-index="6">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 7)"
+                        data-group="quinquennial_diff" data-index="7">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 8)"
+                        data-group="quinquennial_diff" data-index="8">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('quinquennial_diff', 9)"
+                        data-group="quinquennial_diff" data-index="9">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #E63946;">
+            <div id="quinquennial_diff_figures_container">
+                <div id="quinquennial_diff_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/CHL_abs_diff.png" alt="CHL_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/DIATO_abs_diff.png" alt="DIATO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/DINO_abs_diff.png" alt="DINO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/GREEN_abs_diff.png" alt="GREEN_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/HAPTO_abs_diff.png" alt="HAPTO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/MICRO_abs_diff.png" alt="MICRO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/NANO_abs_diff.png" alt="NANO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/PICO_abs_diff.png" alt="PICO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/PROCHLO_abs_diff.png" alt="PROCHLO_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_abs_diff.png</p>
+                </div>
+                <div id="quinquennial_diff_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/quinquennial_diff_publication/PROKAR_abs_diff.png" alt="PROKAR_abs_diff.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_abs_diff.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #E63946;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Diferencias Quinquenales</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="seasonal_analysis" class="section-header" style="border-left-color: #A23B72;">
+            <h2 class="section-title" style="color: #A23B72;">
+                <i class="fas fa-snowflake"></i> 4. Análisis Estacional
+            </h2>
+            <p class="section-description">Patrones de variación estacional y comparaciones quinquenales para cada variable.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #A23B72;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #A23B72; margin: 0; font-size: 1rem;">Selecciona una figura (20 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('seasonal_analysis')" style="background-color: #A23B72;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="seasonal_analysis_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 20</span>
+                    <button class="carousel-btn" onclick="nextFigure('seasonal_analysis')" style="background-color: #A23B72;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('seasonal_analysis', 0)"
+                        data-group="seasonal_analysis" data-index="0">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 1)"
+                        data-group="seasonal_analysis" data-index="1">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 2)"
+                        data-group="seasonal_analysis" data-index="2">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 3)"
+                        data-group="seasonal_analysis" data-index="3">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 4)"
+                        data-group="seasonal_analysis" data-index="4">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 5)"
+                        data-group="seasonal_analysis" data-index="5">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 6)"
+                        data-group="seasonal_analysis" data-index="6">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 7)"
+                        data-group="seasonal_analysis" data-index="7">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 8)"
+                        data-group="seasonal_analysis" data-index="8">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 9)"
+                        data-group="seasonal_analysis" data-index="9">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 10)"
+                        data-group="seasonal_analysis" data-index="10">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 11)"
+                        data-group="seasonal_analysis" data-index="11">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 12)"
+                        data-group="seasonal_analysis" data-index="12">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 13)"
+                        data-group="seasonal_analysis" data-index="13">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 14)"
+                        data-group="seasonal_analysis" data-index="14">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 15)"
+                        data-group="seasonal_analysis" data-index="15">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 16)"
+                        data-group="seasonal_analysis" data-index="16">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 17)"
+                        data-group="seasonal_analysis" data-index="17">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 18)"
+                        data-group="seasonal_analysis" data-index="18">
+                    Procariontes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('seasonal_analysis', 19)"
+                        data-group="seasonal_analysis" data-index="19">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #A23B72;">
+            <div id="seasonal_analysis_figures_container">
+                <div id="seasonal_analysis_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/CHL_seasonal_quinquennial_comparison.png" alt="CHL_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/CHL_seasonal_trends.png" alt="CHL_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_seasonal_quinquennial_comparison.png" alt="DIATO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_seasonal_trends.png" alt="DIATO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_seasonal_quinquennial_comparison.png" alt="DINO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_seasonal_trends.png" alt="DINO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_seasonal_quinquennial_comparison.png" alt="GREEN_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_seasonal_trends.png" alt="GREEN_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_seasonal_quinquennial_comparison.png" alt="HAPTO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_seasonal_trends.png" alt="HAPTO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_10" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_seasonal_quinquennial_comparison.png" alt="MICRO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_11" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_seasonal_trends.png" alt="MICRO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_12" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_seasonal_quinquennial_comparison.png" alt="NANO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_13" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_seasonal_trends.png" alt="NANO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_14" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_seasonal_quinquennial_comparison.png" alt="PICO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_15" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_seasonal_trends.png" alt="PICO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_16" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_seasonal_quinquennial_comparison.png" alt="PROCHLO_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_17" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_seasonal_trends.png" alt="PROCHLO_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_seasonal_trends.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_18" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_seasonal_quinquennial_comparison.png" alt="PROKAR_seasonal_quinquennial_comparison.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_seasonal_quinquennial_comparison.png</p>
+                </div>
+                <div id="seasonal_analysis_fig_19" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_seasonal_trends.png" alt="PROKAR_seasonal_trends.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_seasonal_trends.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #A23B72;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Análisis Estacional</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeseries_indices" class="section-header" style="border-left-color: #2E86AB;">
+            <h2 class="section-title" style="color: #2E86AB;">
+                <i class="fas fa-chart-line"></i> 5. Series Temporales con Índices Climáticos
+            </h2>
+            <p class="section-description">Evolución mensual de fitoplancton (2000-2024) con superposición de índices NIÑO3.4, MEI y PDO.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #2E86AB; margin: 0; font-size: 1rem;">Selecciona una figura (10 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('timeseries_indices')" style="background-color: #2E86AB;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="timeseries_indices_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 10</span>
+                    <button class="carousel-btn" onclick="nextFigure('timeseries_indices')" style="background-color: #2E86AB;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('timeseries_indices', 0)"
+                        data-group="timeseries_indices" data-index="0">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 1)"
+                        data-group="timeseries_indices" data-index="1">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 2)"
+                        data-group="timeseries_indices" data-index="2">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 3)"
+                        data-group="timeseries_indices" data-index="3">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 4)"
+                        data-group="timeseries_indices" data-index="4">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 5)"
+                        data-group="timeseries_indices" data-index="5">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 6)"
+                        data-group="timeseries_indices" data-index="6">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 7)"
+                        data-group="timeseries_indices" data-index="7">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 8)"
+                        data-group="timeseries_indices" data-index="8">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('timeseries_indices', 9)"
+                        data-group="timeseries_indices" data-index="9">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #2E86AB;">
+            <div id="timeseries_indices_figures_container">
+                <div id="timeseries_indices_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/CHL_timeseries_with_indices.png" alt="CHL_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_timeseries_with_indices.png" alt="DIATO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_timeseries_with_indices.png" alt="DINO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_timeseries_with_indices.png" alt="GREEN_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_timeseries_with_indices.png" alt="HAPTO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_timeseries_with_indices.png" alt="MICRO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_timeseries_with_indices.png" alt="NANO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_timeseries_with_indices.png" alt="PICO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_timeseries_with_indices.png" alt="PROCHLO_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_timeseries_with_indices.png</p>
+                </div>
+                <div id="timeseries_indices_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_timeseries_with_indices.png" alt="PROKAR_timeseries_with_indices.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_timeseries_with_indices.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Series Temporales con Índices Climáticos</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="latseries" class="section-header" style="border-left-color: #06A77D;">
+            <h2 class="section-title" style="color: #06A77D;">
+                <i class="fas fa-align-left"></i> 6. Patrones Latitud-Tiempo
+            </h2>
+            <p class="section-description">Heatmaps mostrando la evolución temporal por banda de latitud para cada tipo de fitoplancton.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #06A77D;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #06A77D; margin: 0; font-size: 1rem;">Selecciona una figura (10 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('latseries')" style="background-color: #06A77D;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="latseries_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 10</span>
+                    <button class="carousel-btn" onclick="nextFigure('latseries')" style="background-color: #06A77D;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('latseries', 0)"
+                        data-group="latseries" data-index="0">
+                    Clorofila-a Total
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 1)"
+                        data-group="latseries" data-index="1">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 2)"
+                        data-group="latseries" data-index="2">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 3)"
+                        data-group="latseries" data-index="3">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 4)"
+                        data-group="latseries" data-index="4">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 5)"
+                        data-group="latseries" data-index="5">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 6)"
+                        data-group="latseries" data-index="6">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 7)"
+                        data-group="latseries" data-index="7">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 8)"
+                        data-group="latseries" data-index="8">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('latseries', 9)"
+                        data-group="latseries" data-index="9">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #06A77D;">
+            <div id="latseries_figures_container">
+                <div id="latseries_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Clorofila-a Total</div>
+                    <img src="assets/satellite/CHL_latitude_time_heatmap.png" alt="CHL_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">CHL_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_latitude_time_heatmap.png" alt="DIATO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_latitude_time_heatmap.png" alt="DINO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_latitude_time_heatmap.png" alt="GREEN_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_latitude_time_heatmap.png" alt="HAPTO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_latitude_time_heatmap.png" alt="MICRO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_latitude_time_heatmap.png" alt="NANO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_latitude_time_heatmap.png" alt="PICO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_latitude_time_heatmap.png" alt="PROCHLO_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_latitude_time_heatmap.png</p>
+                </div>
+                <div id="latseries_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_latitude_time_heatmap.png" alt="PROKAR_latitude_time_heatmap.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_latitude_time_heatmap.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #06A77D;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Patrones Latitud-Tiempo</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <span class="divider-title"><i class="fas fa-chart-bar"></i> ANÁLISIS CUANTITATIVO</span>
+        </div>
+
+        <div id="stl" class="section-header" style="border-left-color: #F77F00;">
+            <h2 class="section-title" style="color: #F77F00;">
+                <i class="fas fa-wave-square"></i> 7. Descomposición STL y Eventos Extremos
+            </h2>
+            <p class="section-description">Separación de tendencia, estacionalidad y residuales (Cleveland et al., 1990). Detección de eventos extremos en percentiles 10 y 90.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #F77F00;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #F77F00; margin: 0; font-size: 1rem;">Selecciona una figura (9 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('stl')" style="background-color: #F77F00;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="stl_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 9</span>
+                    <button class="carousel-btn" onclick="nextFigure('stl')" style="background-color: #F77F00;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('stl', 0)"
+                        data-group="stl" data-index="0">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 1)"
+                        data-group="stl" data-index="1">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 2)"
+                        data-group="stl" data-index="2">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 3)"
+                        data-group="stl" data-index="3">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 4)"
+                        data-group="stl" data-index="4">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 5)"
+                        data-group="stl" data-index="5">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 6)"
+                        data-group="stl" data-index="6">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 7)"
+                        data-group="stl" data-index="7">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('stl', 8)"
+                        data-group="stl" data-index="8">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #F77F00;">
+            <div id="stl_figures_container">
+                <div id="stl_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_stl_decomposition.png" alt="DIATO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_stl_decomposition.png" alt="DINO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_stl_decomposition.png" alt="GREEN_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_stl_decomposition.png" alt="HAPTO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_mean_stl_decomposition.png" alt="MICRO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_mean_stl_decomposition.png" alt="NANO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_mean_stl_decomposition.png" alt="PICO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_stl_decomposition.png" alt="PROCHLO_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_stl_decomposition.png</p>
+                </div>
+                <div id="stl_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_stl_decomposition.png" alt="PROKAR_mean_stl_decomposition.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_stl_decomposition.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #F77F00;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Descomposición STL y Eventos Extremos</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="fourier" class="section-header" style="border-left-color: #A23B72;">
+            <h2 class="section-title" style="color: #A23B72;">
+                <i class="fas fa-signal"></i> 8. Análisis de Frecuencias (Fourier)
+            </h2>
+            <p class="section-description">Espectro de potencia FFT para identificar periodicidades dominantes (ciclos anuales, interanuales) en cada serie temporal.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #A23B72;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #A23B72; margin: 0; font-size: 1rem;">Selecciona una figura (9 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('fourier')" style="background-color: #A23B72;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="fourier_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 9</span>
+                    <button class="carousel-btn" onclick="nextFigure('fourier')" style="background-color: #A23B72;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('fourier', 0)"
+                        data-group="fourier" data-index="0">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 1)"
+                        data-group="fourier" data-index="1">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 2)"
+                        data-group="fourier" data-index="2">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 3)"
+                        data-group="fourier" data-index="3">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 4)"
+                        data-group="fourier" data-index="4">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 5)"
+                        data-group="fourier" data-index="5">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 6)"
+                        data-group="fourier" data-index="6">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 7)"
+                        data-group="fourier" data-index="7">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('fourier', 8)"
+                        data-group="fourier" data-index="8">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #A23B72;">
+            <div id="fourier_figures_container">
+                <div id="fourier_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_fourier_spectrum.png" alt="DIATO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_fourier_spectrum.png" alt="DINO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_fourier_spectrum.png" alt="GREEN_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_fourier_spectrum.png" alt="HAPTO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_mean_fourier_spectrum.png" alt="MICRO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_mean_fourier_spectrum.png" alt="NANO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_mean_fourier_spectrum.png" alt="PICO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_fourier_spectrum.png" alt="PROCHLO_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_fourier_spectrum.png</p>
+                </div>
+                <div id="fourier_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_fourier_spectrum.png" alt="PROKAR_mean_fourier_spectrum.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_fourier_spectrum.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #A23B72;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Análisis de Frecuencias (Fourier)</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="hmm" class="section-header" style="border-left-color: #2E86AB;">
+            <h2 class="section-title" style="color: #2E86AB;">
+                <i class="fas fa-random"></i> 9. Cambios de Régimen (HMM)
+            </h2>
+            <p class="section-description">Modelos Ocultos de Markov (2 estados) para detectar transiciones entre regímenes productivos alto y bajo.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #2E86AB; margin: 0; font-size: 1rem;">Selecciona una figura (9 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('hmm')" style="background-color: #2E86AB;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="hmm_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 9</span>
+                    <button class="carousel-btn" onclick="nextFigure('hmm')" style="background-color: #2E86AB;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('hmm', 0)"
+                        data-group="hmm" data-index="0">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 1)"
+                        data-group="hmm" data-index="1">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 2)"
+                        data-group="hmm" data-index="2">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 3)"
+                        data-group="hmm" data-index="3">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 4)"
+                        data-group="hmm" data-index="4">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 5)"
+                        data-group="hmm" data-index="5">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 6)"
+                        data-group="hmm" data-index="6">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 7)"
+                        data-group="hmm" data-index="7">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('hmm', 8)"
+                        data-group="hmm" data-index="8">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #2E86AB;">
+            <div id="hmm_figures_container">
+                <div id="hmm_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_hmm_regimen.png" alt="DIATO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_hmm_regimen.png" alt="DINO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_hmm_regimen.png" alt="GREEN_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_hmm_regimen.png" alt="HAPTO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_mean_hmm_regimen.png" alt="MICRO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_mean_hmm_regimen.png" alt="NANO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_mean_hmm_regimen.png" alt="PICO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_hmm_regimen.png" alt="PROCHLO_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_hmm_regimen.png</p>
+                </div>
+                <div id="hmm_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_hmm_regimen.png" alt="PROKAR_mean_hmm_regimen.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_hmm_regimen.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Cambios de Régimen (HMM)</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="extremos" class="section-header" style="border-left-color: #E63946;">
+            <h2 class="section-title" style="color: #E63946;">
+                <i class="fas fa-exclamation-triangle"></i> 10. Extremos Alternativos
+            </h2>
+            <p class="section-description">Detección de eventos extremos mediante tres métodos complementarios: umbral móvil, IQR robusto y detección de rupturas.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #E63946;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #E63946; margin: 0; font-size: 1rem;">Selecciona una figura (9 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('extremos')" style="background-color: #E63946;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="extremos_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 9</span>
+                    <button class="carousel-btn" onclick="nextFigure('extremos')" style="background-color: #E63946;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('extremos', 0)"
+                        data-group="extremos" data-index="0">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 1)"
+                        data-group="extremos" data-index="1">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 2)"
+                        data-group="extremos" data-index="2">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 3)"
+                        data-group="extremos" data-index="3">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 4)"
+                        data-group="extremos" data-index="4">
+                    Microfitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 5)"
+                        data-group="extremos" data-index="5">
+                    Nanofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 6)"
+                        data-group="extremos" data-index="6">
+                    Picofitoplancton
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 7)"
+                        data-group="extremos" data-index="7">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('extremos', 8)"
+                        data-group="extremos" data-index="8">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #E63946;">
+            <div id="extremos_figures_container">
+                <div id="extremos_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_extremos_alternativos.png" alt="DIATO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_extremos_alternativos.png" alt="DINO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_extremos_alternativos.png" alt="GREEN_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_extremos_alternativos.png" alt="HAPTO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Microfitoplancton</div>
+                    <img src="assets/satellite/MICRO_mean_extremos_alternativos.png" alt="MICRO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">MICRO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Nanofitoplancton</div>
+                    <img src="assets/satellite/NANO_mean_extremos_alternativos.png" alt="NANO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">NANO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Picofitoplancton</div>
+                    <img src="assets/satellite/PICO_mean_extremos_alternativos.png" alt="PICO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PICO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_extremos_alternativos.png" alt="PROCHLO_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_extremos_alternativos.png</p>
+                </div>
+                <div id="extremos_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_extremos_alternativos.png" alt="PROKAR_mean_extremos_alternativos.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_extremos_alternativos.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #E63946;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Extremos Alternativos</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <span class="divider-title"><i class="fas fa-flask"></i> ANÁLISIS INFERENCIAL AVANZADO</span>
+        </div>
+
+        <div id="granger" class="section-header" style="border-left-color: #F77F00;">
+            <h2 class="section-title" style="color: #F77F00;">
+                <i class="fas fa-arrow-right"></i> 11. Causalidad de Granger
+            </h2>
+            <p class="section-description">Prueba F para evaluar si los valores pasados de índices climáticos mejoran la predicción de biomasa (lags 1-6 meses).</p>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #F77F00;">
+            <div class="method-box">
+                <h5><i class="fas fa-microscope"></i> Método</h5>
+                <p>La causalidad de Granger prueba si los valores pasados de un índice climático X mejoran la predicción
+                de la biomasa Y mediante una prueba F para cada lag (1-6 meses). Si p &lt; 0.05, se dice que X
+                "causa" a Y en sentido de Granger en ese lag.</p>
+            </div>
+            <div class="figure-title"><i class="fas fa-table"></i> Resumen de Causalidad de Granger</div>
+            <div style="overflow-x: auto;">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Índice</th>
+                            <th>Mejor Lag</th>
+                            <th>p-valor (F-test)</th>
+                            <th>Significativo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>MEI</td>
+                            <td>2</td>
+                            <td>0.4495</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>NINO34</td>
+                            <td>6</td>
+                            <td>0.0089</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>PDO</td>
+                            <td>6</td>
+                            <td>0.0833</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>MEI</td>
+                            <td>2</td>
+                            <td>0.3316</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>NINO34</td>
+                            <td>1</td>
+                            <td>0.1406</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>PDO</td>
+                            <td>3</td>
+                            <td>0.0037</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>MEI</td>
+                            <td>4</td>
+                            <td>0.0216</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>NINO34</td>
+                            <td>6</td>
+                            <td>0.1252</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>PDO</td>
+                            <td>6</td>
+                            <td>0.1268</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>MEI</td>
+                            <td>4</td>
+                            <td>0.2380</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>NINO34</td>
+                            <td>4</td>
+                            <td>0.0656</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>PDO</td>
+                            <td>5</td>
+                            <td>0.0005</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>MEI</td>
+                            <td>3</td>
+                            <td>0.3198</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>NINO34</td>
+                            <td>1</td>
+                            <td>0.5631</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>PDO</td>
+                            <td>3</td>
+                            <td>0.2042</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>MEI</td>
+                            <td>5</td>
+                            <td>0.0680</td>
+                            <td><span class="badge-sig nosig">✖ No</span></td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>NINO34</td>
+                            <td>2</td>
+                            <td>0.0303</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>PDO</td>
+                            <td>6</td>
+                            <td>0.0199</td>
+                            <td><span class="badge-sig sig">✔️ Sí</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="interpretation-box">
+                <h5><i class="fas fa-lightbulb"></i> Interpretación</h5>
+                <ul>
+                    <li><strong>p &lt; 0.05:</strong> El índice predice significativamente la biomasa en ese lag.</li>
+                    <li><strong>Lag óptimo:</strong> El lag con menor p-valor indica la escala temporal de influencia.</li>
+                    <li><strong>Advertencia:</strong> Causalidad de Granger ≠ causalidad real. Solo indica capacidad predictiva.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="piecewise" class="section-header" style="border-left-color: #2E86AB;">
+            <h2 class="section-title" style="color: #2E86AB;">
+                <i class="fas fa-bezier-curve"></i> 12. Regresión Segmentada (Piecewise)
+            </h2>
+            <p class="section-description">Relaciones lineales por tramos entre biomasa e índices climáticos para detectar umbrales y no-linealidades.</p>
+        </div>
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #2E86AB; margin: 0; font-size: 1rem;">Selecciona una figura (18 disponibles):</h4>
+                <div style="display: flex; gap: 10px;">
+                    <button class="carousel-btn" onclick="previousFigure('piecewise')" style="background-color: #2E86AB;">
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span id="piecewise_counter" style="align-self: center; color: #666; font-size: 0.9rem;">1 / 18</span>
+                    <button class="carousel-btn" onclick="nextFigure('piecewise')" style="background-color: #2E86AB;">
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <button class="nav-bullet active" onclick="showFigure('piecewise', 0)"
+                        data-group="piecewise" data-index="0">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 1)"
+                        data-group="piecewise" data-index="1">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 2)"
+                        data-group="piecewise" data-index="2">
+                    Diatomeas
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 3)"
+                        data-group="piecewise" data-index="3">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 4)"
+                        data-group="piecewise" data-index="4">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 5)"
+                        data-group="piecewise" data-index="5">
+                    Dinoflagelados
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 6)"
+                        data-group="piecewise" data-index="6">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 7)"
+                        data-group="piecewise" data-index="7">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 8)"
+                        data-group="piecewise" data-index="8">
+                    Algas Verdes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 9)"
+                        data-group="piecewise" data-index="9">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 10)"
+                        data-group="piecewise" data-index="10">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 11)"
+                        data-group="piecewise" data-index="11">
+                    Haptófitos
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 12)"
+                        data-group="piecewise" data-index="12">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 13)"
+                        data-group="piecewise" data-index="13">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 14)"
+                        data-group="piecewise" data-index="14">
+                    Proclorococcus
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 15)"
+                        data-group="piecewise" data-index="15">
+                    Procariontes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 16)"
+                        data-group="piecewise" data-index="16">
+                    Procariontes
+                </button>
+                <button class="nav-bullet " onclick="showFigure('piecewise', 17)"
+                        data-group="piecewise" data-index="17">
+                    Procariontes
+                </button>
+            </div>
+        </div>
+        <div class="figure-group" style="text-align: center; border-top-color: #2E86AB;">
+            <div id="piecewise_figures_container">
+                <div id="piecewise_fig_0" class="figure-display" style="display: block;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_vs_MEI_piecewise.png" alt="DIATO_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_1" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_vs_NINO34_piecewise.png" alt="DIATO_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_2" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Diatomeas</div>
+                    <img src="assets/satellite/DIATO_mean_vs_PDO_piecewise.png" alt="DIATO_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DIATO_mean_vs_PDO_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_3" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_vs_MEI_piecewise.png" alt="DINO_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_4" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_vs_NINO34_piecewise.png" alt="DINO_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_5" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Dinoflagelados</div>
+                    <img src="assets/satellite/DINO_mean_vs_PDO_piecewise.png" alt="DINO_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">DINO_mean_vs_PDO_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_6" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_vs_MEI_piecewise.png" alt="GREEN_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_7" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_vs_NINO34_piecewise.png" alt="GREEN_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_8" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Algas Verdes</div>
+                    <img src="assets/satellite/GREEN_mean_vs_PDO_piecewise.png" alt="GREEN_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">GREEN_mean_vs_PDO_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_9" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_vs_MEI_piecewise.png" alt="HAPTO_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_10" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_vs_NINO34_piecewise.png" alt="HAPTO_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_11" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Haptófitos</div>
+                    <img src="assets/satellite/HAPTO_mean_vs_PDO_piecewise.png" alt="HAPTO_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">HAPTO_mean_vs_PDO_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_12" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_vs_MEI_piecewise.png" alt="PROCHLO_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_13" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_vs_NINO34_piecewise.png" alt="PROCHLO_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_14" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Proclorococcus</div>
+                    <img src="assets/satellite/PROCHLO_mean_vs_PDO_piecewise.png" alt="PROCHLO_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROCHLO_mean_vs_PDO_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_15" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_vs_MEI_piecewise.png" alt="PROKAR_mean_vs_MEI_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_vs_MEI_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_16" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_vs_NINO34_piecewise.png" alt="PROKAR_mean_vs_NINO34_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_vs_NINO34_piecewise.png</p>
+                </div>
+                <div id="piecewise_fig_17" class="figure-display" style="display: none;">
+                    <div class="figure-title"><i class="fas fa-image"></i> Procariontes</div>
+                    <img src="assets/satellite/PROKAR_mean_vs_PDO_piecewise.png" alt="PROKAR_mean_vs_PDO_piecewise.png" class="figure-image" style="max-height: 750px; width: auto;">
+                    <p style="margin-top: 12px; font-size: 0.85rem; color: #999; font-style: italic;">PROKAR_mean_vs_PDO_piecewise.png</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #2E86AB;">
+            <div class="observation-box">
+                <div class="observation-title"><i class="fas fa-pen-fancy"></i> Observaciones — Regresión Segmentada (Piecewise)</div>
+                <div class="observation-content" contenteditable="false">
+                    <ul class="bullet-list">
+                        <li>Observaciones deshabilitadas en esta versión integrada.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="joint" class="section-header" style="border-left-color: #E63946;">
+            <h2 class="section-title" style="color: #E63946;">
+                <i class="fas fa-bolt"></i> 13. Eventos Extremos Conjuntos
+            </h2>
+            <p class="section-description">Co-ocurrencia de extremos simultáneos de biomasa (>p90/<p10) e índices climáticos.</p>
+        </div>
+
+        <div class="figure-group" style="border-top-color: #E63946;">
+            <div class="method-box">
+                <h5><i class="fas fa-microscope"></i> Método</h5>
+                <p>Se identifican meses con eventos extremos simultáneos: biomasa ALTA (&gt;p90) con índice ALTO (&gt;p90),
+                o biomasa BAJA (&lt;p10) con índice BAJO (&lt;p10). Esto evalúa la co-ocurrencia de extremos.</p>
+            </div>
+            <div class="figure-title"><i class="fas fa-table"></i> Resumen de Eventos Extremos Conjuntos</div>
+            <div style="overflow-x: auto;">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Índice</th>
+                            <th>Tipo</th>
+                            <th>N eventos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 4</td>
+                        </tr>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 1</td>
+                        </tr>
+                        <tr>
+                            <td>Diatomeas</td>
+                            <td>PDO</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 4</td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 4</td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 6</td>
+                        </tr>
+                        <tr>
+                            <td>Dinoflagelados</td>
+                            <td>PDO</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 2</td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 3</td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 5</td>
+                        </tr>
+                        <tr>
+                            <td>Algas Verdes</td>
+                            <td>PDO</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 1</td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 2</td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 5</td>
+                        </tr>
+                        <tr>
+                            <td>Haptófitos</td>
+                            <td>PDO</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 1</td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 5</td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 6</td>
+                        </tr>
+                        <tr>
+                            <td>Proclorococcus</td>
+                            <td>PDO</td>
+                            <td>-</td>
+                            <td>Sin eventos conjuntos</td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>MEI</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 7</td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>NINO34</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 6</td>
+                        </tr>
+                        <tr>
+                            <td>Procariontes</td>
+                            <td>PDO</td>
+                            <td>Altos / Bajos / Total</td>
+                            <td>0 / 0 / 7</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="interpretation-box">
+                <h5><i class="fas fa-lightbulb"></i> Interpretación</h5>
+                <ul>
+                    <li><strong>Muchos eventos conjuntos altos:</strong> Períodos productivos coinciden con condiciones climáticas favorables.</li>
+                    <li><strong>Muchos eventos conjuntos bajos:</strong> Crisis de biomasa coinciden con estrés ambiental.</li>
+                    <li><strong>Pocos eventos:</strong> Extremos desacoplados; otros factores dominan la dinámica.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <span class="divider-title"><i class="fas fa-vial"></i> VALIDACIÓN IN-SITU (eDNA)</span>
+        </div>
+
+        <div id="sat_insitu" class="section-header" style="border-left-color: #F77F00;">
+            <h2 class="section-title" style="color: #F77F00;">
+                <i class="fas fa-satellite"></i> 14. Comparación Satelital vs In-Situ
+            </h2>
+            <p class="section-description">Validación cruzada entre estimaciones satelitales y datos in-situ de eDNA por grupo taxonómico.</p>
+        </div>
+                <div class="figure-group" style="border-top-color: #F77F00;">
+            <div class="figure-title"><i class="fas fa-layer-group"></i> Comparaciones Satelital vs In-Situ (panel espacial)</div>
+            <p style="color:#666; margin-bottom: 16px;">Paneles de comparación espacial por grupo funcional para validar patrones entre productos satelitales e información in-situ.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_total_chlorophyll.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Total Chlorophyll</p></div>
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_diatoms.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Diatoms</p></div>
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_dinoflagellates.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Dinoflagellates</p></div>
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_green_algae.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Green algae</p></div>
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_haptophytes.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Haptophytes</p></div>
+                <div style="text-align:center;"><img src="assets/comparaciones/spatial_comparison_ciliated_protists.png" class="figure-image" style="max-height: 480px;"><p style="margin-top:8px; font-size:0.85rem; color:#999;">Ciliated protists</p></div>
+            </div>
+        </div>
+
+
+        <!-- Footer -->
+    </div>
+
+    <footer>
+        <p><strong><i class="fas fa-water"></i> Reporte Integral de Producción Primaria Fitoplanctónica</strong></p>
+        <p>Golfo de California (2000-2024) — Análisis Satelital + Inferencial + In-Situ</p>
+        <p style="font-size: 0.9rem; margin-top: 15px; opacity: 0.8;">
+            14 secciones: Composición | Mapas | Diferencias quinquenales | Estacional | Series con índices | Latitud-tiempo | STL | Fourier | HMM | Extremos | Granger | Regresión segmentada | Eventos conjuntos | Comparación satelital vs In-Situ
+        </p>
+        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 10px;">
+            <code>generate_html_report_complete_v2.py</code>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const figureStates = {};
+
+        function initializeFigureGroup(groupId) {
+            if (!figureStates[groupId]) {
+                figureStates[groupId] = { currentIndex: 0 };
+            }
+        }
+
+        function showFigure(groupId, index) {
+            initializeFigureGroup(groupId);
+            const container = document.getElementById(groupId + '_figures_container');
+            if (!container) return;
+            const figures = container.querySelectorAll('.figure-display');
+            if (index < 0 || index >= figures.length) return;
+
+            figures.forEach((fig, idx) => {
+                fig.style.display = idx === index ? 'block' : 'none';
+            });
+
+            const bullets = document.querySelectorAll('[data-group="' + groupId + '"]');
+            bullets.forEach((bullet, idx) => {
+                bullet.classList.toggle('active', idx === index);
+            });
+
+            figureStates[groupId].currentIndex = index;
+
+            const counter = document.getElementById(groupId + '_counter');
+            if (counter) counter.textContent = (index + 1) + ' / ' + figures.length;
+        }
+
+        function nextFigure(groupId) {
+            initializeFigureGroup(groupId);
+            const container = document.getElementById(groupId + '_figures_container');
+            if (!container) return;
+            const figures = container.querySelectorAll('.figure-display');
+            const nextIndex = (figureStates[groupId].currentIndex + 1) % figures.length;
+            showFigure(groupId, nextIndex);
+        }
+
+        function previousFigure(groupId) {
+            initializeFigureGroup(groupId);
+            const container = document.getElementById(groupId + '_figures_container');
+            if (!container) return;
+            const figures = container.querySelectorAll('.figure-display');
+            const prevIndex = (figureStates[groupId].currentIndex - 1 + figures.length) % figures.length;
+            showFigure(groupId, prevIndex);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Editable observation boxes
+        document.querySelectorAll('.observation-content').forEach(box => {
+            box.addEventListener('click', function() {
+                this.classList.toggle('editing');
+                this.focus();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.target.contentEditable === 'true') return;
+            const visibleSection = document.querySelector('.figure-group:hover');
+            if (!visibleSection) return;
+            const container = visibleSection.querySelector('[id$="_figures_container"]');
+            if (!container) return;
+            const groupId = container.id.replace('_figures_container', '');
+            if (e.key === 'ArrowLeft') previousFigure(groupId);
+            if (e.key === 'ArrowRight') nextFigure(groupId);
+        });
+    </script>
+</body>
+</html>

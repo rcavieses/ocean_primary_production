@@ -1,0 +1,4 @@
+Paquete del reporte organizado
+Origen index: results/reports/organizado/index.html
+Archivos locales referenciados copiados: 126
+Referencias faltantes: 0
