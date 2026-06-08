@@ -42,7 +42,7 @@ venv.bak/
 .ipynb_checkpoints
 
 # Data files
-data/*
+/data
 !data/.gitkeep
 
 # Model files
@@ -56,5 +56,8 @@ models/*
 # Logs
 *.log
 *.zip
+
+*.png
+*.csv
 
 
