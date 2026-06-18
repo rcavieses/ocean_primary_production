@@ -1,0 +1,433 @@
+---
+title: "Análisis de Producción Primaria Fitoplanctónica - Golfo de California (2000-2024)"
+author: "Ricardo Cavieses"
+date: "2025-12-17"
+output:
+  html_document:
+    theme: null
+    highlight: null
+    mathjax: null
+    fig_width: 12
+    fig_height: 8
+    self_contained: true
+    includes:
+      in_header: ["head_bootstrap.html"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+gc()
+```
+
+---
+
+# FUENTE DE DATOS Y DESCRIPCIÓN
+
+## Origen de los Datos
+
+### Archivo Principal: pft_golfo_california_2000_2024.nc
+- **Formato**: NetCDF (Network Common Data Form)
+- **Tamaño**: 81 GB
+- **Período**: 2000-2024 (25 años, 300 meses)
+- **Resolución Espacial**: Grilla global a ~4 km de resolución
+- **Variables**: 10 tipos funcionales de fitoplancton
+- **Unidades**: Concentración en mg/m³
+- **Fuente**: Datos oceanográficos satelitales procesados
+- **Descripción**: Concentraciones mensuales de fitoplancton en el Golfo de California derivadas de sensores remotos oceanográficos
+
+### Archivo Climático: nino34.long.anom.csv
+- **Formato**: CSV (valores separados por comas)
+- **Tamaño**: 39 KB
+- **Período**: 2000-2024
+- **Frecuencia**: Mensual
+- **Variable**: Anomalía de temperatura superficial del mar en región NIÑO 3.4
+- **Clasificación**: Fases ENSO (El Niño, La Niña, Neutral)
+- **Fuente**: NOAA (National Oceanic and Atmospheric Administration)
+- **Uso**: Relacionar cambios de fitoplancton con condiciones climáticas
+
+### Archivos Climáticos Adicionales:
+- **MEI (mei.exttimeseries.csv)**: Multivariate ENSO Index. Combina múltiples variables (presión, viento, temperatura, etc.) para monitorear ENSO.
+- **PDO (pdo.timeseries.sstens.csv)**: Pacific Decadal Oscillation. Patrón de variabilidad climática de larga duración en el Pacífico Norte.
+
+---
+
+# TABLA DE VARIABLES ANALIZADAS
+
+La siguiente tabla describe las 10 variables de fitoplancton incluidas en el análisis:
+
+| Código | Nombre Completo | Clasificación | Rango de Tamaño | Descripción |
+|--------|-----------------|----------------|-----------------|-------------|
+| **CHL** | Clorofila-a Total | Pigmento | N/A | Pigmento fotosintético; indicador general de biomasa de fitoplancton |
+| **MICRO** | Microfitoplancton | Por Tamaño | >20 µm | Fitoplancton grande; incluye diatomeas, dinoflagelados |
+| **NANO** | Nanofitoplancton | Por Tamaño | 2-20 µm | Fitoplancton mediano; incluye coccolitóforos, flagelados |
+| **PICO** | Picofitoplancton | Por Tamaño | 0.2-2 µm | Fitoplancton pequeño; principalmente procariotas |
+| **DIATO** | Diatomeas | Por Grupo | 2-2000 µm | Algas con pared de sílice; típicas de aguas frías/productivas |
+| **DINO** | Dinoflagelados | Por Grupo | 10-2000 µm | Algas flageladas; algunas formadoras de mareas rojas |
+| **GREEN** | Algas Verdes | Por Grupo | 1-200 µm | Chlorophyta; típicas de aguas dulces/estuarios |
+| **HAPTO** | Haptofitas | Por Grupo | 2-10 µm | Coccolitóforos; productoras de carbonato de calcio |
+| **PROCHLO** | Prochlorococcus | Por Grupo | 0.6-0.8 µm | Cianobacteria; abundante en aguas oligotróficas |
+| **PROKAR** | Procariotas | Por Grupo | 0.1-10 µm | Bacterias fotosintéticas; incluye Synechococcus |
+
+### Notas sobre las Variables
+- **Por Tamaño**: CHL, MICRO, NANO, PICO representan clasificaciones por tamaño de célula
+- **Por Grupo**: DIATO, DINO, GREEN, HAPTO, PROCHLO, PROKAR representan grupos taxonómicos específicos
+- **Unidades**: Todas se expresan en **mg de clorofila-a equivalente por m³** (mg m⁻³)
+- **Importancia Ecológica**: 
+  - Diferentes grupos tienen roles distintos en la cadena alimentaria marina
+  - Las diatomeas son importantes para la exportación de carbono
+  - El picofitoplancton domina en aguas oligotróficas
+  - El fitoplancton grande es más accesible para zooplancton pequeño
+
+---
+
+# Configuración
+
+```{r config, message=FALSE}
+# Cargar funciones utilitarias
+source("utils.R")
+
+# Cargar paquetes
+packages <- c("ncdf4", "tidyverse", "lubridate", "plotly", "zoo", "htmlwidgets", "jsonlite")
+load_packages(packages)
+
+# Ruta al archivo de datos
+data_file <- "../data/pft_golfo_california_2000_2024.nc"
+nino_file <- "../data/nino34.long.anom.csv"
+mei_file <- "../data/mei.exttimeseries.csv"
+pdo_file <- "../data/pdo.timeseries.sstens.csv"
+
+# Directorio de salida para archivos HTML
+output_dir <- "../data/figures/html_outputs"
+data_output_dir <- "../data/figures/intermediate_data"
+
+# Crear directorios
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "timeseries"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "quinquennial"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(output_dir, "seasonal"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "timeseries"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "quinquennial"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(data_output_dir, "seasonal"), recursive = TRUE, showWarnings = FALSE)
+
+# Variables a analizar
+variables <- c('CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 
+               'MICRO', 'NANO', 'PICO', 'PROCHLO', 'PROKAR')
+
+# Descripciones de variables
+var_descriptions <- c(
+  CHL = 'Clorofila-a Total',
+  DIATO = 'Diatomeas',
+  DINO = 'Dinoflagelados',
+  GREEN = 'Algas Verdes',
+  HAPTO = 'Haptofitas',
+  MICRO = 'Microfitoplancton',
+  NANO = 'Nanofitoplancton',
+  PICO = 'Picofitoplancton',
+  PROCHLO = 'Prochlorococcus',
+  PROKAR = 'Procariotas'
+)
+
+units <- "mg m⁻³"
+
+# Períodos quinquenales
+periods <- list(
+  `2000-2004` = c("2000-01-01", "2004-12-31"),
+  `2005-2009` = c("2005-01-01", "2009-12-31"),
+  `2010-2014` = c("2010-01-01", "2014-12-31"),
+  `2015-2019` = c("2015-01-01", "2019-12-31"),
+  `2020-2024` = c("2020-01-01", "2024-12-31")
+)
+
+# Estaciones
+seasons <- list(
+  Primavera = c(3, 4, 5),
+  Verano = c(6, 7, 8),
+  Otoño = c(9, 10, 11),
+  Invierno = c(12, 1, 2)
+)
+```
+
+```{r load_metadata}
+# Cargar metadatos del dataset
+nc <- nc_open(data_file)
+
+lon <- ncvar_get(nc, "longitude")
+lat <- ncvar_get(nc, "latitude")
+time_raw <- ncvar_get(nc, "time")
+
+lon_dim <- length(lon)
+lat_dim <- length(lat)
+time_dim <- length(time_raw)
+
+time_units <- ncatt_get(nc, "time", "units")$value
+if (grepl("days since", time_units)) {
+  origin_date <- as.Date(gsub("days since ", "", time_units))
+  time <- origin_date + time_raw
+} else if (grepl("hours since", time_units)) {
+  origin_date <- as.POSIXct(gsub("hours since ", "", time_units), tz = "UTC")
+  time <- as.Date(origin_date + time_raw * 3600)
+} else if (grepl("seconds since", time_units)) {
+  origin_date <- as.POSIXct(gsub("seconds since ", "", time_units), tz = "UTC")
+  time <- as.Date(origin_date + time_raw)
+} else {
+  time <- seq(as.Date("2000-01-01"), by = "month", length.out = length(time_raw))
+}
+
+available_vars <- names(nc$var)
+variables <- variables[variables %in% available_vars]
+
+nc_close(nc)
+rm(time_raw)
+gc()
+
+cat(sprintf("**Dataset:** %d x %d puntos, %d meses (%s a %s)\n", 
+            lon_dim, lat_dim, time_dim, min(time), max(time)))
+```
+
+```{r load_indices}
+# Cargar datos NIÑO3.4
+nino_data <- load_nino34_data(nino_file, min(time), max(time))
+mei_data <- load_mei_data(mei_file, min(time), max(time))
+pdo_data <- load_pdo_data(pdo_file, min(time), max(time))
+
+cat(sprintf("\n**Datos Climáticos Cargados:**\n"))
+cat(sprintf("- NIÑO3.4: %d meses\n", nrow(nino_data)))
+cat(sprintf("- MEI: %d meses\n", nrow(mei_data)))
+cat(sprintf("- PDO: %d meses\n", nrow(pdo_data)))
+cat(sprintf("- El Niño: %d meses\n", sum(nino_data$ENSO_phase == "El Niño", na.rm = TRUE)))
+cat(sprintf("- La Niña: %d meses\n", sum(nino_data$ENSO_phase == "La Niña", na.rm = TRUE)))
+cat(sprintf("- Neutral: %d meses\n", sum(nino_data$ENSO_phase == "Neutral", na.rm = TRUE)))
+```
+
+---
+
+# 1. Series Temporales Mensuales {.tabset .tabset-fade}
+
+Análisis de la evolución temporal y anomalías comparadas con índices climáticos (NIÑO 3.4, MEI, PDO).
+
+```{r timeseries, results='asis', echo=FALSE}
+# Definir directorio de imágenes generadas por Python
+img_dir <- "../data/figures/timeseries_indices"
+
+for (var in variables) {
+  cat(sprintf("\n## %s\n\n", var_descriptions[var]))
+  
+  img_file <- file.path(img_dir, paste0(var, "_timeseries_analysis.png"))
+  
+  if (file.exists(img_file)) {
+    # Mostrar imagen estática
+    cat(sprintf("![](%s)\n\n", img_file))
+  } else {
+    cat(sprintf("**Imagen no encontrada:** %s\n\n", img_file))
+  }
+  
+  cat("\n\n---\n\n")
+}
+```
+
+---
+
+# 2. Diferencias Quinquenales {.tabset .tabset-fade}
+
+Diferencias entre cada período quinquenal y el período de referencia (2020-2024). **Rojo = incremento, Azul = decremento**.
+
+```{r quinquennial, results='asis', fig.width=14, fig.height=10}
+period_names <- names(periods)
+reference_period <- "2020-2024"
+
+for (var in variables) {
+  cat(sprintf("\n## %s\n\n", var_descriptions[var]))
+  
+  diff_plots <- list()
+  
+  # Calcular la media del período de referencia (2020-2024)
+  reference_mean <- calc_quinquennial_mean(
+    data_file, var, time,
+    periods[[reference_period]][1],
+    periods[[reference_period]][2],
+    lon_dim, lat_dim
+  )
+  
+  # Comparar todos los períodos anteriores con el de referencia
+  comparison_periods <- period_names[period_names != reference_period]
+  
+  for (p_name in comparison_periods) {
+    comparison_mean <- calc_quinquennial_mean(
+      data_file, var, time,
+      periods[[p_name]][1],
+      periods[[p_name]][2],
+      lon_dim, lat_dim
+    )
+    
+    if (!is.null(comparison_mean) && !is.null(reference_mean)) {
+      # Diferencia: referencia - período anterior
+      diff_data <- reference_mean - comparison_mean
+      
+      p <- create_diff_map_plotly(diff_data, lon, lat, p_name, reference_period, units,
+                                   var_name = var, 
+                                   output_dir = file.path(data_output_dir, "quinquennial"))
+      
+      if (!is.null(p)) {
+        diff_plots[[paste(reference_period, "vs", p_name)]] <- p
+        
+        # Mostrar mapa individual
+        cat(sprintf("### %s vs %s\n\n", reference_period, p_name))
+        print(htmltools::tagList(p))
+        cat("\n\n")
+      }
+      
+      rm(diff_data)
+      gc()
+    }
+    
+    rm(comparison_mean)
+    gc()
+  }
+  
+  rm(reference_mean)
+  gc()
+  
+  if (length(diff_plots) > 0) {
+    combined <- subplot(diff_plots, nrows = 2, shareX = FALSE, shareY = FALSE, 
+                        titleX = TRUE, titleY = TRUE, margin = 0.05) %>%
+      layout(title = list(text = paste0("<b>", var_descriptions[var], 
+                                        " - Diferencias vs ", reference_period, "</b><br>",
+                                        "<sup>Rojo: Incremento | Azul: Decremento</sup>"),
+                          font = list(size = 14)))
+    
+    # Guardar como HTML
+    htmlwidgets::saveWidget(
+      combined,
+      file.path(output_dir, "quinquennial", paste0(var, "_quinquennial_diff.html")),
+      selfcontained = TRUE
+    )
+    
+    cat("### Vista Combinada\n\n")
+    print(htmltools::tagList(combined))
+  }
+  
+  rm(diff_plots)
+  gc()
+  
+  cat("\n\n---\n\n")
+}
+```
+
+---
+
+# 3. Comparación Estacional {.tabset .tabset-fade}
+
+Variaciones estacionales entre períodos quinquenales.
+
+```{r seasonal, results='asis'}
+for (var in variables) {
+  cat(sprintf("\n## %s\n\n", var_descriptions[var]))
+  
+  seasonal_values <- list()
+  
+  for (season in names(seasons)) {
+    seasonal_values[[season]] <- list()
+    
+    for (p_name in names(periods)) {
+      val <- calc_seasonal_mean(
+        data_file, var, time,
+        periods[[p_name]][1],
+        periods[[p_name]][2],
+        seasons[[season]],
+        lon_dim, lat_dim
+      )
+      seasonal_values[[season]][[p_name]] <- val
+    }
+    gc()
+  }
+  
+  result <- create_seasonal_comparison(seasonal_values, var, var_descriptions[var],
+                                       periods, seasons, units)
+  
+  # Guardar datos intermedios
+  seasonal_df <- result$data
+  seasonal_df$variable <- var
+  write.csv(seasonal_df, 
+            file.path(data_output_dir, "seasonal", paste0(var, "_seasonal_data.csv")),
+            row.names = FALSE)
+  
+  # Guardar como HTML
+  htmlwidgets::saveWidget(
+    result$bars,
+    file.path(output_dir, "seasonal", paste0(var, "_seasonal_comparison.html")),
+    selfcontained = TRUE
+  )
+  htmlwidgets::saveWidget(
+    result$lines,
+    file.path(output_dir, "seasonal", paste0(var, "_seasonal_trends.html")),
+    selfcontained = TRUE
+  )
+  
+  cat("### Comparación por Barras\n\n")
+  print(htmltools::tagList(result$bars))
+  cat("\n\n")
+  
+  cat("### Tendencias\n\n")
+  print(htmltools::tagList(result$lines))
+  cat("\n\n---\n\n")
+  
+  rm(result, seasonal_values)
+  gc()
+}
+```
+
+---
+
+# Archivos Generados
+
+```{r list_files, echo=FALSE}
+cat("\n## Archivos HTML\n\n")
+cat("**Directorio:**", output_dir, "\n\n")
+
+all_dirs <- c("timeseries", "quinquennial", "seasonal")
+
+for (subdir in all_dirs) {
+  full_path <- file.path(output_dir, subdir)
+  if (dir.exists(full_path)) {
+    files <- list.files(full_path, pattern = "\\.html$", full.names = FALSE)
+    if (length(files) > 0) {
+      cat(sprintf("\n**%s/** (%d archivos)\n", subdir, length(files)))
+      for (f in files) {
+        cat(sprintf("- %s\n", f))
+      }
+    }
+  }
+}
+
+cat("\n\n## Datos Intermedios (para regenerar mapas)\n\n")
+cat("**Directorio:**", data_output_dir, "\n\n")
+
+for (subdir in all_dirs) {
+  full_path <- file.path(data_output_dir, subdir)
+  if (dir.exists(full_path)) {
+    files <- list.files(full_path, pattern = "\\.csv$", full.names = FALSE)
+    if (length(files) > 0) {
+      cat(sprintf("\n**%s/** (%d archivos)\n", subdir, length(files)))
+      for (f in head(files, 10)) {
+        cat(sprintf("- %s\n", f))
+      }
+      if (length(files) > 10) {
+        cat(sprintf("- ... y %d archivos más\n", length(files) - 10))
+      }
+    }
+  }
+}
+```
+
+---
+
+*Análisis generado el `r format(Sys.time(), "%d de %B de %Y a las %H:%M:%S")`*
+
+```{r cleanup, include=FALSE}
+gc()
+```

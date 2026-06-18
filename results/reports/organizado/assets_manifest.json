@@ -1,0 +1,962 @@
+[
+  {
+    "asset": "species_composition_pie.html",
+    "target": "assets/satellite/species_composition_pie.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/species_composition_pie.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_pie.html",
+    "target": "assets/satellite/size_composition_pie.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/size_composition_pie.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "species_composition_timeseries.html",
+    "target": "assets/satellite/species_composition_timeseries.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/species_composition_timeseries.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_timeseries.html",
+    "target": "assets/satellite/size_composition_timeseries.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/size_composition_timeseries.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "species_composition_stacked.html",
+    "target": "assets/satellite/species_composition_stacked.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/species_composition_stacked.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_stacked.html",
+    "target": "assets/satellite/size_composition_stacked.html",
+    "source": "results/satellite/figures/timeseries/plotly_charts/size_composition_stacked.html",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_pie.png",
+    "target": "assets/satellite/size_composition_pie.png",
+    "source": "results/satellite/figures/maps/fig_filt/size_composition_pie.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_stacked.png",
+    "target": "assets/satellite/size_composition_stacked.png",
+    "source": "results/satellite/figures/maps/fig_filt/size_composition_stacked.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "size_composition_timeseries.png",
+    "target": "assets/satellite/size_composition_timeseries.png",
+    "source": "results/satellite/figures/maps/fig_filt/size_composition_timeseries.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "species_composition_pie.png",
+    "target": "assets/satellite/species_composition_pie.png",
+    "source": "results/satellite/figures/maps/fig_filt/species_composition_pie.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "species_composition_stacked.png",
+    "target": "assets/satellite/species_composition_stacked.png",
+    "source": "results/satellite/figures/maps/fig_filt/species_composition_stacked.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "species_composition_timeseries.png",
+    "target": "assets/satellite/species_composition_timeseries.png",
+    "source": "results/satellite/figures/maps/fig_filt/species_composition_timeseries.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_mean_map.png",
+    "target": "assets/satellite/CHL_mean_map.png",
+    "source": "results/satellite/figures/maps/CHL_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_map.png",
+    "target": "assets/satellite/DIATO_mean_map.png",
+    "source": "results/satellite/figures/maps/DIATO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_map.png",
+    "target": "assets/satellite/DINO_mean_map.png",
+    "source": "results/satellite/figures/maps/DINO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_map.png",
+    "target": "assets/satellite/GREEN_mean_map.png",
+    "source": "results/satellite/figures/maps/GREEN_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_map.png",
+    "target": "assets/satellite/HAPTO_mean_map.png",
+    "source": "results/satellite/figures/maps/HAPTO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_mean_map.png",
+    "target": "assets/satellite/MICRO_mean_map.png",
+    "source": "results/satellite/figures/maps/MICRO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_mean_map.png",
+    "target": "assets/satellite/NANO_mean_map.png",
+    "source": "results/satellite/figures/maps/NANO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_mean_map.png",
+    "target": "assets/satellite/PICO_mean_map.png",
+    "source": "results/satellite/figures/maps/PICO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_map.png",
+    "target": "assets/satellite/PROCHLO_mean_map.png",
+    "source": "results/satellite/figures/maps/PROCHLO_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_map.png",
+    "target": "assets/satellite/PROKAR_mean_map.png",
+    "source": "results/satellite/figures/maps/PROKAR_mean_map.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_quinquennial_diff_maps.png",
+    "target": "assets/satellite/CHL_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/CHL_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/DIATO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/DIATO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/DINO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/DINO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_quinquennial_diff_maps.png",
+    "target": "assets/satellite/GREEN_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/GREEN_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/HAPTO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/HAPTO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/MICRO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/MICRO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/NANO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/NANO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/PICO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/PICO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_quinquennial_diff_maps.png",
+    "target": "assets/satellite/PROCHLO_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/PROCHLO_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_quinquennial_diff_maps.png",
+    "target": "assets/satellite/PROKAR_quinquennial_diff_maps.png",
+    "source": "results/satellite/figures/maps/PROKAR_quinquennial_diff_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_quinquennial_maps.png",
+    "target": "assets/satellite/CHL_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/CHL_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_quinquennial_maps.png",
+    "target": "assets/satellite/DIATO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/DIATO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_quinquennial_maps.png",
+    "target": "assets/satellite/DINO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/DINO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_quinquennial_maps.png",
+    "target": "assets/satellite/GREEN_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/GREEN_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_quinquennial_maps.png",
+    "target": "assets/satellite/HAPTO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/HAPTO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_quinquennial_maps.png",
+    "target": "assets/satellite/MICRO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/MICRO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_quinquennial_maps.png",
+    "target": "assets/satellite/NANO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/NANO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_quinquennial_maps.png",
+    "target": "assets/satellite/PICO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/PICO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_quinquennial_maps.png",
+    "target": "assets/satellite/PROCHLO_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/PROCHLO_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_quinquennial_maps.png",
+    "target": "assets/satellite/PROKAR_quinquennial_maps.png",
+    "source": "results/satellite/figures/maps/PROKAR_quinquennial_maps.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/CHL_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/CHL_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_seasonal_trends.png",
+    "target": "assets/satellite/CHL_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/CHL_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/DIATO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/DIATO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_seasonal_trends.png",
+    "target": "assets/satellite/DIATO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/DIATO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/DINO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/DINO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_seasonal_trends.png",
+    "target": "assets/satellite/DINO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/DINO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/GREEN_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/GREEN_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_seasonal_trends.png",
+    "target": "assets/satellite/GREEN_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/GREEN_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/HAPTO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/HAPTO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_seasonal_trends.png",
+    "target": "assets/satellite/HAPTO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/HAPTO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/MICRO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/MICRO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_seasonal_trends.png",
+    "target": "assets/satellite/MICRO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/MICRO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/NANO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/NANO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_seasonal_trends.png",
+    "target": "assets/satellite/NANO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/NANO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/PICO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PICO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_seasonal_trends.png",
+    "target": "assets/satellite/PICO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PICO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/PROCHLO_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PROCHLO_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_seasonal_trends.png",
+    "target": "assets/satellite/PROCHLO_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PROCHLO_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_seasonal_quinquennial_comparison.png",
+    "target": "assets/satellite/PROKAR_seasonal_quinquennial_comparison.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PROKAR_seasonal_quinquennial_comparison.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_seasonal_trends.png",
+    "target": "assets/satellite/PROKAR_seasonal_trends.png",
+    "source": "results/satellite/figures/maps/seasonal_analysis/PROKAR_seasonal_trends.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_timeseries_with_indices.png",
+    "target": "assets/satellite/CHL_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/CHL_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_timeseries_with_indices.png",
+    "target": "assets/satellite/DIATO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/DIATO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_timeseries_with_indices.png",
+    "target": "assets/satellite/DINO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/DINO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_timeseries_with_indices.png",
+    "target": "assets/satellite/GREEN_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/GREEN_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_timeseries_with_indices.png",
+    "target": "assets/satellite/HAPTO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/HAPTO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_timeseries_with_indices.png",
+    "target": "assets/satellite/MICRO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/MICRO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_timeseries_with_indices.png",
+    "target": "assets/satellite/NANO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/NANO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_timeseries_with_indices.png",
+    "target": "assets/satellite/PICO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/PICO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_timeseries_with_indices.png",
+    "target": "assets/satellite/PROCHLO_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/PROCHLO_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_timeseries_with_indices.png",
+    "target": "assets/satellite/PROKAR_timeseries_with_indices.png",
+    "source": "results/satellite/figures/timeseries/timeseries_indices/PROKAR_timeseries_with_indices.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "CHL_latitude_time_heatmap.png",
+    "target": "assets/satellite/CHL_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/CHL_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_latitude_time_heatmap.png",
+    "target": "assets/satellite/DIATO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/DIATO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_latitude_time_heatmap.png",
+    "target": "assets/satellite/DINO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/DINO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_latitude_time_heatmap.png",
+    "target": "assets/satellite/GREEN_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/GREEN_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_latitude_time_heatmap.png",
+    "target": "assets/satellite/HAPTO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/HAPTO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_latitude_time_heatmap.png",
+    "target": "assets/satellite/MICRO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/MICRO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_latitude_time_heatmap.png",
+    "target": "assets/satellite/NANO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/NANO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_latitude_time_heatmap.png",
+    "target": "assets/satellite/PICO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/PICO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_latitude_time_heatmap.png",
+    "target": "assets/satellite/PROCHLO_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/PROCHLO_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_latitude_time_heatmap.png",
+    "target": "assets/satellite/PROKAR_latitude_time_heatmap.png",
+    "source": "results/satellite/figures/maps/latseries/PROKAR_latitude_time_heatmap.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_stl_decomposition.png",
+    "target": "assets/satellite/DIATO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/DIATO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_stl_decomposition.png",
+    "target": "assets/satellite/DINO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/DINO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_stl_decomposition.png",
+    "target": "assets/satellite/GREEN_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/GREEN_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_stl_decomposition.png",
+    "target": "assets/satellite/HAPTO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/HAPTO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_mean_stl_decomposition.png",
+    "target": "assets/satellite/MICRO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/MICRO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_mean_stl_decomposition.png",
+    "target": "assets/satellite/NANO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/NANO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_mean_stl_decomposition.png",
+    "target": "assets/satellite/PICO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/PICO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_stl_decomposition.png",
+    "target": "assets/satellite/PROCHLO_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/PROCHLO_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_stl_decomposition.png",
+    "target": "assets/satellite/PROKAR_mean_stl_decomposition.png",
+    "source": "results/satellite/figures/statistical/stl_decomposition/PROKAR_mean_stl_decomposition.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/DIATO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/DIATO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/DINO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/DINO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_fourier_spectrum.png",
+    "target": "assets/satellite/GREEN_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/GREEN_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/HAPTO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/HAPTO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/MICRO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/MICRO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/NANO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/NANO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/PICO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/PICO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_fourier_spectrum.png",
+    "target": "assets/satellite/PROCHLO_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/PROCHLO_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_fourier_spectrum.png",
+    "target": "assets/satellite/PROKAR_mean_fourier_spectrum.png",
+    "source": "results/satellite/figures/statistical/fourier_analysis/PROKAR_mean_fourier_spectrum.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_hmm_regimen.png",
+    "target": "assets/satellite/DIATO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/DIATO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_hmm_regimen.png",
+    "target": "assets/satellite/DINO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/DINO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_hmm_regimen.png",
+    "target": "assets/satellite/GREEN_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/GREEN_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_hmm_regimen.png",
+    "target": "assets/satellite/HAPTO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/HAPTO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_mean_hmm_regimen.png",
+    "target": "assets/satellite/MICRO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/MICRO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_mean_hmm_regimen.png",
+    "target": "assets/satellite/NANO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/NANO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_mean_hmm_regimen.png",
+    "target": "assets/satellite/PICO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/PICO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_hmm_regimen.png",
+    "target": "assets/satellite/PROCHLO_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/PROCHLO_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_hmm_regimen.png",
+    "target": "assets/satellite/PROKAR_mean_hmm_regimen.png",
+    "source": "results/satellite/figures/statistical/hmm_regimen_change/PROKAR_mean_hmm_regimen.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/DIATO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/DIATO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/DINO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/DINO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_extremos_alternativos.png",
+    "target": "assets/satellite/GREEN_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/GREEN_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/HAPTO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/HAPTO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "MICRO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/MICRO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/MICRO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "NANO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/NANO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/NANO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PICO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/PICO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/PICO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_extremos_alternativos.png",
+    "target": "assets/satellite/PROCHLO_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/PROCHLO_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_extremos_alternativos.png",
+    "target": "assets/satellite/PROKAR_mean_extremos_alternativos.png",
+    "source": "results/satellite/figures/statistical/extremos_alternativos/PROKAR_mean_extremos_alternativos.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/DIATO_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/DIATO_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DIATO_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/DIATO_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/DINO_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/DINO_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "DINO_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/DINO_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/GREEN_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/GREEN_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "GREEN_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/GREEN_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/HAPTO_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/HAPTO_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "HAPTO_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/HAPTO_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/PROCHLO_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/PROCHLO_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROCHLO_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/PROCHLO_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_vs_MEI_piecewise.png",
+    "target": "assets/satellite/PROKAR_mean_vs_MEI_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_MEI_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_vs_NINO34_piecewise.png",
+    "target": "assets/satellite/PROKAR_mean_vs_NINO34_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_NINO34_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "PROKAR_mean_vs_PDO_piecewise.png",
+    "target": "assets/satellite/PROKAR_mean_vs_PDO_piecewise.png",
+    "source": "results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_PDO_piecewise.png",
+    "type": "satellite"
+  },
+  {
+    "asset": "01_timeseries_depth_clorofitas.png",
+    "target": "assets/insitu/01_timeseries_depth_clorofitas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/01_timeseries_depth_clorofitas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "01_timeseries_depth_diatomeas.png",
+    "target": "assets/insitu/01_timeseries_depth_diatomeas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/01_timeseries_depth_diatomeas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "01_timeseries_depth_dinoflagelados.png",
+    "target": "assets/insitu/01_timeseries_depth_dinoflagelados.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/01_timeseries_depth_dinoflagelados.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "01_timeseries_depth_haptofitas.png",
+    "target": "assets/insitu/01_timeseries_depth_haptofitas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/01_timeseries_depth_haptofitas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "01_timeseries_depth_protozoa.png",
+    "target": "assets/insitu/01_timeseries_depth_protozoa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/01_timeseries_depth_protozoa.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "02_perfil_vertical_abundancia.png",
+    "target": "assets/insitu/02_perfil_vertical_abundancia.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/02_perfil_vertical_abundancia.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "03_estacionalidad_por_profundidad.png",
+    "target": "assets/insitu/03_estacionalidad_por_profundidad.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/03_estacionalidad_por_profundidad.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "04_abundancia_por_capa_grupo.png",
+    "target": "assets/insitu/04_abundancia_por_capa_grupo.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/04_abundancia_por_capa_grupo.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "05_correlacion_sat_vs_insitu_por_capa.png",
+    "target": "assets/insitu/05_correlacion_sat_vs_insitu_por_capa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/05_correlacion_sat_vs_insitu_por_capa.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "06_heatmap_profundidad_dinoflagelados.png",
+    "target": "assets/insitu/06_heatmap_profundidad_dinoflagelados.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/06_heatmap_profundidad_dinoflagelados.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "06_heatmap_profundidad_protozoa.png",
+    "target": "assets/insitu/06_heatmap_profundidad_protozoa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/06_heatmap_profundidad_protozoa.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "07_resumen_multipanel_profundidad.png",
+    "target": "assets/insitu/07_resumen_multipanel_profundidad.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/07_resumen_multipanel_profundidad.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "08_boxplot_abundancia_por_capa.png",
+    "target": "assets/insitu/08_boxplot_abundancia_por_capa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/08_boxplot_abundancia_por_capa.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "barras_apiladas_in_situ_proporciones_anuales.png",
+    "target": "assets/insitu/barras_apiladas_in_situ_proporciones_anuales.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/barras_apiladas_in_situ_proporciones_anuales.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_clorofitas.png",
+    "target": "assets/insitu/heatmap_in_situ_clorofitas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_clorofitas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_diatomeas.png",
+    "target": "assets/insitu/heatmap_in_situ_diatomeas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_diatomeas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_dinoflagelados.png",
+    "target": "assets/insitu/heatmap_in_situ_dinoflagelados.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_dinoflagelados.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_haptofitas.png",
+    "target": "assets/insitu/heatmap_in_situ_haptofitas.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_haptofitas.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_otros.png",
+    "target": "assets/insitu/heatmap_in_situ_otros.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_otros.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "heatmap_in_situ_protozoa.png",
+    "target": "assets/insitu/heatmap_in_situ_protozoa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/heatmap_in_situ_protozoa.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "in_situ_comparativa_grupos_primarios.png",
+    "target": "assets/insitu/in_situ_comparativa_grupos_primarios.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/in_situ_comparativa_grupos_primarios.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "pie_in_situ_proporciones_totales.png",
+    "target": "assets/insitu/pie_in_situ_proporciones_totales.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/pie_in_situ_proporciones_totales.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "pie_in_situ_proporciones_totales_excluido.png",
+    "target": "assets/insitu/pie_in_situ_proporciones_totales_excluido.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/pie_in_situ_proporciones_totales_excluido.png",
+    "type": "fallback"
+  },
+  {
+    "asset": "series_tiempo_in_situ_primarios_completa.png",
+    "target": "assets/insitu/series_tiempo_in_situ_primarios_completa.png",
+    "source": "results/reports/integrado_unificado/figuras_reciente/series_tiempo_in_situ_primarios_completa.png",
+    "type": "fallback"
+  }
+]

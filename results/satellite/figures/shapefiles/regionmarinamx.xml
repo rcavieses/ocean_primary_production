@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.conabio.gob.mx/informacion/gis/schemas/fgdc/fgdc-std-001-1998.xsd">
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <origin>CONABIO, (07/2017). 'Regiones marinas', escala: 1:250000. edición: Julio 2017. Comisión Nacional para el Conocimiento y Uso de la Biodiversidad. Ciudad de México, México. </origin>
+                <pubdate>20170706</pubdate>
+                <title>Regiones marinas, modificado para el geoportal del SNIB</title>
+                <geoform>Shapefile. Formato vectorial compuesto por 4 archivos (shp, shx, dbf,prj)</geoform>
+                <onlink>http://www.conabio.gob.mx/informacion/metadata/gis/regionmarinamx.xml?_httpcache=yes&amp;_xsl=/db/metadata/xsl/fgdc_html.xsl&amp;_indent=no</onlink>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>El mapa cuenta con 5 regiones marinas en las que se incluyen lagunas costeras y estuarios.</abstract>
+            <purpose>Tener las regiones marinas de México como referencia para extraer información del geoportal del SNIB.</purpose>
+        </descript>
+        <timeperd>
+            <timeinfo>
+                <sngdate>
+                    <caldate>00000000</caldate>
+                </sngdate>
+            </timeinfo>
+            <current>Junio 2017</current>
+        </timeperd>
+        <status>
+            <progress>Complete</progress>
+            <update>No planeado</update>
+        </status>
+        <spdom>
+            <bounding>
+                <westbc>-122.167297281</westbc>
+                <eastbc>-84.578994202</eastbc>
+                <northbc>32.677333672</northbc>
+                <southbc>11.934189087</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>CNB.ACCESO</themekt>
+                <themekey>publico</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB.LICENCIA</themekt>
+                <themekey>CC_BY_NC_2.5_MX</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB.VISIBILIDAD</themekt>
+                <themekey>0</themekey>
+                <themekey>10</themekey>
+            </theme>
+            <theme>
+                <themekt>ESTRUCTURA</themekt>
+                <themekey>noclas</themekey>
+                <themekey>geoportal</themekey>
+                <themekey>regionmarinamx</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB.ESCALA</themekt>
+                <themekey>250000</themekey>
+            </theme>
+            <theme>
+                <themekt>CONABIO</themekt>
+                <themekey>California</themekey>
+                <themekey>Caribe</themekey>
+                <themekey>Golfo de México</themekey>
+                <themekey>Mar</themekey>
+                <themekey>Marina</themekey>
+                <themekey>Pacífico Noroeste</themekey>
+                <themekey>Región</themekey>
+                <themekey>Tropical</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:LICENCE</themekt>
+                <themekey>bync25mx</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:STATUS</themekt>
+                <themekey>terminado</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:DATATYPE</themekt>
+                <themekey>dataset</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:ACCESS</themekt>
+                <themekey>publico</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:IDENTIFIER</themekt>
+                <themekey>regionmarinamx</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:KEYWORDS</themekt>
+                <themekey>noclas,geoportal</themekey>
+            </theme>
+            <theme>
+                <themekt>CNB2:THEME:AUTHOR</themekt>
+                <themekey>CONABIO, (07/2017). 'Regiones marinas', escala: 1:250000. edición: Julio 2017. Comisión Nacional para el Conocimiento y Uso de la Biodiversidad. Ciudad de México, México. </themekey>
+            </theme>
+            <place>
+                <placekt>CONABIO</placekt>
+                <placekey>República Mexicana</placekey>
+            </place>
+            <place>
+                <placekt>CNB2:PLACE:BOX</placekt>
+                <placekey>northlimit=32.677333672; eastlimit=-84.578994202; southlimit=11.934189087; westlimit=-122.167297281; uplimit=0; units=signed decimal degrees; zunits=metres; projection=EPSG:4326</placekey>
+            </place>
+            <temporal>
+                <tempkt>CNB2:DATE:PUBLISHED</tempkt>
+                <tempkey>2017-07-06</tempkey>
+            </temporal>
+            <temporal>
+                <tempkt>CNB2:DATE:UPDATED</tempkt>
+                <tempkey>2017-07-06</tempkey>
+            </temporal>
+        </keywords>
+        <accconst>Sin restricciones</accconst>
+        <useconst>No se permite utilizar estos datos con fines lucrativos y se debe citar la fuente del mapa y a la CONABIO. Ver la licencia completa en http://creativecommons.org/licenses/by-nc/2.5/mx/</useconst>
+        <browse>
+            <browsen>http://geoportal.conabio.gob.mx/descargas/mapas/imagen/20/regionmarinamx</browsen>
+            <browsed>171 x 132 píxeles</browsed>
+            <browset>image/png</browset>
+        </browse>
+        <browse>
+            <browsen>http://geoportal.conabio.gob.mx/descargas/mapas/imagen/96/regionmarinamx</browsen>
+            <browsed>1002 x 774 píxeles</browsed>
+            <browset>image/png</browset>
+        </browse>
+        <native>Arc Map 10.3, Windows</native>
+    </idinfo>
+    <dataqual>
+        <logic>Gabinete</logic>
+        <complete>Del mapa de Regiones Ecológicas de América del Norte- nivel I laborado por Comisión para la Cooperación Ambiental. A finales del sexenio 1989-1994, el INE inició un proyecto con la CCA para definir las Regiones Ecológicas para Norteamérica. Durante 1995 la CCA impulsó el proyecto formado por especialistas de cada país, construyendo los niveles I y II de las Regiones Ecológicas de Norteamérica; de este mapa se seleccionó la porción de las 5 regiones marinas para generarar nuevo mapa sin islas, al cual se le igualó la línea de costa con la del mapa de estados y con el mapa de cuencas para el caso de bahías y lagunas costeras que no están representadas en el mapa de estados.</complete>
+        <lineage>
+            <srcinfo>
+                <srccite>
+                    <citeinfo>
+                        <origin>No conocido</origin>
+                        <pubdate>00000000</pubdate>
+                        <title>No conocido</title>
+                        <geoform>No conocido</geoform>
+                    </citeinfo>
+                </srccite>
+                <srcscale>50000000</srcscale>
+                <typesrc>Digital</typesrc>
+                <srctime>
+                    <timeinfo>
+                        <sngdate>
+                            <caldate>00000000</caldate>
+                        </sngdate>
+                    </timeinfo>
+                    <srccurr>No conocido</srccurr>
+                </srctime>
+                <srccitea>No conocido</srccitea>
+                <srccontr>CCA, (1997), 'Regiones Ecológicas de América del Norte- nivel I', Escala 1:50000000. Comisión para la Cooperación Ambiental, http://www.cec.org/es/herramientas-y-recursos/archivos-cartogr%C3%A1ficos/ecorregiones-marinas-nivel-i, México.</srccontr>
+            </srcinfo>
+            <procstep>
+                <procdesc>1mediante el software ARCGIS se eliminaron los polígonos de islas mediante la selección de las entidades de interés. 2. Con las herramientas de edición, se eliminaron los cuerpos de agua interiores, incorporando estas áreas como parte de alguna ecorregión. 3.Se sustituyó la línea de costa del mapa original por la del mapa de estados del año 2016, además se editaron las entradas de las bahías y lagunas costeras en aquellos casos en los que el mapa de estados no representa dichas entradas. 4. Se validó la topología con la finalidad de encontrar huecos o sobreposición de polígonos. 5. Con la herramienta de Disolver se integraron los polígonos que correspondían a cuerpos de agua considerados marinos  y que se consideraban independientes quedando regionalizados a la región marina que les correspondía. 6. Finalmente se agregaron los campos cita, etiqueta, numpoligon y un campo identificador para polígono para los fines de visualización y extracción de datos del geoportal de la Conabio.</procdesc>
+                <procdate>00000000</procdate>
+            </procstep>
+        </lineage>
+    </dataqual>
+    <spdoinfo>
+        <direct>Vector</direct>
+        <ptvctinf>
+            <sdtsterm>
+                <sdtstype>G-polygon</sdtstype>
+                <ptvctcnt>5</ptvctcnt>
+            </sdtsterm>
+        </ptvctinf>
+    </spdoinfo>
+    <spref>
+        <horizsys>
+            <geograph>
+                <latres>0.0174532925199433</latres>
+                <longres>0.0174532925199433</longres>
+                <geogunit>Decimal degrees</geogunit>
+            </geograph>
+            <geodetic>
+                <horizdn>WGS84</horizdn>
+                <ellips>WGS84</ellips>
+                <semiaxis>6378137.000000</semiaxis>
+                <denflat>298.257224</denflat>
+            </geodetic>
+        </horizsys>
+    </spref>
+    <eainfo>
+        <detailed>
+            <enttyp>
+                <enttypl>REGIONMARINAMX.DBF</enttypl>
+                <enttypd>La tabla contiene la descripcion de las características de cada Región Marina</enttypd>
+                <enttypds>No conocido</enttypds>
+            </enttyp>
+            <attr>
+                <attrlabl>Regionmar</attrlabl>
+                <attrdef>Carácter</attrdef>
+                <attrdefs>CONABIO</attrdefs>
+                <attrdomv>
+                    <udom>Nombre del la región marina</udom>
+                </attrdomv>
+                <attrvai>
+                    <attrva>1</attrva>
+                    <attrvae>No aplica</attrvae>
+                </attrvai>
+            </attr>
+            <attr>
+                <attrlabl>Etiqueta</attrlabl>
+                <attrdef>Carácter</attrdef>
+                <attrdefs>CONABIO</attrdefs>
+                <attrdomv>
+                    <udom>Nombre del área natural protegida, campo utilizado para identificar la Región Marina en el geoportal</udom>
+                </attrdomv>
+                <attrvai>
+                    <attrva>1</attrva>
+                    <attrvae>No aplica</attrvae>
+                </attrvai>
+            </attr>
+            <attr>
+                <attrlabl>Cita</attrlabl>
+                <attrdef>Carácter</attrdef>
+                <attrdefs>CONABIO</attrdefs>
+                <attrdomv>
+                    <udom>Cita del mapa de Región marina.</udom>
+                </attrdomv>
+                <attrvai>
+                    <attrva>1</attrva>
+                    <attrvae>No aplica</attrvae>
+                </attrvai>
+            </attr>
+            <attr>
+                <attrlabl>Cov_id</attrlabl>
+                <attrdef>Numérico</attrdef>
+                <attrdefs>CONABIO</attrdefs>
+                <attrdomv>
+                    <udom>Identificador único numérico que corresponde al valor del campo de ID de la Región Marina</udom>
+                </attrdomv>
+                <attrvai>
+                    <attrva>1</attrva>
+                    <attrvae>No aplica</attrvae>
+                </attrvai>
+            </attr>
+            <attr>
+                <attrlabl>Numpoligon</attrlabl>
+                <attrdef>Numérico</attrdef>
+                <attrdefs>CONABIO</attrdefs>
+                <attrdomv>
+                    <udom>numero de polígonos asociados a cada Región Marina</udom>
+                </attrdomv>
+                <attrvai>
+                    <attrva>1</attrva>
+                    <attrvae>No aplica</attrvae>
+                </attrvai>
+            </attr>
+        </detailed>
+    </eainfo>
+    <distinfo>
+        <distrib>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>CONABIO</cntorg>
+                    <cntper>Jose Manuel Davila Rosas</cntper>
+                </cntorgp>
+                <cntpos>Subcoordinador de Sistemas de Información Geográfica</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical address</addrtype>
+                    <address>Liga Periférico Insurgentes Sur Num. 4903 1er piso. Col. Parques del Pedregal. Delg. Tlalpan</address>
+                    <city>Ciudad de México</city>
+                    <state>D.F.</state>
+                    <postal>14010</postal>
+                    <country>México</country>
+                </cntaddr>
+                <cntvoice>50045012</cntvoice>
+                <cntfax>50044931</cntfax>
+                <cntemail>jdavila@conabio.gob.mx</cntemail>
+                <hours>Lunes a Viernes de 8 a 18 hrs.</hours>
+            </cntinfo>
+        </distrib>
+        <resdesc>regionmarinamx</resdesc>
+        <distliab>La Comisión Nacional para el Conocimiento y Uso de la Biodiversidad (CONABIO) solo se hace responsable de la información presentada en el mapa y se deslinda del uso que se le de a la misma.</distliab>
+        <stdorder>
+            <digform>
+                <digtinfo>
+                    <formname>CNB.GEO.TMS</formname>
+                    <formvern>1.0.0</formvern>
+                    <formspec>PNG</formspec>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>http://wms0.conabio.gob.mx/regionmarinamx.py/</networkr>
+                                <networkr>http://wms1.conabio.gob.mx/regionmarinamx.py/</networkr>
+                                <networkr>http://wms2.conabio.gob.mx/regionmarinamx.py/</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Metadato (HTML)</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>describedby canonical</formspec>
+                    <formcont>text/html</formcont>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>metadatos/doc/html/regionmarinamx.html</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Metadato (XML)</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>describedby alternate</formspec>
+                    <formcont>text/xml</formcont>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>metadatos/doc/fgdc/regionmarinamx.xml</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Acceso directo al mapa</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>bookmark</formspec>
+                    <formcont>text/html</formcont>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>?vns=regionmarinamx</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Vista previa</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>preview</formspec>
+                    <formcont>image/png</formcont>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>descargas/mapas/imagen/96/regionmarinamx</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Vista previa</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>icon</formspec>
+                    <formcont>image/png</formcont>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>descargas/mapas/imagen/20/regionmarinamx</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Licencia</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>license</formspec>
+                    <formcont>text/html</formcont>
+                    <filedec>cnb:external</filedec>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>http://creativecommons.org/licenses/by-nc/2.5/mx/</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>ESRI Shapefile (SHP)</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>related archives</formspec>
+                    <formcont>application/zip</formcont>
+                    <filedec>cnb:external</filedec>
+                    <transize>4</transize>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>http://www.conabio.gob.mx/informacion/gis/maps/geo/regionmarinamx.zip</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <digform>
+                <digtinfo>
+                    <formname>Google Earth (KML)</formname>
+                    <formvern>CNB2:LINK</formvern>
+                    <formspec>related archives</formspec>
+                    <formcont>application/vnd.google-earth.kmz</formcont>
+                    <filedec>cnb:external</filedec>
+                </digtinfo>
+                <digtopt>
+                    <onlinopt>
+                        <computer>
+                            <networka>
+                                <networkr>http://www.conabio.gob.mx/informacion/gis/maps/kmz/regionmarinamx.kmz</networkr>
+                            </networka>
+                        </computer>
+                    </onlinopt>
+                </digtopt>
+            </digform>
+            <fees>Acceso libre sin ningún cargo al público en general.</fees>
+        </stdorder>
+        <techpreq>Tener sistemas compatibles con archivos Shapefile, en caso que existan se pueden visualizar en Google Earth KML y/o conexión al servicio WMS.</techpreq>
+    </distinfo>
+    <metainfo>
+        <metd>20170706</metd>
+        <metc>
+            <cntinfo>
+                <cntorgp>
+                    <cntorg>CONABIO</cntorg>
+                    <cntper>Alejandra Nuñez</cntper>
+                </cntorgp>
+                <cntpos>Administrador de Metadatos</cntpos>
+                <cntaddr>
+                    <addrtype>mailing and physical address</addrtype>
+                    <address>Liga Periférico Insurgentes Sur Num. 4903 1er piso. Col. Parques del Pedregal. Delg. Tlalpan</address>
+                    <city>Ciudad de México</city>
+                    <state>D.F.</state>
+                    <postal>14010</postal>
+                    <country>México</country>
+                </cntaddr>
+                <cntvoice>01 55 5004 4963</cntvoice>
+                <cntfax>50044931</cntfax>
+                <cntemail>ssig@conabio.gob.mx</cntemail>
+                <hours>Lunes a Viernes de 8 a 18 hrs.</hours>
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standards for Digital Geospatial Metadata, 1998</metstdn>
+        <metstdv>FGDC-STD-001-1998 version 2.0</metstdv>
+    </metainfo>
+</metadata>

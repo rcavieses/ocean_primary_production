@@ -1,0 +1,24 @@
+# Core data science libraries
+numpy>=1.21.0
+pandas>=1.3.0
+xarray>=0.19.0
+netCDF4>=1.5.7
+
+# Machine Learning
+scikit-learn>=1.0.0
+joblib>=1.0.0
+
+# Copernicus Marine Data Access
+copernicusmarine>=1.0.0
+
+# Plotting and visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+cartopy>=0.20.0
+
+# Data processing
+scipy>=1.7.0
+
+# Additional dependencies for phytoplankton analysis
+dask>=2021.0.0
+bottleneck>=1.3.0

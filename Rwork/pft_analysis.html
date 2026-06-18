@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="IE=EDGE" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Ocean Primary Production Analysis" name="author"/>
+<meta content="2025-12-17" name="date"/>
+<title>Análisis de Producción Primaria Fitoplanctónica - Golfo de California (2000-2024)</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.main-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+h1 { margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+h2 { margin-top: 30px; }
+iframe { border: none; width: 100%; height: 800px; }
+img { max-width: 100%; height: auto; }
+.tab-content { padding-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container-fluid main-container">
+<div id="header">
+<h1 class="title">Análisis de Producción Primaria Fitoplanctónica - Golfo de California (2000-2024)</h1>
+<h4 class="author">Ricardo Cavieses</h4>
+<h4 class="date">2025-12-17</h4>
+</div>
+
+
+
+
+
+<div class="section level1" id="section0">
+<h1>0. Índices Climáticos (NIÑO3.4, PDO, MEI)</h1>
+<p><strong>Nota:</strong> Las series de tiempo de todas las variables de fitoplancton incluyen en ejes secundarios los siguientes índices climáticos:</p>
+<ul>
+<li><strong>NIÑO 3.4</strong> (Naranja sólida): Índice de temperatura superficial del mar en la región NIÑO 3.4. Valores positivos indican El Niño, negativos La Niña.</li>
+<li><strong>MEI</strong> (Púrpura punteada): Multivariate ENSO Index que combina múltiples variables atmosféricas y oceanográficas.</li>
+<li><strong>PDO</strong> (Gris oscuro punteada): Pacific Decadal Oscillation, patrón de variabilidad climática de baja frecuencia en el Pacífico Norte.</li>
+</ul>
+<p><strong>Período:</strong> 2000-2024</p>
+<p><strong>Resolución:</strong> Mensual</p>
+<p><strong>Aplicación:</strong> Los índices climáticos se superponen en los gráficos de anomalías para identificar correlaciones entre cambios de fitoplancton y fenómenos climáticos globales.</p>
+</div>
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item"><a aria-controls="section1-CHL" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section1-CHL" role="tab">CHL</a></li>
+<li class="nav-item"><a aria-controls="section1-MICRO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-MICRO" role="tab">MICRO</a></li>
+<li class="nav-item"><a aria-controls="section1-NANO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-NANO" role="tab">NANO</a></li>
+<li class="nav-item"><a aria-controls="section1-PICO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-PICO" role="tab">PICO</a></li>
+<li class="nav-item"><a aria-controls="section1-DIATO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-DIATO" role="tab">DIATO</a></li>
+<li class="nav-item"><a aria-controls="section1-DINO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-DINO" role="tab">DINO</a></li>
+<li class="nav-item"><a aria-controls="section1-GREEN" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-GREEN" role="tab">GREEN</a></li>
+<li class="nav-item"><a aria-controls="section1-HAPTO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-HAPTO" role="tab">HAPTO</a></li>
+<li class="nav-item"><a aria-controls="section1-PROCHLO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-PROCHLO" role="tab">PROCHLO</a></li>
+<li class="nav-item"><a aria-controls="section1-PROKAR" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section1-PROKAR" role="tab">PROKAR</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="section1-CHL" role="tabpanel">
+<img alt="CHL Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/CHL_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-MICRO" role="tabpanel">
+<img alt="MICRO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/MICRO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-NANO" role="tabpanel">
+<img alt="NANO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/NANO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-PICO" role="tabpanel">
+<img alt="PICO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/PICO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-DIATO" role="tabpanel">
+<img alt="DIATO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/DIATO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-DINO" role="tabpanel">
+<img alt="DINO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/DINO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-GREEN" role="tabpanel">
+<img alt="GREEN Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/GREEN_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-HAPTO" role="tabpanel">
+<img alt="HAPTO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/HAPTO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-PROCHLO" role="tabpanel">
+<img alt="PROCHLO Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/PROCHLO_quinquennial_diff.png"/></div>
+<div class="tab-pane fade" id="section1-PROKAR" role="tabpanel">
+<img alt="PROKAR Quinquennial Difference" src="../data/figures/html_outputs/quinquennial/PROKAR_quinquennial_diff.png"/></div>
+</div>
+</div>
+<div class="section level1" id="section2">
+<h1>2. Mapas de Comparación Estacional (Escala Logarítmica)</h1>
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item"><a aria-controls="section2-CHL" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section2-CHL" role="tab">CHL</a></li>
+<li class="nav-item"><a aria-controls="section2-MICRO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-MICRO" role="tab">MICRO</a></li>
+<li class="nav-item"><a aria-controls="section2-NANO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-NANO" role="tab">NANO</a></li>
+<li class="nav-item"><a aria-controls="section2-PICO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-PICO" role="tab">PICO</a></li>
+<li class="nav-item"><a aria-controls="section2-DIATO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-DIATO" role="tab">DIATO</a></li>
+<li class="nav-item"><a aria-controls="section2-DINO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-DINO" role="tab">DINO</a></li>
+<li class="nav-item"><a aria-controls="section2-GREEN" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-GREEN" role="tab">GREEN</a></li>
+<li class="nav-item"><a aria-controls="section2-HAPTO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-HAPTO" role="tab">HAPTO</a></li>
+<li class="nav-item"><a aria-controls="section2-PROCHLO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-PROCHLO" role="tab">PROCHLO</a></li>
+<li class="nav-item"><a aria-controls="section2-PROKAR" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section2-PROKAR" role="tab">PROKAR</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="section2-CHL" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="CHL Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/CHL_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="CHL Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/CHL_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="CHL Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/CHL_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="CHL Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/CHL_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-MICRO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="MICRO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/MICRO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="MICRO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/MICRO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="MICRO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/MICRO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="MICRO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/MICRO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-NANO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="NANO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/NANO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="NANO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/NANO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="NANO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/NANO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="NANO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/NANO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-PICO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="PICO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PICO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="PICO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PICO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="PICO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PICO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="PICO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PICO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-DIATO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="DIATO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DIATO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="DIATO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DIATO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="DIATO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DIATO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="DIATO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DIATO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-DINO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="DINO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DINO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="DINO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DINO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="DINO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DINO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="DINO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/DINO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-GREEN" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="GREEN Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/GREEN_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="GREEN Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/GREEN_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="GREEN Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/GREEN_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="GREEN Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/GREEN_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-HAPTO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="HAPTO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/HAPTO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="HAPTO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/HAPTO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="HAPTO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/HAPTO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="HAPTO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/HAPTO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-PROCHLO" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="PROCHLO Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROCHLO_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="PROCHLO Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROCHLO_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="PROCHLO Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROCHLO_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="PROCHLO Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROCHLO_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+<div class="tab-pane fade" id="section2-PROKAR" role="tabpanel">
+<div class="row">
+<div class="col-md-6">
+<h4>Invierno</h4>
+<img alt="PROKAR Winter" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROKAR_Winter_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Primavera</h4>
+<img alt="PROKAR Spring" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROKAR_Spring_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Verano</h4>
+<img alt="PROKAR Summer" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROKAR_Summer_comparison_map_log.png" style="width:100%;"/>
+</div>
+<div class="col-md-6">
+<h4>Otoño</h4>
+<img alt="PROKAR Autumn" src="../data/figures/html_outputs/quinquennial/seasonal_comparison_maps_log/maps/PROKAR_Autumn_comparison_map_log.png" style="width:100%;"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level1" id="section3">
+<h1>3. Comparación Estacional por Quinquenio</h1>
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item"><a aria-controls="section3-CHL" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section3-CHL" role="tab">CHL</a></li>
+<li class="nav-item"><a aria-controls="section3-MICRO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-MICRO" role="tab">MICRO</a></li>
+<li class="nav-item"><a aria-controls="section3-NANO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-NANO" role="tab">NANO</a></li>
+<li class="nav-item"><a aria-controls="section3-PICO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-PICO" role="tab">PICO</a></li>
+<li class="nav-item"><a aria-controls="section3-DIATO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-DIATO" role="tab">DIATO</a></li>
+<li class="nav-item"><a aria-controls="section3-DINO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-DINO" role="tab">DINO</a></li>
+<li class="nav-item"><a aria-controls="section3-GREEN" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-GREEN" role="tab">GREEN</a></li>
+<li class="nav-item"><a aria-controls="section3-HAPTO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-HAPTO" role="tab">HAPTO</a></li>
+<li class="nav-item"><a aria-controls="section3-PROCHLO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-PROCHLO" role="tab">PROCHLO</a></li>
+<li class="nav-item"><a aria-controls="section3-PROKAR" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section3-PROKAR" role="tab">PROKAR</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="section3-CHL" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/CHL_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-MICRO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/MICRO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-NANO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/NANO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-PICO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/PICO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-DIATO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/DIATO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-DINO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/DINO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-GREEN" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/GREEN_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-HAPTO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/HAPTO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-PROCHLO" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/PROCHLO_seasonal_comparison.html"></iframe></div>
+<div class="tab-pane fade" id="section3-PROKAR" role="tabpanel">
+<iframe src="../data/figures/html_outputs/seasonal/PROKAR_seasonal_comparison.html"></iframe></div>
+</div>
+</div>
+<div class="section level1" id="section4">
+<h1>4. Visualización de Series de Tiempo</h1>
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item"><a aria-controls="section4-CHL" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section4-CHL" role="tab">CHL</a></li>
+<li class="nav-item"><a aria-controls="section4-MICRO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-MICRO" role="tab">MICRO</a></li>
+<li class="nav-item"><a aria-controls="section4-NANO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-NANO" role="tab">NANO</a></li>
+<li class="nav-item"><a aria-controls="section4-PICO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-PICO" role="tab">PICO</a></li>
+<li class="nav-item"><a aria-controls="section4-DIATO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-DIATO" role="tab">DIATO</a></li>
+<li class="nav-item"><a aria-controls="section4-DINO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-DINO" role="tab">DINO</a></li>
+<li class="nav-item"><a aria-controls="section4-GREEN" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-GREEN" role="tab">GREEN</a></li>
+<li class="nav-item"><a aria-controls="section4-HAPTO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-HAPTO" role="tab">HAPTO</a></li>
+<li class="nav-item"><a aria-controls="section4-PROCHLO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-PROCHLO" role="tab">PROCHLO</a></li>
+<li class="nav-item"><a aria-controls="section4-PROKAR" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-PROKAR" role="tab">PROKAR</a></li>
+<li class="nav-item"><a aria-controls="section4-NINO3-4" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-NINO3-4" role="tab">NINO3.4</a></li>
+<li class="nav-item"><a aria-controls="section4-PDO" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section4-PDO" role="tab">PDO</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="section4-CHL" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/CHL_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/CHL_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-MICRO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/MICRO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/MICRO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-NANO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/NANO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/NANO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-PICO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/PICO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/PICO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-DIATO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/DIATO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/DIATO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-DINO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/DINO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/DINO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-GREEN" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/GREEN_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/GREEN_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-HAPTO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/HAPTO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/HAPTO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-PROCHLO" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/PROCHLO_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/PROCHLO_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-PROKAR" role="tabpanel">
+<h3>Series de Tiempo</h3><iframe src="../data/figures/html_outputs/timeseries/PROKAR_combined_timeseries.html" style="height: 800px;"></iframe><h3>Anomalía Mensual</h3><iframe src="../data/figures/html_outputs/timeseries/PROKAR_monthly_anomaly.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-NINO3-4" role="tabpanel">
+<h3>Índice Niño 3.4</h3><iframe src="../data/figures/html_outputs/timeseries/nino34_plot.html" style="height: 800px;"></iframe></div>
+<div class="tab-pane fade" id="section4-PDO" role="tabpanel">
+<h3>Índice PDO</h3><iframe src="../data/figures/html_outputs/timeseries/pdo_plot.html" style="height: 800px;"></iframe></div>
+</div>
+</div>
+<div class="section level1" id="section5">
+<h1>5. Composición de la Comunidad</h1>
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item"><a aria-controls="section5-SIZE" aria-selected="true" class="nav-link active" data-bs-toggle="tab" href="#section5-SIZE" role="tab">Por Tamaño</a></li>
+<li class="nav-item"><a aria-controls="section5-GROUP" aria-selected="false" class="nav-link" data-bs-toggle="tab" href="#section5-GROUP" role="tab">Por Grupo</a></li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade active show" id="section5-SIZE" role="tabpanel">
+<h3>Composición Porcentual por Tamaño (Quinquenal)</h3>
+<iframe src="../data/figures/html_outputs/composition/composition_size.html" style="height: 800px;"></iframe>
+</div>
+<div class="tab-pane fade" id="section5-GROUP" role="tabpanel">
+<h3>Composición Porcentual por Grupo Funcional (Quinquenal)</h3>
+<iframe src="../data/figures/html_outputs/composition/composition_groups.html" style="height: 800px;"></iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="section level1" id="section6">
+<h1>6. Información sobre Índices Climáticos Utilizados</h1>
+<p>Este análisis integra tres índices climáticos clave que permiten identificar relaciones entre cambios en la producción primaria fitoplanctónica y variabilidad climática global:</p>
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>NIÑO 3.4 - Índice de Cambio del Clima Tropical</h3>
+<ul>
+<li><strong>Definición:</strong> Anomalía de Temperatura Superficial del Mar (TSM) en la región 5°N-5°S, 120°-170°O</li>
+<li><strong>Clasificación ENSO:</strong>
+<ul>
+<li>El Niño: NIÑO3.4 ≥ +0.5°C (3 meses consecutivos)</li>
+<li>La Niña: NIÑO3.4 ≤ -0.5°C (3 meses consecutivos)</li>
+<li>Neutral: -0.5°C &lt; NIÑO3.4 &lt; +0.5°C</li>
+</ul></li>
+<li><strong>Impacto en Golfo de California:</strong> Afecta directamente la temperatura del agua, surgencia y disponibilidad de nutrientes</li>
+<li><strong>Fuente:</strong> NOAA Climate Prediction Center</li>
+</ul>
+</div>
+<div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>MEI - Multivariate ENSO Index</h3>
+<ul>
+<li><strong>Definición:</strong> Índice compuesto que incluye presión, temperatura del aire, velocidad del viento, temperatura superficial del mar y nubosidad</li>
+<li><strong>Ventajas:</strong>
+<ul>
+<li>Captura cambios más complejos en el sistema climático ecuatorial</li>
+<li>Refleja la respuesta atmosférica completa a ENSO</li>
+<li>Mayor sensibilidad a variabilidad submensual</li>
+</ul></li>
+<li><strong>Período de cálculo:</strong> Índice bimestral (dos meses superpuestos)</li>
+<li><strong>Fuente:</strong> NOAA Earth System Research Laboratory (ESRL)</li>
+</ul>
+</div>
+<div style="background-color: #fffacd; padding: 15px; border-radius: 5px; margin-top: 15px;">
+<h3>PDO - Pacific Decadal Oscillation</h3>
+<ul>
+<li><strong>Definición:</strong> Patrón de variabilidad climática de baja frecuencia en el Pacífico Norte (norte de 20°N)</li>
+<li><strong>Escala temporal:</strong> Oscilaciones de 15-30 años (distinto de ENSO: 2-7 años)</li>
+<li><strong>Fases:</strong>
+<ul>
+<li>Fase Cálida (Positiva): TSM anomalía positiva en costa Pacífico NO</li>
+<li>Fase Fría (Negativa): TSM anomalía negativa en costa Pacífico NO</li>
+</ul></li>
+<li><strong>Impacto en Golfo de California:</strong> Modulador de la variabilidad climática interanual, particularmente en invierno</li>
+<li><strong>Fuente:</strong> NOAA Physical Sciences Laboratory</li>
+</ul>
+</div>
+<p style="margin-top: 20px;"><strong>Interpretación en series de tiempo:</strong> Cuando los índices climáticos se superponen en los gráficos de anomalías del fitoplancton, valores coincidentes (positivos o negativos) sugieren correlación potencial, mientras que patrones divergentes pueden indicar que otros factores oceanográficos locales tienen mayor influencia.</p>
+</div>
+

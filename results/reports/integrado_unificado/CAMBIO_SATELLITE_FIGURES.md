@@ -1,0 +1,85 @@
+# Actualizacion de figuras desde results/satellite/figures
+
+Se actualizaron 54 archivos referenciados por el reporte integrado.
+
+## Reemplazos aplicados
+- DIATO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/DIATO_mean_extremos_alternativos.png
+- DIATO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/DIATO_mean_fourier_spectrum.png
+- DIATO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/DIATO_mean_hmm_regimen.png
+- DIATO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/DIATO_mean_stl_decomposition.png
+- DIATO_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_MEI_piecewise.png
+- DIATO_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_NINO34_piecewise.png
+- DIATO_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DIATO_mean_vs_PDO_piecewise.png
+- DINO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/DINO_mean_extremos_alternativos.png
+- DINO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/DINO_mean_fourier_spectrum.png
+- DINO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/DINO_mean_hmm_regimen.png
+- DINO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/DINO_mean_stl_decomposition.png
+- DINO_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_MEI_piecewise.png
+- DINO_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_NINO34_piecewise.png
+- DINO_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/DINO_mean_vs_PDO_piecewise.png
+- GREEN_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/GREEN_mean_extremos_alternativos.png
+- GREEN_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/GREEN_mean_fourier_spectrum.png
+- GREEN_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/GREEN_mean_hmm_regimen.png
+- GREEN_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/GREEN_mean_stl_decomposition.png
+- GREEN_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_MEI_piecewise.png
+- GREEN_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_NINO34_piecewise.png
+- GREEN_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/GREEN_mean_vs_PDO_piecewise.png
+- HAPTO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/HAPTO_mean_extremos_alternativos.png
+- HAPTO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/HAPTO_mean_fourier_spectrum.png
+- HAPTO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/HAPTO_mean_hmm_regimen.png
+- HAPTO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/HAPTO_mean_stl_decomposition.png
+- HAPTO_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_MEI_piecewise.png
+- HAPTO_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_NINO34_piecewise.png
+- HAPTO_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/HAPTO_mean_vs_PDO_piecewise.png
+- MICRO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/MICRO_mean_extremos_alternativos.png
+- MICRO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/MICRO_mean_fourier_spectrum.png
+- MICRO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/MICRO_mean_hmm_regimen.png
+- MICRO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/MICRO_mean_stl_decomposition.png
+- NANO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/NANO_mean_extremos_alternativos.png
+- NANO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/NANO_mean_fourier_spectrum.png
+- NANO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/NANO_mean_hmm_regimen.png
+- NANO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/NANO_mean_stl_decomposition.png
+- PICO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/PICO_mean_extremos_alternativos.png
+- PICO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/PICO_mean_fourier_spectrum.png
+- PICO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/PICO_mean_hmm_regimen.png
+- PICO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/PICO_mean_stl_decomposition.png
+- PROCHLO_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/PROCHLO_mean_extremos_alternativos.png
+- PROCHLO_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/PROCHLO_mean_fourier_spectrum.png
+- PROCHLO_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/PROCHLO_mean_hmm_regimen.png
+- PROCHLO_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/PROCHLO_mean_stl_decomposition.png
+- PROCHLO_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_MEI_piecewise.png
+- PROCHLO_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_NINO34_piecewise.png
+- PROCHLO_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROCHLO_mean_vs_PDO_piecewise.png
+- PROKAR_mean_extremos_alternativos.png <- results/satellite/figures/statistical/extremos_alternativos/PROKAR_mean_extremos_alternativos.png
+- PROKAR_mean_fourier_spectrum.png <- results/satellite/figures/statistical/fourier_analysis/PROKAR_mean_fourier_spectrum.png
+- PROKAR_mean_hmm_regimen.png <- results/satellite/figures/statistical/hmm_regimen_change/PROKAR_mean_hmm_regimen.png
+- PROKAR_mean_stl_decomposition.png <- results/satellite/figures/statistical/stl_decomposition/PROKAR_mean_stl_decomposition.png
+- PROKAR_mean_vs_MEI_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_MEI_piecewise.png
+- PROKAR_mean_vs_NINO34_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_NINO34_piecewise.png
+- PROKAR_mean_vs_PDO_piecewise.png <- results/satellite/figures/statistical/piecewise_regression/PROKAR_mean_vs_PDO_piecewise.png
+
+## No encontrados en satellite/figures
+- 01_timeseries_depth_clorofitas.png
+- 01_timeseries_depth_diatomeas.png
+- 01_timeseries_depth_dinoflagelados.png
+- 01_timeseries_depth_haptofitas.png
+- 01_timeseries_depth_protozoa.png
+- 02_perfil_vertical_abundancia.png
+- 03_estacionalidad_por_profundidad.png
+- 04_abundancia_por_capa_grupo.png
+- 05_correlacion_sat_vs_insitu_por_capa.png
+- 06_heatmap_profundidad_dinoflagelados.png
+- 06_heatmap_profundidad_protozoa.png
+- 07_resumen_multipanel_profundidad.png
+- 08_boxplot_abundancia_por_capa.png
+- barras_apiladas_in_situ_proporciones_anuales.png
+- heatmap_in_situ_clorofitas.png
+- heatmap_in_situ_diatomeas.png
+- heatmap_in_situ_dinoflagelados.png
+- heatmap_in_situ_haptofitas.png
+- heatmap_in_situ_otros.png
+- heatmap_in_situ_protozoa.png
+- in_situ_comparativa_grupos_primarios.png
+- pie_in_situ_proporciones_totales.png
+- pie_in_situ_proporciones_totales_excluido.png
+- series_tiempo_in_situ_primarios_completa.png
