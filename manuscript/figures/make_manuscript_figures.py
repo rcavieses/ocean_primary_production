@@ -88,6 +88,30 @@ def fig_area_estudio():
     ax.text(-116.8, 18.35, "Recuadro de descarga (18°–33° N, 117°–102° O)", fontsize=7.5,
             color=INK, transform=ccrs.PlateCarree())
 
+    # Límites de las bandas de latitud usadas en la composición por región
+    # (mismas que manuscript/reanalysis/composicion_regional.py: REGIONS)
+    import sys
+    from shapely.geometry import LineString, Polygon
+    sys.path.insert(0, str(BASE / "manuscript" / "reanalysis"))
+    from composicion_regional import REGIONS
+    gulf = [Polygon(r) for r in gulf_polygon()]
+    edges = sorted({lat for lo_hi in REGIONS.values() for lat in lo_hi})
+    for lat in edges:
+        line = LineString([(-118, lat), (-101, lat)])
+        segs = [line.intersection(p.buffer(0)) for p in gulf]
+        east = None
+        for seg in segs:
+            for g in getattr(seg, "geoms", [seg]):
+                if g.is_empty or g.geom_type != "LineString":
+                    continue
+                xs, ys = g.xy
+                ax.plot(xs, ys, color="#a3341b", lw=1.0, ls=(0, (4, 2)), transform=ccrs.PlateCarree(), zorder=4)
+                east = max(xs) if east is None else max(east, max(xs))
+        if east is not None:  # etiqueta junto al extremo oriental del límite
+            ax.text(east + 0.2, lat, f"{lat:g}° N", fontsize=6.5, color="#a3341b", va="center",
+                    transform=ccrs.PlateCarree(), zorder=5,
+                    bbox=dict(boxstyle="round,pad=0.1", fc="white", ec="none", alpha=0.8))
+
     labels = [(-114.3, 31.2, "Alto Golfo"), (-113.6, 29.3, "Grandes Islas"),
               (-111.4, 27.0, "Golfo central"), (-108.7, 24.4, "Golfo sur"),
               (-108.9, 21.3, "Entrada")]
@@ -105,7 +129,9 @@ def fig_area_estudio():
     gl.xlabel_style = gl.ylabel_style = {"size": 7.5, "color": INK2}
     handles = [mpatches.Patch(facecolor="#2a78d6", alpha=0.28, edgecolor="#1c5aa6",
                               label="Dominio de análisis (polígono del Golfo)"),
-               plt.Line2D([], [], color=INK, linestyle="--", label="Recuadro de descarga")]
+               plt.Line2D([], [], color=INK, linestyle="--", label="Recuadro de descarga"),
+               plt.Line2D([], [], color="#a3341b", lw=1.0, ls=(0, (4, 2)),
+                          label="Límites de las regiones (bandas de latitud)")]
     ax.legend(handles=handles, loc="upper right", fontsize=7.5, frameon=True, framealpha=0.9)
     fig.savefig(OUT / "Fig1_area_estudio.png")
     plt.close(fig)

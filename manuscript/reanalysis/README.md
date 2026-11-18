@@ -1,0 +1,77 @@
+# Reanálisis del manuscrito: tipos funcionales de fitoplancton (PFT), Golfo de California
+
+Código de los análisis estadísticos del manuscrito y de su revisión. Los datos no están en este
+repositorio (ver *Datos*). Todos los scripts se corren desde la raíz del repositorio y escriben en
+`manuscript/reanalysis/salidas/`, carpeta que se excluye del control de versiones.
+
+## Entorno
+
+Versiones con las que se generaron los resultados de la revisión (VM Linux x86-64):
+
+| Componente | Versión |
+|---|---|
+| Python | 3.10.12 |
+| xarray | 2025.6.1 |
+| statsmodels | 0.15.0 |
+| hmmlearn (HMM gaussiano) | 0.3.3 |
+| numpy / pandas / scipy | 2.2.6 / 2.3.3 / 1.15.3 |
+| scikit-learn (dependencia de hmmlearn) | 1.7.2 |
+| netCDF4 | 1.7.4 |
+| geopandas / shapely / cartopy / pyshp | 1.1.4 / 2.1.2 / 0.25.0 / 3.1.9 |
+| matplotlib | 3.10.9 |
+
+Lista fijada: `requirements_reanalisis.txt`.
+
+```bash
+python3.10 -m venv .venv && . .venv/bin/activate
+pip install -r manuscript/reanalysis/requirements_reanalisis.txt
+```
+
+Los análisis originales del repositorio (`src/analysis/`) se corrieron con Python 3.10.12, xarray
+2025.6.1, **statsmodels 0.14.6** y hmmlearn 0.3.3. `granger_revision.py` da resultados idénticos
+(diferencia numérica 0) con statsmodels 0.14.6 y 0.15.0. Los HMM usan `random_state=42`, y las
+pruebas por permutación usan semillas fijas.
+
+## Datos
+
+| Archivo esperado | Fuente |
+|---|---|
+| `data/raw/pft_golfo_california_2000_2024.nc` | Copernicus Marine Service, producto `cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D` (GlobColour, diario, 4 km), recorte 18–33° N, 117–102° O, 2000–2024; se descarga con `src/pipeline/download_pft_data.py` |
+| `data/processed/pft_monthly_statistics.nc` | Medias mensuales sobre el polígono del golfo; se genera con `src/pipeline/preprocess_pft_data.py` |
+| `data/raw/nino34.long.anom.csv`, `pdo.timeseries.sstens.csv`, `mei.exttimeseries.csv` | NOAA Physical Sciences Laboratory (series mensuales de índices climáticos) |
+| `data/insitu/taxonomy_corrected_edna*.csv` | eDNA in situ; disponibles bajo solicitud a los autores |
+| `results/satellite/figures/shapefiles/regionmarinamx.shp` | Polígono del Golfo de California (incluido en el repositorio) |
+
+## Orden de ejecución
+
+```bash
+P=data/processed/pft_monthly_statistics.nc
+python3 manuscript/reanalysis/stl_recortado.py --pft $P
+python3 manuscript/reanalysis/granger_robusto.py --pft $P --indices data/raw
+python3 manuscript/reanalysis/granger_revision.py --pft $P --indices data/raw         # familias de 15 y 3 pares, escalón GREEN, tabla suplementaria
+python3 manuscript/reanalysis/tendencias_escalon_green.py --pft $P \
+        --json-original results/satellite/tables/reporte_analisis_numerico.json
+python3 manuscript/reanalysis/enso_fases.py --pft $P --nino data/raw/nino34.long.anom.csv
+python3 manuscript/reanalysis/composicion_regional.py --raw data/raw/pft_golfo_california_2000_2024.nc   # lee el NetCDF diario
+python3 manuscript/reanalysis/regional_tabla_figura.py
+python3 -c "import sys; sys.path.insert(0,'manuscript/figures'); import make_manuscript_figures as m; m.fig_area_estudio()"
+python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corrected_edna.csv --pft $P --out manuscript/reanalysis/salidas/edna_v1
+python3 manuscript/reanalysis/edna_estratos.py --csv data/insitu/taxonomy_corrected_edna.csv
+```
+
+## Scripts
+
+| Script | Qué hace |
+|---|---|
+| `stl_recortado.py` | STL recortado al periodo con datos + HMM de diatomeas (Fig. 5) |
+| `granger_robusto.py` | Granger log10, desestacionalizado, ADF/KPSS, BH (versión con 18 pares) |
+| `granger_revision.py` | Familia principal de 15 pares (5 grupos) con su propia BH; PROCHLO hasta mar-2016 con BH propia (y variante con índices preparados en 2002–2024); sensibilidad de GREEN al escalón de 2016 (indicadora y periodo previo); tabla suplementaria con p, q, desfase y ADF/KPSS |
+| `escalon.py` | Detección de escalón: Pettitt + modelo de escalón con efectos de mes y p por permutación de bloques |
+| `tendencias_escalon_green.py` | Tendencia lineal de GREEN (reproduce la original) con indicadora del escalón y solo antes del escalón; errores HAC, Theil-Sen, Mann-Kendall, tendencia STL |
+| `enso_fases.py` | Fases ENSO tipo ONI; composición y anomalías de PFT por fase; permutación con desplazamiento circular |
+| `composicion_regional.py` | Composición por bandas de latitud (`REGIONS`) desde el NetCDF diario |
+| `regional_tabla_figura.py` | Tabla y figura de la composición por región |
+| `edna_auditoria.py` | Auditoría de la eDNA y de los match-ups satélite-eDNA |
+| `edna_estratos.py` | Composición de productores primarios por grupo y estrato (v1, solo detecciones) |
+| `composition_no_doublecount.py`, `prochlo_discontinuity.py` | Partición sin doble conteo y prueba de discontinuidad de Prochlorococcus |
+| `../figures/make_manuscript_figures.py` | Figuras 1–4 (la Fig. 1 dibuja los límites de `REGIONS`) |

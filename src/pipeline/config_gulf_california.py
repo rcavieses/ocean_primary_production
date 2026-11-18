@@ -32,7 +32,7 @@ GULF_OF_CALIFORNIA_EXTENT = [
 ]
 
 # Ruta al shapefile del polígono
-SHAPEFILE_PATH = Path(__file__).parent.parent.parent / 'data' / 'shapefiles' / 'regionmarinamx.shp'
+SHAPEFILE_PATH = Path(__file__).parent.parent.parent / 'results' / 'satellite' / 'figures' / 'shapefiles' / 'regionmarinamx.shp'
 _SHAPEFILE_CACHE = None
 _SHAPEFILE_POLYGON_CACHE = None
 
