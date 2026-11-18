@@ -57,6 +57,11 @@ python3 manuscript/reanalysis/regional_tabla_figura.py
 python3 -c "import sys; sys.path.insert(0,'manuscript/figures'); import make_manuscript_figures as m; m.fig_area_estudio()"
 python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corrected_edna.csv --pft $P --out manuscript/reanalysis/salidas/edna_v1
 python3 manuscript/reanalysis/edna_estratos.py --csv data/insitu/taxonomy_corrected_edna.csv
+# eDNA con solo detecciones (abundancia > 0, sin el bloque de totales de la v1)
+python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corrected_edna.csv --pft $P --solo-detecciones --out manuscript/reanalysis/salidas/edna_detecciones/v1
+python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corrected_edna_2.csv --pft $P --solo-detecciones --out manuscript/reanalysis/salidas/edna_detecciones/v2
+python3 manuscript/reanalysis/edna_panel_detecciones.py --csv data/insitu/taxonomy_corrected_edna_2.csv --pft $P
+python3 manuscript/reanalysis/edna_detecciones_tablas.py   # requiere también las salidas sin --solo-detecciones en salidas/edna_<v1|v2|merged>
 ```
 
 ## Scripts
@@ -71,7 +76,9 @@ python3 manuscript/reanalysis/edna_estratos.py --csv data/insitu/taxonomy_correc
 | `enso_fases.py` | Fases ENSO tipo ONI; composición y anomalías de PFT por fase; permutación con desplazamiento circular |
 | `composicion_regional.py` | Composición por bandas de latitud (`REGIONS`) desde el NetCDF diario |
 | `regional_tabla_figura.py` | Tabla y figura de la composición por región |
-| `edna_auditoria.py` | Auditoría de la eDNA y de los match-ups satélite-eDNA |
+| `edna_auditoria.py` | Auditoría de la eDNA y de los match-ups satélite-eDNA; `--solo-detecciones` excluye ausencias (abundancia = 0) y el bloque de totales |
+| `edna_panel_detecciones.py` | Recalcula los match-ups del panel espacial (r = 0.27 / −0.46) con todas las filas y con solo detecciones |
+| `edna_detecciones_tablas.py` | Tablas comparativas (cascada y match-ups) entre filas y detecciones |
 | `edna_estratos.py` | Composición de productores primarios por grupo y estrato (v1, solo detecciones) |
 | `composition_no_doublecount.py`, `prochlo_discontinuity.py` | Partición sin doble conteo y prueba de discontinuidad de Prochlorococcus |
 | `../figures/make_manuscript_figures.py` | Figuras 1–4 (la Fig. 1 dibuja los límites de `REGIONS`) |

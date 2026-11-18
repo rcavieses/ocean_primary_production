@@ -150,10 +150,30 @@ def main():
     ap.add_argument("--csv", required=True)
     ap.add_argument("--pft", default=None, help="pft_monthly_statistics.nc (opcional, para correlaciones)")
     ap.add_argument("--out", default=str(Path(__file__).with_name("salidas")))
+    ap.add_argument("--solo-detecciones", action="store_true",
+                    help="excluye el bloque de totales (filas sin ID de muestra) y las filas con abundancia = 0 "
+                         "(ausencias); sin esta opción el comportamiento es el original (cuenta filas)")
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
 
     df = pd.read_csv(a.csv, low_memory=False)
+    pre_steps = []
+    if a.solo_detecciones:
+        cid = find_col(df, "Original_ID", "sample_id", "muestra")
+        cab = find_col(df, "Abundancia", "Abundance", "abundancia")
+        print("Solo detecciones: ID de muestra =", cid, "| abundancia =", cab)
+        pre_steps.append(("0a. Filas en el archivo", len(df)))
+        if cid:  # v1: el bloque sin ID es la fila de totales (suma de las muestras por taxón)
+            df = df[df[cid].notna()]
+            pre_steps.append((f"0b. Sin bloque de totales ('{cid}' vacío)", len(df)))
+        else:
+            pre_steps.append(("0b. Sin bloque de totales (no hay columna de ID de muestra: no aplica)", len(df)))
+        if cab:
+            df = df[pd.to_numeric(df[cab], errors="coerce") > 0]
+            pre_steps.append((f"0c. Solo detecciones ('{cab}' > 0)", len(df)))
+        else:
+            pre_steps.append(("0c. Solo detecciones: NO APLICABLE, el archivo no tiene columna de abundancia", len(df)))
+        df = df.copy()
     cdate = find_col(df, "Collected date year", "date", "fecha", pattern=r"date|fecha")
     cph, ccl, cki = find_col(df, "phylum", "filo"), find_col(df, "class", "clase"), find_col(df, "kingdom", "reino")
     czone = find_col(df, "zone", "zona", "region", "región", pattern=r"zon|region|área|area")
@@ -163,7 +183,7 @@ def main():
             "Shallow": cs, "Mid-water": cm, "Deep": cd, "Depth": cdep}
     print("Columnas detectadas:", used)
 
-    steps = [("0. Registros en el archivo", len(df))]
+    steps = pre_steps + [("0. Registros en el análisis" if a.solo_detecciones else "0. Registros en el archivo", len(df))]
     df["date"] = df[cdate].map(parse_date)
     steps.append(("1. Con fecha válida", int(df["date"].notna().sum())))
     df = df[df["date"].notna()].copy()
@@ -209,7 +229,8 @@ def main():
     res.to_csv(out / "edna_matchups_resumen.csv", index=False)
 
     with open(out / "edna_auditoria_resumen.md", "w") as f:
-        f.write(f"# Auditoría eDNA — {Path(a.csv).name}\n\nColumnas usadas: `{used}`\n\n")
+        f.write(f"# Auditoría eDNA — {Path(a.csv).name}\n\nColumnas usadas: `{used}`\n\n"
+                f"Modo: {'SOLO DETECCIONES (sin totales, abundancia > 0)' if a.solo_detecciones else 'todas las filas (original)'}\n\n")
         f.write("## Cascada de filtros\n\n```\n" + cascade.to_string(index=False) + "\n```\n\n")
         f.write("## Registros por zona y grupo\n\n```\n" + tab_zone.to_string() + "\n```\n\n")
         f.write("## Registros por capa y grupo\n\n```\n" + tab_layer.to_string() + "\n```\n\n")
