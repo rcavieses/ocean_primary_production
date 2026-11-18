@@ -119,15 +119,21 @@ def fig_composicion():
               "Algas Verdes": "Clorofitas", "Haptófitos": "Haptofitas",
               "Proclorococcus": "Prochlorococcus", "Procariontes": "Procariotas"}
     dsp = pd.DataFrame({rename[k]: v for k, v in sp.items()}).dropna()
+    # Partición sin doble conteo (5 grupos): cumple MICRO=DIATO+DINO, NANO=HAPTO,
+    # PICO=GREEN+PROKAR. Prochlorococcus (subconjunto de procariotas) se excluye.
+    ratio = dsp["Prochlorococcus"] / dsp["Procariotas"]
+    g5 = ["Diatomeas", "Dinoflagelados", "Clorofitas", "Haptofitas", "Procariotas"]
+    dsp = dsp[g5].div(dsp[g5].sum(axis=1), axis=0) * 100
     dsz = pd.DataFrame(sz).dropna()
     dsz.columns = ["Micro (>20 µm)", "Nano (2–20 µm)", "Pico (<2 µm)"]
     # suavizado de 12 meses SOLO para la visualización
     dsp_s = dsp.rolling(12, center=True, min_periods=6).mean()
     dsz_s = dsz.rolling(12, center=True, min_periods=6).mean()
 
-    fig, axes = plt.subplots(2, 1, figsize=(6.5, 5.6), sharex=True,
-                             gridspec_kw={"height_ratios": [1.35, 1]})
-    for ax, d, cols, tag in [(axes[0], dsp_s, CAT, "a"), (axes[1], dsz_s, [CAT[0], CAT[3], CAT[2]], "b")]:
+    fig, axes = plt.subplots(3, 1, figsize=(6.5, 7.4), sharex=True,
+                             gridspec_kw={"height_ratios": [1.3, 1, 0.9]})
+    cols5 = [CAT[0], CAT[1], CAT[2], CAT[3], CAT[5]]
+    for ax, d, cols, tag in [(axes[0], dsp_s, cols5, "a"), (axes[1], dsz_s, [CAT[0], CAT[3], CAT[2]], "b")]:
         ax.stackplot(d.index, d.T.values, colors=cols, labels=d.columns,
                      edgecolor="white", linewidth=0.6)
         ax.set_ylim(0, 100); ax.set_xlim(d.index.min(), d.index.max())
@@ -136,9 +142,31 @@ def fig_composicion():
         ax.legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=7.5, frameon=False,
                   reverse=True)
         ax.text(-0.11, 1.02, f"({tag})", transform=ax.transAxes, fontsize=10, fontweight="bold")
-    axes[0].set_title("Grupos taxonómicos", fontsize=9, loc="left", color=INK)
+    axes[0].set_title("Grupos taxonómicos (partición de 5 grupos, sin Prochlorococcus)", fontsize=9, loc="left", color=INK)
     axes[1].set_title("Clases de tamaño", fontsize=9, loc="left", color=INK)
-    axes[1].set_xlabel("Año")
+    # (c) cociente Prochlorococcus / procariotas: un subconjunto no puede superar 1
+    ax = axes[2]
+    brk = pd.Timestamp("2016-04-01")
+    ax.set_yscale("log")
+    ax.plot(ratio.index, ratio.values, color="#2a78d6", lw=1.2)
+    for a0, a1, dy in [(ratio.index.min(), brk - pd.Timedelta(days=1), 0.62), (brk, ratio.index.max(), 1.35)]:
+        mu = ratio[a0:a1].mean()
+        ax.hlines(mu, a0, a1, color=INK, lw=1.4)
+        ax.text(a0 + (a1 - a0) / 2, mu * dy, f"media {mu:.2f}", ha="center", fontsize=7, color=INK,
+                bbox=dict(fc="white", ec="none", alpha=0.85, pad=1))
+    ax.axhline(1, color="#e34948", lw=1, linestyle="--")
+    ax.text(ratio.index.max(), 0.82, "límite físico: subconjunto = total ", ha="right", fontsize=7, color="#b8302f",
+            bbox=dict(fc="white", ec="none", alpha=0.85, pad=1))
+    ax.axvline(brk, color=INK2, lw=0.8, linestyle=":")
+    ax.text(brk, 9, " quiebre abr-2016", fontsize=7, color=INK2)
+    ax.set_ylim(0.3, 14)
+    ax.set_yticks([0.5, 1, 2, 5, 10], ["0.5", "1", "2", "5", "10"])
+    ax.minorticks_off()
+    ax.set_ylabel("Prochlorococcus /\nprocariotas")
+    ax.set_title("Cociente mensual Prochlorococcus/procariotas", fontsize=9, loc="left", color=INK)
+    ax.grid(axis="x", visible=False)
+    ax.text(-0.11, 1.02, "(c)", transform=ax.transAxes, fontsize=10, fontweight="bold")
+    axes[2].set_xlabel("Año")
     fig.savefig(OUT / "Fig2_composicion_relativa.png")
     plt.close(fig)
 

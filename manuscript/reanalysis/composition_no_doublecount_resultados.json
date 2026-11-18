@@ -1,0 +1,65 @@
+{
+ "ponderada_biomasa_2002_2024": {
+  "DIATO": 21.3,
+  "DINO": 6.9,
+  "GREEN": 37.5,
+  "HAPTO": 21.8,
+  "PROKAR": 12.6
+ },
+ "media_de_porcentajes_mensuales_2002_2024": {
+  "DIATO": 19.7,
+  "DINO": 6.6,
+  "GREEN": 37.7,
+  "HAPTO": 22.0,
+  "PROKAR": 14.0
+ },
+ "ponderada_biomasa_2000-2004": {
+  "DIATO": 29.6,
+  "DINO": 5.3,
+  "GREEN": 30.7,
+  "HAPTO": 21.0,
+  "PROKAR": 13.4
+ },
+ "ponderada_biomasa_2005-2009": {
+  "DIATO": 31.1,
+  "DINO": 5.5,
+  "GREEN": 29.4,
+  "HAPTO": 21.2,
+  "PROKAR": 12.8
+ },
+ "ponderada_biomasa_2010-2014": {
+  "DIATO": 26.1,
+  "DINO": 5.9,
+  "GREEN": 30.7,
+  "HAPTO": 23.2,
+  "PROKAR": 14.1
+ },
+ "ponderada_biomasa_2015-2019": {
+  "DIATO": 11.3,
+  "DINO": 7.4,
+  "GREEN": 45.5,
+  "HAPTO": 21.8,
+  "PROKAR": 14.0
+ },
+ "ponderada_biomasa_2020-2024": {
+  "DIATO": 13.0,
+  "DINO": 9.0,
+  "GREEN": 46.4,
+  "HAPTO": 21.6,
+  "PROKAR": 10.0
+ },
+ "media_porcentajes_2002-07_2011-12": {
+  "DIATO": 28.1,
+  "DINO": 5.5,
+  "GREEN": 30.5,
+  "HAPTO": 21.6,
+  "PROKAR": 14.4
+ },
+ "media_porcentajes_2017_2024": {
+  "DIATO": 11.2,
+  "DINO": 8.2,
+  "GREEN": 48.4,
+  "HAPTO": 20.9,
+  "PROKAR": 11.3
+ }
+}
