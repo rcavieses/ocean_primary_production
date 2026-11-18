@@ -148,6 +148,9 @@ def main():
     ap.add_argument("--pft", default="data/processed/pft_monthly_statistics.nc")
     ap.add_argument("--indices", default="data/raw")
     ap.add_argument("--out", default=str(Path(__file__).with_name("salidas") / "granger_revision"))
+    ap.add_argument("--prochlo-fin", default=PROCHLO_END, help="último mes (AAAA-MM) de la familia B de PROCHLO")
+    ap.add_argument("--ref-validacion", default=str(Path(__file__).with_name("salidas") / "granger_robusto_pares.csv"),
+                    help="CSV de granger_robusto.py con el que se compara la familia A (vacío = no comparar)")
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
 
@@ -160,10 +163,10 @@ def main():
     json.dump(step_info, open(out / "escalon_GREEN.json", "w"), indent=1)
 
     A, A_l = run_family("A_principal_5grupos", G5, a.pft, a.indices, START, END)
-    B, B_l = run_family("B_PROCHLO_hasta_2016-03", ["PROCHLO"], a.pft, a.indices, START, PROCHLO_END)
+    B, B_l = run_family(f"B_PROCHLO_hasta_{a.prochlo_fin}", ["PROCHLO"], a.pft, a.indices, START, a.prochlo_fin)
     # Variante de B como en granger_robusto.py: índices preparados en jul-2002..dic-2024
-    Bb, Bb_l = run_family("B2_PROCHLO_hasta_2016-03_indices_2002-2024", ["PROCHLO"], a.pft, a.indices,
-                          START, PROCHLO_END, idx_window=(START, END))
+    Bb, Bb_l = run_family(f"B2_PROCHLO_hasta_{a.prochlo_fin}_indices_2002-2024", ["PROCHLO"], a.pft, a.indices,
+                          START, a.prochlo_fin, idx_window=(START, END))
     C1, C1_l = run_family("C1_GREEN_con_indicadora", ["GREEN"], a.pft, a.indices, START, END,
                           step=step, step_group="GREEN")
     C2, C2_l = run_family("C2_GREEN_antes_del_escalon", ["GREEN"], a.pft, a.indices, START, pre_end)
@@ -177,8 +180,8 @@ def main():
 
     # Validación: la familia A sin indicadora debe reproducir granger_robusto (mismas p)
     val = None
-    ref = Path(__file__).with_name("salidas") / "granger_robusto_pares.csv"
-    if ref.exists():
+    ref = Path(a.ref_validacion) if a.ref_validacion else None
+    if ref is not None and ref.exists():
         r = pd.read_csv(ref)
         val = A.merge(r, on=["grupo", "indice"], suffixes=("", "_granger_robusto"))[
             ["grupo", "indice", "desfase_AIC", "desfase_AIC_granger_robusto", "p", "p_granger_robusto"]]
@@ -193,7 +196,7 @@ def main():
         sigA = A_l[A_l.q_BH_todos_desfases < 0.05]
         f.write(f"Sensibilidad A, todos los desfases (90 pruebas, BH): {len(sigA)} con q<0.05\n\n"
                 + (md(sigA.round(4)) if len(sigA) else "") + "\n\n")
-        f.write("## B. PROCHLO jul-2002..mar-2016 (BH sobre 3)\n\n" + md(B[short].round(4)) + "\n\n")
+        f.write(f"## B. PROCHLO jul-2002..{a.prochlo_fin} (BH sobre 3)\n\n" + md(B[short].round(4)) + "\n\n")
         f.write("B2 (variante de granger_robusto.py: índices desestacionalizados y probados en 2002-2024):\n\n"
                 + md(Bb[short].round(4)) + "\n\n")
         f.write("## C. Sensibilidad de GREEN al escalón\n\n")

@@ -32,6 +32,13 @@ OUT = Path(__file__).resolve().parent
 RES = BASE / "results" / "satellite"
 
 # Paleta categórica (orden fijo, validada para pares adyacentes en modo claro)
+# Fecha del quiebre de Prochlorococcus que se marca en la Fig. 2c (se puede cambiar al importar el módulo)
+QUIEBRE_PROCHLO = "2016-04-01"
+# Eje y de la Fig. 2c (cociente en escala log) y altura de la etiqueta del quiebre
+FIG2C_YLIM = (0.3, 14)
+FIG2C_YTICKS = [0.5, 1, 2, 5, 10]
+FIG2C_ETIQUETA_Y = 9
+
 CAT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#d9d8d4"
 
@@ -172,7 +179,7 @@ def fig_composicion():
     axes[1].set_title("Clases de tamaño", fontsize=9, loc="left", color=INK)
     # (c) cociente Prochlorococcus / procariotas: un subconjunto no puede superar 1
     ax = axes[2]
-    brk = pd.Timestamp("2016-04-01")
+    brk = pd.Timestamp(QUIEBRE_PROCHLO)
     ax.set_yscale("log")
     ax.plot(ratio.index, ratio.values, color="#2a78d6", lw=1.2)
     for a0, a1, dy in [(ratio.index.min(), brk - pd.Timedelta(days=1), 0.62), (brk, ratio.index.max(), 1.35)]:
@@ -184,9 +191,9 @@ def fig_composicion():
     ax.text(ratio.index.max(), 0.82, "límite físico: subconjunto = total ", ha="right", fontsize=7, color="#b8302f",
             bbox=dict(fc="white", ec="none", alpha=0.85, pad=1))
     ax.axvline(brk, color=INK2, lw=0.8, linestyle=":")
-    ax.text(brk, 9, " quiebre abr-2016", fontsize=7, color=INK2)
-    ax.set_ylim(0.3, 14)
-    ax.set_yticks([0.5, 1, 2, 5, 10], ["0.5", "1", "2", "5", "10"])
+    ax.text(brk, FIG2C_ETIQUETA_Y, " quiebre " + ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][brk.month - 1] + f"-{brk.year}", fontsize=7, color=INK2)
+    ax.set_ylim(*FIG2C_YLIM)
+    ax.set_yticks(FIG2C_YTICKS, [f"{t:g}" for t in FIG2C_YTICKS])
     ax.minorticks_off()
     ax.set_ylabel("Prochlorococcus /\nprocariotas")
     ax.set_title("Cociente mensual Prochlorococcus/procariotas", fontsize=9, loc="left", color=INK)

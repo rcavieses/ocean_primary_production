@@ -17,12 +17,21 @@ warnings.filterwarnings("ignore")
 
 # Importar función de filtrado
 sys.path.insert(0, str(Path(__file__).parent.parent / 'pipeline'))
+import argparse
+import config_gulf_california as cgc
 from config_gulf_california import get_gulf_of_california_filter
 
 # Configuration
 base_dir = Path(__file__).parent.parent.parent
-data_file = base_dir / 'data' / 'raw' / 'pft_golfo_california_2000_2024.nc'
-output_file = base_dir / 'data' / 'processed' / 'pft_monthly_statistics.nc'
+_ap = argparse.ArgumentParser(description="Estadísticas mensuales de PFT dentro del polígono del golfo")
+_ap.add_argument("--raw", default=str(base_dir / 'data' / 'raw' / 'pft_golfo_california_2000_2024.nc'))
+_ap.add_argument("--out", default=str(base_dir / 'data' / 'processed' / 'pft_monthly_statistics.nc'))
+_ap.add_argument("--sobrescribir", action="store_true", help="permite sobrescribir --out si ya existe")
+_args = _ap.parse_args()
+data_file = Path(_args.raw)
+output_file = Path(_args.out)
+if output_file.exists() and not _args.sobrescribir:
+    sys.exit(f"ERROR: {output_file} ya existe; usa --out con otro nombre o --sobrescribir")
 
 # Variables to process
 VARIABLES = ['CHL', 'DIATO', 'DINO', 'GREEN', 'HAPTO', 'MICRO', 'NANO', 
@@ -39,8 +48,21 @@ ds = xr.open_dataset(data_file)
 
 # Crear máscara de filtrado con shapefile
 print("Creating spatial filter mask (Gulf of California shapefile)...")
-mask = get_gulf_of_california_filter(ds, use_shapefile=True)
-print(f"✓ Spatial mask created: {mask.values.sum()} points within Gulf")
+# El filtro de config_gulf_california solo AVISA y cae al rectángulo si el shapefile no carga;
+# aquí eso es un error: se exige el polígono.
+if cgc._load_shapefile_polygon() is None:
+    raise RuntimeError(f"No se pudo cargar el shapefile del golfo: {cgc.SHAPEFILE_PATH}")
+with warnings.catch_warnings(record=True) as _w:
+    warnings.simplefilter("always")
+    mask = get_gulf_of_california_filter(ds, use_shapefile=True)
+_fallback = [str(w.message) for w in _w if "bbox" in str(w.message).lower() or "rectangular" in str(w.message).lower()]
+if _fallback:
+    raise RuntimeError(f"El filtro cayó al rectángulo: {_fallback}")
+n_mask = int(mask.values.sum())
+_n_grid = int(mask.size)
+_lat2d, _lon2d = xr.broadcast(ds.latitude, ds.longitude)
+_mlat, _mlon = _lat2d.values[mask.values], _lon2d.values[mask.values]
+print(f"✓ Spatial mask created: {n_mask} points within Gulf (polygon: {cgc.SHAPEFILE_PATH})")
 
 # Filter by time range
 ds_period = ds.sel(time=slice(TIME_RANGE[0], TIME_RANGE[1]))
@@ -121,9 +143,11 @@ ds_stats = xr.Dataset({
 
 # Add metadata
 ds_stats.attrs['description'] = 'Monthly statistics for PFT variables (Gulf of California 2000-2024, SPATIALLY FILTERED)'
-ds_stats.attrs['spatial_filter'] = 'Shapefile polygon filter (Gulf of California)'
-ds_stats.attrs['filter_coverage'] = '8.96% of original grid (13,928 points within Gulf)'
-ds_stats.attrs['filter_bounds'] = 'Lat: 20.40-31.81°N, Lon: 114.85-105.23°W'
+ds_stats.attrs['spatial_filter'] = f'Shapefile polygon filter (Gulf of California): {cgc.SHAPEFILE_PATH.name}'
+ds_stats.attrs['filter_coverage'] = f'{100 * n_mask / _n_grid:.2f}% of original grid ({n_mask:,} points within Gulf of {_n_grid:,})'
+ds_stats.attrs['filter_pixels'] = n_mask
+ds_stats.attrs['filter_bounds'] = (f'Lat: {_mlat.min():.2f}-{_mlat.max():.2f}°N, '
+                                   f'Lon: {abs(_mlon.max()):.2f}-{abs(_mlon.min()):.2f}°W (centros de píxel)')
 ds_stats.attrs['processed_date'] = pd.Timestamp.now().isoformat()
 ds_stats.attrs['original_file'] = str(data_file)
 ds_stats.attrs['statistics'] = 'mean, std, min, max (calculated across latitude and longitude AFTER FILTERING)'

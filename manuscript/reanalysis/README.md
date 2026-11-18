@@ -42,6 +42,13 @@ pruebas por permutación usan semillas fijas.
 | `data/insitu/taxonomy_corrected_edna*.csv` | eDNA in situ; disponibles bajo solicitud a los autores |
 | `results/satellite/figures/shapefiles/regionmarinamx.shp` | Polígono del Golfo de California (incluido en el repositorio) |
 
+## Serie mensual con el polígono
+
+`src/pipeline/preprocess_pft_data.py --out data/processed/pft_monthly_statistics_poligono.nc` genera la serie con
+el polígono del golfo (13,928 píxeles); falla si el shapefile no carga y escribe el número real de píxeles en los
+atributos. El archivo `pft_monthly_statistics.nc` original corresponde al rectángulo de descarga (ver
+`procedencia_mensual.py`).
+
 ## Orden de ejecución
 
 ```bash
@@ -87,6 +94,10 @@ python3 manuscript/reanalysis/procedencia_mensual.py --raw data/raw/pft_golfo_ca
 | `edna_v2_fechas.py` | Formatos de fecha de la v2 (Mac_loughlin, Valdivia) y sus dos lecturas posibles; cruce con las tablas de sitios de las fuentes |
 | `hmm_semillas.py` | HMM de diatomeas con 20 semillas, configuración por defecto y de máxima verosimilitud; regenera la Fig. 5 con la mejor solución |
 | `procedencia_mensual.py` | Comprueba si `pft_monthly_statistics.nc` se calculó con el polígono o con el rectángulo |
+| `control_poligono.py` | Controles de `pft_monthly_statistics_poligono.nc` (meses de prueba, bandas regionales, rectángulo frente a polígono) |
+| `serie_cuenca.py` | Composición, escalones, quinquenios y Figs. 2-3 desde un NetCDF mensual (rectángulo o polígono) |
+| `comparar_rect_poligono.py` | Tablas rectángulo -> polígono de todos los análisis y cambios de signo, significancia o fecha |
+| `fig4_escala.py` | Efecto de la máscara en los mapas de diferencias de la Fig. 4 |
 | `edna_estratos.py` | Composición de productores primarios por grupo y estrato (v1, solo detecciones) |
 | `composition_no_doublecount.py`, `prochlo_discontinuity.py` | Partición sin doble conteo y prueba de discontinuidad de Prochlorococcus |
 | `../figures/make_manuscript_figures.py` | Figuras 1–4 (la Fig. 1 dibuja los límites de `REGIONS`) |

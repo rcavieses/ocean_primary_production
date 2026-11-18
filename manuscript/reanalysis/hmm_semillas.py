@@ -87,6 +87,8 @@ def main():
     ap.add_argument("--fig-actual", default=str(HERE / "salidas" / "Fig5_diatomeas_STL_HMM.png"))
     ap.add_argument("--n-iter", type=int, default=10000)
     ap.add_argument("--tol", type=float, default=1e-6)
+    ap.add_argument("--configuraciones", default="AB", help="A, B o AB (B = máxima verosimilitud, covars_prior=0)")
+    ap.add_argument("--forzar-figura", action="store_true", help="dibuja la Fig. 5 con la mejor solución aunque coincida con la actual")
     ap.add_argument("--out", default=str(HERE / "salidas" / "hmm_semillas"))
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
@@ -109,7 +111,7 @@ def main():
     r0, s0 = summarize(m0.predict(X), m0.means_.ravel(), y, "Fig. 5 actual (seed 42, n_iter=200, tol=0.01)",
                        info_fit(m0, 42, 200, m0.tol, "Fig. 5 actual"))
     rows.append(r0); seqs["actual"] = s0
-    for conf, kw in [("A por defecto", {}), ("B máxima verosimilitud", {"covars_prior": 0.0})]:
+    for conf, kw in [c for c in [("A por defecto", {}), ("B máxima verosimilitud", {"covars_prior": 0.0})] if c[0][0] in a.configuraciones]:
         for seed in range(20):
             m = GaussianHMM(2, covariance_type="diag", n_iter=a.n_iter, tol=a.tol, random_state=seed, **kw).fit(X)
             r, s = summarize(m.predict(X), m.means_.ravel(), y, f"{conf[0]} semilla {seed}",
@@ -137,12 +139,12 @@ def main():
     T["solucion_id"] = [sol.get(keys.get((aj[0], int(s))), np.nan) if str(aj).find(" semilla ") > 0 else
                         (sol.get(keys["actual"], np.nan) if aj.startswith("Fig. 5") else np.nan)
                         for s, aj in zip(T.semilla.fillna(-1), T.ajuste)]
-    n_sol = {c: len(set(keys[(c, k)] for k in range(20))) for c in ("A", "B")}
+    n_sol = {c: len(set(keys[(c, k)] for k in range(20))) for c in a.configuraciones}
     T.to_csv(out / "hmm_semillas.csv", index=False)
     differs = best is not None and keys[best] != keys["actual"]
     n_diff = int(sum(a_ != b_ for a_, b_ in zip(keys[best], keys["actual"]))) if best is not None else None
     note = ""
-    if differs:
+    if differs or (a.forzar_figura and best is not None):
         fa = Path(a.fig_actual)
         if fa.exists():
             shutil.copy(fa, out / "Fig5_diatomeas_STL_HMM_version_anterior.png")
@@ -161,7 +163,7 @@ def main():
             f.write(T[cols].round(4).to_markdown(index=False))
         except ImportError:
             f.write(T[cols].round(4).to_string(index=False))
-        f.write(f"\n\nSoluciones distintas entre las 20 semillas: A = {n_sol['A']}, B = {n_sol['B']}. "
+        f.write(f"\n\nSoluciones distintas entre las 20 semillas: {n_sol}. "
                 f"Ajustes con convergencia estricta: A = {int(conv.configuracion.eq('A por defecto').sum())}, "
                 f"B = {int(conv.configuracion.eq('B máxima verosimilitud').sum())}. Mejor ajuste: {best}. {note}\n")
     print((out / "resumen.md").read_text())
