@@ -175,8 +175,16 @@ def load_insitu_data():
     print("  Cargando datos eDNA in situ (taxonomy_corrected_edna_2.csv)...")
     df = pd.read_csv(TAXONOMY_FILE)
     
-    # Convertir fechas
-    df['date'] = df['Collected date year'].apply(excel_date_to_datetime)
+    # Convertir fechas.
+    #   v1 (taxonomy_corrected_edna.csv): 'Collected date year' (serial de Excel o DD/MM/AAAA).
+    #   v2 (taxonomy_corrected_edna_2.csv): 'date' en texto, leída como AAAA-MM-DD (igual que
+    #   plot_satellite_vs_insitu_spatial_panel.py); las cadenas que no cumplen ese formato
+    #   quedan como NaT. Ver manuscript/reanalysis/edna_v2_fechas.py sobre la ambigüedad
+    #   AAAA-MM-DD / AAAA-DD-MM de esa columna.
+    if 'Collected date year' in df.columns:
+        df['date'] = df['Collected date year'].apply(excel_date_to_datetime)
+    else:
+        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
     df = df.dropna(subset=['date'])
     df['year'] = df['date'].dt.year
     df['month'] = df['date'].dt.month
