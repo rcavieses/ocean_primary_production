@@ -62,6 +62,10 @@ python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corre
 python3 manuscript/reanalysis/edna_auditoria.py --csv data/insitu/taxonomy_corrected_edna_2.csv --pft $P --solo-detecciones --out manuscript/reanalysis/salidas/edna_detecciones/v2
 python3 manuscript/reanalysis/edna_panel_detecciones.py --csv data/insitu/taxonomy_corrected_edna_2.csv --pft $P
 python3 manuscript/reanalysis/edna_detecciones_tablas.py   # requiere también las salidas sin --solo-detecciones en salidas/edna_<v1|v2|merged>
+python3 manuscript/reanalysis/edna_normalizado.py --csv data/insitu/taxonomy_corrected_edna.csv --pft $P --raw data/raw/pft_golfo_california_2000_2024.nc
+python3 manuscript/reanalysis/edna_v2_fechas.py --csv data/insitu/taxonomy_corrected_edna_2.csv --fuentes <tablas de sitios .xlsx>
+python3 manuscript/reanalysis/hmm_semillas.py --pft $P --original results/satellite/figures/hmm_regimen_change/DIATO_mean_hmm_states.csv
+python3 manuscript/reanalysis/procedencia_mensual.py --raw data/raw/pft_golfo_california_2000_2024.nc --nc $P --meses 2010-06 2003-01 2020-08
 ```
 
 ## Scripts
@@ -79,6 +83,10 @@ python3 manuscript/reanalysis/edna_detecciones_tablas.py   # requiere también l
 | `edna_auditoria.py` | Auditoría de la eDNA y de los match-ups satélite-eDNA; `--solo-detecciones` excluye ausencias (abundancia = 0) y el bloque de totales |
 | `edna_panel_detecciones.py` | Recalcula los match-ups del panel espacial (r = 0.27 / −0.46) con todas las filas y con solo detecciones |
 | `edna_detecciones_tablas.py` | Tablas comparativas (cascada y match-ups) entre filas y detecciones |
+| `edna_normalizado.py` | Match-ups eDNA (v1) normalizados por esfuerzo: muestras por mes, detecciones/muestra, frecuencia de ocurrencia; satélite de cuenca, banda regional y caja 3x3 |
+| `edna_v2_fechas.py` | Formatos de fecha de la v2 (Mac_loughlin, Valdivia) y sus dos lecturas posibles; cruce con las tablas de sitios de las fuentes |
+| `hmm_semillas.py` | HMM de diatomeas con 20 semillas, configuración por defecto y de máxima verosimilitud; regenera la Fig. 5 con la mejor solución |
+| `procedencia_mensual.py` | Comprueba si `pft_monthly_statistics.nc` se calculó con el polígono o con el rectángulo |
 | `edna_estratos.py` | Composición de productores primarios por grupo y estrato (v1, solo detecciones) |
 | `composition_no_doublecount.py`, `prochlo_discontinuity.py` | Partición sin doble conteo y prueba de discontinuidad de Prochlorococcus |
 | `../figures/make_manuscript_figures.py` | Figuras 1–4 (la Fig. 1 dibuja los límites de `REGIONS`) |
