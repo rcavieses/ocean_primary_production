@@ -6,8 +6,11 @@ Producto: OCEANCOLOUR_GLO_BGC_L4_MY_009_104 (4km, multianual)
 Variables: Producción primaria por grupos funcionales de fitoplancton
 
 Uso:
-    python download_pft_data.py
+    python download_pft_data.py                                  # 2000-2024
+    python download_pft_data.py 2025-01-01 2025-12-31 pft_golfo_california_2025.nc
 """
+
+import sys
 
 import copernicusmarine
 from datetime import datetime
@@ -23,7 +26,7 @@ CONFIG = {
     'lon_min': -117.0,
     'lon_max': -102.0,
     'lat_min': 18.0,
-    'lat_max': 33.0,
+    'lat_max': 36.0,  # el NetCDF 2000-2024 llega a lat 35.98
     
     # Producto correcto para PFT con resolución 4km
     'dataset_id': 'cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D',
@@ -40,7 +43,7 @@ CONFIG = {
     ],
     
     # Archivo de salida
-    'output_dir': Path(__file__).parent.parent.parent / 'data',
+    'output_dir': Path(__file__).parent.parent.parent / 'data' / 'raw',
     'output_filename': 'pft_golfo_california_2000_2024.nc'
 }
 
@@ -55,7 +58,9 @@ def download_pft_data():
     print(f"\nIniciando descarga...\n")
       
     try:
-        copernicusmarine.subset(
+        # copernicusmarine.subset falla al escribir (h5netcdf) en este entorno:
+        # se abre el dataset remoto y se escribe con netcdf4.
+        ds = copernicusmarine.open_dataset(
             dataset_id=CONFIG['dataset_id'],
             # No especificar variables descarga TODAS las variables del producto
             minimum_longitude=CONFIG['lon_min'],
@@ -64,8 +69,9 @@ def download_pft_data():
             maximum_latitude=CONFIG['lat_max'],
             start_datetime=CONFIG['start_date'],
             end_datetime=CONFIG['end_date'],
-            output_filename=str(output_file)
         )
+        print(f"Descargando {dict(ds.sizes)} ...")
+        ds.to_netcdf(output_file, engine='netcdf4')
         
         print("\n" + "="*80)
         print("✓ DESCARGA COMPLETADA EXITOSAMENTE")
@@ -86,4 +92,6 @@ def download_pft_data():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 4:
+        CONFIG['start_date'], CONFIG['end_date'], CONFIG['output_filename'] = sys.argv[1:4]
     download_pft_data()
