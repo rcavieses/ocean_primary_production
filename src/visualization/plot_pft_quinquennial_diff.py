@@ -60,6 +60,16 @@ data_file  = (Path(__file__).parent.parent.parent
               / 'data' / 'raw' / 'pft_golfo_california_2000_2024.nc')
 output_dir = (Path(__file__).parent.parent.parent
               / 'results' / 'satellite' / 'figures' / 'quinquennial_diff_publication')
+
+import argparse
+_ap = argparse.ArgumentParser(description="Mapas de diferencias quinquenales")
+_ap.add_argument("--vars", nargs="+", default=None, help="variables a procesar (por defecto, todas)")
+_ap.add_argument("--out", default=None, help="carpeta de salida (por defecto results/.../quinquennial_diff_publication)")
+_ap.add_argument("--exigir-poligono", action="store_true",
+                 help="falla si el shapefile no carga o si la máscara cae al rectángulo")
+_args = _ap.parse_args()
+if _args.out:
+    output_dir = Path(_args.out)
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # ── Quinquennial periods ──────────────────────────────────────────────────────
@@ -88,6 +98,8 @@ var_descriptions = {
     'PROKAR':  'Prokaryotes',
 }
 units = {v: 'mg m⁻³' for v in variables}
+if _args.vars:
+    variables = [v for v in variables if v in _args.vars]
 
 # ── Colormaps ─────────────────────────────────────────────────────────────────
 CMAP_DIV = 'RdBu_r'   # red = increase, blue = decrease
@@ -138,7 +150,19 @@ def save_fig(fig, path_stem):
 # ── Load data ─────────────────────────────────────────────────────────────────
 print("Loading dataset...")
 ds   = xr.open_dataset(data_file)
-mask = get_gulf_of_california_filter(ds, use_shapefile=True)
+if _args.exigir_poligono:
+    import warnings as _w
+    import config_gulf_california as _cgc
+    if _cgc._load_shapefile_polygon() is None:
+        raise RuntimeError(f"No se pudo cargar el shapefile del golfo: {_cgc.SHAPEFILE_PATH}")
+    with _w.catch_warnings(record=True) as _rec:
+        _w.simplefilter("always")
+        mask = get_gulf_of_california_filter(ds, use_shapefile=True)
+    if any("bbox" in str(r.message).lower() or "rectangular" in str(r.message).lower() for r in _rec):
+        raise RuntimeError("La máscara cayó al rectángulo")
+    print(f"Máscara: polígono, {int(np.asarray(mask).sum())} píxeles")
+else:
+    mask = get_gulf_of_california_filter(ds, use_shapefile=True)
 
 # Load shapefile for study area boundary
 shapefile_path = (Path(__file__).parent.parent.parent
